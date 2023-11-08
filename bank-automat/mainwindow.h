@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <Qstyle>
+#include <QCommonStyle>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
