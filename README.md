@@ -14,14 +14,17 @@ Automaatin toimintarakenne ver 0.5 (karsittu arvosanaan 1 tähtääväksi)
 
 
 ### 1. syötä pin koodi
+<pre>
 1.1 koodi oikein siirry kohtaa 2.
 1.2.1 koodi väärin -> teksti "väärä pin syötä uudelleen"
 1.2.2 koodi väärin uudestaan -> teksti "väärä pin. *seuraava väärä lukitsee kortin*" *place holder*
 1.2.3 koodi väärin 3. kerran -> tektsi "kortti lukittu, ole yhteydessä pankkiisi"
+</pre>
 
 ### 2. valikko jossa näkyy 
+<pre>
 2.1 katso saldo, 
-~~2.2 katso tapahtumahistoriaa, ~~ // tulossa myöhemmin
+~~2.2 katso tapahtumahistoriaa~~ // tulossa myöhemmin
 2.3 nosta tililtä, 
 ~~2.4 nosta luotolta.~~ // tulossa myöhemmin
 ~~2.5 suorita maksu/tilisiirto~~ // tulossa myöhemmin
@@ -47,7 +50,7 @@ jos 2.3 -> valitse näytöllä summa
 ~~ja sama kaava luotolle 2.4 ->~~ // tulossa myöhemmin
 
 ~~5 tähtäävä 2.5 tilinsiirto / maksupääte sekä 2.6 talletus ominaisuus~~ // tulossa myöhemmin
-
+</pre>
 ### ER-kaavio:
 
 
