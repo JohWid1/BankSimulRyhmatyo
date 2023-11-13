@@ -17,7 +17,7 @@ Automaatin toimintarakenne ver 0.5 (karsittu arvosanaan 1 tähtääväksi)
 
 1.1 koodi oikein siirry kohtaan 2.  
 1.2.1 koodi väärin -> teksti "Väärä pin, syötä uudelleen"  
-1.2.2 koodi väärin uudestaan -> teksti "Väärä pin." ~~"seuraava väärä lukitsee kortin"~~ 
+1.2.2 koodi väärin uudestaan -> teksti "Väärä pin." ~~"seuraava väärä lukitsee kortin"~~  
 1.2.3 koodi väärin 3. kerran -> teksti "Väärä pin, poista kortti" ~~"kortti lukittu, ole yhteydessä pankkiisi"~~  
 
 
