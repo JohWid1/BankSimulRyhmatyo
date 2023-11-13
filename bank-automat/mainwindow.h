@@ -17,6 +17,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void onInsertCardClicked();
+    void numPressed();
+    void clearClicked();
+    void onCancelClicked();
+
 private:
     Ui::MainWindow *ui;
 };
