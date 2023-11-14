@@ -9,8 +9,10 @@ const transaction = {
   },
   add: function(transaction, callback) {
     return db.query(
-      'insert into transaction (action,sum) values(?,?)',
-      [transaction.action, transaction.sum, transaction],callback);
+      'insert into transaction (action,sum,account_idaccount,cardused) values(?,?,?,?)',
+      [transaction.action, transaction.sum, transaction.account, transaction.cardused],
+      callback
+    );
   },
   delete: function(id, callback) {
     return db.query('delete from transaction where id_transaction=?', [id], callback);
