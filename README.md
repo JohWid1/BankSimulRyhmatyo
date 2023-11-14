@@ -55,3 +55,32 @@ jos 2.3 -> valitse näytöllä summa
 
 
 <img src=ER-kaavio_kuva_ver1.2.png>
+
+
+
+
+### Databaseen userin luominen ja kirjautuminen  
+
+avaa ER-kaavio_ver1.2.mwb mysql:ssä ja luo tietokanta "create database bank_simul_r14" uniserverillä opettajan ohjeen mukaisesti.  
+Tämän jälkeen diagrammissa "database" -> "synchronize model".
+
+ja mysql komento luo käyttäjän:
+<pre>
+create user bankuser@'localhost' identified by 'bankpass';
+grant all on bank_simul_r14.* to bankuser@'localhost';
+</pre>
+
+tämän jälkeen varmista että database.js pitää sisällään:  
+<pre>
+const mysql = require('mysql2');
+const connection = mysql.createPool({
+  host: 'localhost',
+  user: 'bankuser',
+  password: 'bankpass',
+  database: 'bank_simul_r14'
+});
+module.exports = connection;
+</pre>
+
+
+
