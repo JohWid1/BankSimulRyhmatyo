@@ -58,6 +58,7 @@ jos 2.3 -> valitse näytöllä summa
 
 
 
+
 ### Databaseen userin luominen ja kirjautuminen  
 
 avaa ER-kaavio_ver1.2.mwb mysql:ssä ja luo tietokanta "create database bank_simul_r14" uniserverillä opettajan ohjeen mukaisesti.  
@@ -80,5 +81,6 @@ const connection = mysql.createPool({
 });
 module.exports = connection;
 </pre>
+
 
 
