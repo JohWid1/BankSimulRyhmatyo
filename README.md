@@ -55,3 +55,10 @@ jos 2.3 -> valitse näytöllä summa
 
 
 <img src=ER-kaavio_kuva_ver1.2.png>
+
+
+
+### Databaseen userin luominen ja kirjautuminen  
+
+
+mysql 
