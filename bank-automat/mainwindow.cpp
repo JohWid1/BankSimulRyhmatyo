@@ -6,39 +6,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 
-    /*----------------CHANGES THE SHAPE TO ARROW BUTTONS----------------*/
-    QCommonStyle style;
 
-    ui->arrowRight1->setIcon(style.standardIcon(QStyle::SP_ArrowRight));
-    ui->arrowRight1->setIconSize(QSize(50, 50));
-
-    ui->arrowRight2->setIcon(style.standardIcon(QStyle::SP_ArrowRight));
-    ui->arrowRight2->setIconSize(QSize(50, 50));
-
-    ui->arrowRight3->setIcon(style.standardIcon(QStyle::SP_ArrowRight));
-    ui->arrowRight3->setIconSize(QSize(50, 50));
-
-    ui->arrowRight4->setIcon(style.standardIcon(QStyle::SP_ArrowRight));
-    ui->arrowRight4->setIconSize(QSize(50, 50));
-
-    ui->arrowLeft1->setIcon(style.standardIcon(QStyle::SP_ArrowLeft));
-    ui->arrowLeft1->setIconSize(QSize(50, 50));
-
-    ui->arrowLeft2->setIcon(style.standardIcon(QStyle::SP_ArrowLeft));
-    ui->arrowLeft2->setIconSize(QSize(50, 50));
-
-    ui->arrowLeft3->setIcon(style.standardIcon(QStyle::SP_ArrowLeft));
-    ui->arrowLeft3->setIconSize(QSize(50, 50));
-
-    ui->arrowLeft4->setIcon(style.standardIcon(QStyle::SP_ArrowLeft));
-    ui->arrowLeft4->setIconSize(QSize(50, 50));
-
-    ui->pinCodeLabel->hide();
-    ui->pinCodeLineEdit->hide();
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
     connect(ui->insertCardButton, SIGNAL(clicked()), this, SLOT(onInsertCardClicked()));
+    connect(ui->okButton, SIGNAL(clicked()), this, SLOT(onokButtonclicked()));
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
     connect(ui->N0, SIGNAL(clicked()), this, SLOT(numPressed()));
@@ -51,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->N7, SIGNAL(clicked()), this, SLOT(numPressed()));
     connect(ui->N8, SIGNAL(clicked()), this, SLOT(numPressed()));
     connect(ui->N9, SIGNAL(clicked()), this, SLOT(numPressed()));
+    ui->insertCardButton->setText("Korttiluukku\n");
+
 
 }
 
@@ -61,10 +37,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
-    ui->insertCardLabel->hide();
-    ui->pinCodeLabel->show();
-    ui->pinCodeLineEdit->show();
-    ui->pinCodeLabel->setText("Enter Pin Code");
+    if (ui->stackedWidget->currentIndex()==0){
+           ui->stackedWidget->setCurrentIndex(1);
+    }
+    if (ui->stackedWidget->currentIndex()==3){
+           ui->stackedWidget->setCurrentIndex(0);
+    }
+
+
 }
 
 void MainWindow::numPressed()
@@ -82,9 +62,29 @@ void MainWindow::clearClicked()
 
 void MainWindow::onCancelClicked()
 {
-    ui->pinCodeLabel->hide();
-    ui->pinCodeLineEdit->hide();
-    ui->pinCodeLineEdit->clear();
-    ui->insertCardLabel->show();
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
+
+void MainWindow::onokButtonclicked()
+{
+    int currentIndex = ui->stackedWidget->currentIndex();
+
+    switch (currentIndex) {
+    case 1:
+        // Special behavior for index 1 (e.g., PIN verification)
+        if (ui->pinCodeLineEdit->text() == "1234") {
+            ui->stackedWidget->setCurrentIndex(2); // Go to the next index on correct PIN
+        } else {
+            ui->infoLabel->setText("Wrong pin, try again");
+        }
+        break;
+
+        // Add more cases here for different indices if needed
+        // case 2, case 3, etc.
+
+    default:
+        // Default behavior if none of the cases match
+        break;
+    }
+}

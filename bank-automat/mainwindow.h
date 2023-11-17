@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <Qstyle>
-#include <QCommonStyle>
+#include <QStackedWidget>
+#include <QTimer>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,7 +24,10 @@ private slots:
     void clearClicked();
     void onCancelClicked();
 
+    void onokButtonclicked();
+
 private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H
