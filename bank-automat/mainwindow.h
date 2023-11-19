@@ -23,7 +23,8 @@ private slots:
     void numPressed();
     void clearClicked();
     void onCancelClicked();
-
+    void onNostoClicked();
+    void handleNostoCancel();
     void onokButtonclicked();
 
 private:

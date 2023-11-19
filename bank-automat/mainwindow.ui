@@ -315,7 +315,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="page">
             <widget class="QLabel" name="insertCardLabel">
@@ -429,7 +429,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               <string>Takaisin</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="nostoButton">
              <property name="geometry">
               <rect>
                <x>0</x>

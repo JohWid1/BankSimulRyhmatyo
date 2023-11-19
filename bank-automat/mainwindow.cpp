@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "nosto.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->okButton, SIGNAL(clicked()), this, SLOT(onokButtonclicked()));
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
+
+    nosto *nostoIkkuna = new nosto(this);
+    connect(nostoIkkuna, SIGNAL(nostoCancelled()), this, SLOT(handleNostoCancel()));
+
     connect(ui->N0, SIGNAL(clicked()), this, SLOT(numPressed()));
     connect(ui->N1, SIGNAL(clicked()), this, SLOT(numPressed()));
     connect(ui->N2, SIGNAL(clicked()), this, SLOT(numPressed()));
@@ -26,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->N8, SIGNAL(clicked()), this, SLOT(numPressed()));
     connect(ui->N9, SIGNAL(clicked()), this, SLOT(numPressed()));
     ui->insertCardButton->setText("Korttiluukku\n");
+    connect(ui->nostoButton, SIGNAL(clicked()), this, SLOT(onNostoClicked()));
 
 
 }
@@ -63,6 +69,20 @@ void MainWindow::clearClicked()
 void MainWindow::onCancelClicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    ui->pinCodeLineEdit->clear();
+}
+
+void MainWindow::onNostoClicked()
+{
+    nosto dialog(this);
+    connect(&dialog, SIGNAL(nostoCancelled()), this, SLOT(handleNostoCancel()));
+    dialog.exec();
+}
+
+void MainWindow::handleNostoCancel()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+    ui->pinCodeLineEdit->clear();
 }
 
 
