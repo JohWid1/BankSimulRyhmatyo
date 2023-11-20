@@ -88,3 +88,45 @@ void MainWindow::onokButtonclicked()
         break;
     }
 }
+
+/*QJsonObject jsonObj;
+ * Qstring pin=ui->pinCodeLineEdit->text();
+jsonObj.insert("pin", pin);
+
+QString site_url="http://localhost:3000/book";
+QNetworkRequest request((site_url));
+request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+//WEBTOKEN ALKU
+QByteArray myToken="Bearer xRstgr...";
+request.setRawHeader(QByteArray("Authorization"),(myToken));
+//WEBTOKEN LOPPU
+
+postManager = new QNetworkAccessManager(this);
+connect(postManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+
+reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+*/
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    qDebug()<<response_data;
+    if(response_data.lenght()<2){
+        qDebug()<<"Palvelin ei vastaa";
+    }
+    else{
+        if(response_data=="-4078"){
+            qDebug()<<"palvelin ei ole yhteydessä";
+        }
+        else{
+            if (response_data!="false" && response_data.lenght()>20){
+                qDebug()<<"Login ok";
+            }
+            else{
+                qDebug()<<"väärä pin";
+            }
+        }
+    }
+    reply->deleteLater();
+    postManager->deleteLater();
+}

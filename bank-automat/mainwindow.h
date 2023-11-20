@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QTimer>
@@ -23,11 +25,14 @@ private slots:
     void numPressed();
     void clearClicked();
     void onCancelClicked();
-
     void onokButtonclicked();
+    void loginSlot (QNetworkReply *reply);
 
 private:
     Ui::MainWindow *ui;
+    QNetworkAccessManager *postManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
 
 };
 #endif // MAINWINDOW_H
