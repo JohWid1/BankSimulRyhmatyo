@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
-
-
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
     connect(ui->insertCardButton, SIGNAL(clicked()), this, SLOT(onInsertCardClicked()));
