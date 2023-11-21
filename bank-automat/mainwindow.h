@@ -29,7 +29,6 @@ private slots:
     void onCancelClicked();
     void onokButtonclicked();
     void loginSlot (QNetworkReply *reply);
-    void loginSlot (QNetworkReply *reply);
 
 private:
     Ui::MainWindow *ui;

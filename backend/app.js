@@ -19,13 +19,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
+//app.use(authenticateToken);
 app.use('/customer', customerRouter);
 app.use('/account', accountRouter);
 app.use('/card', cardRouter);
 app.use ('/transaction', transactionRouter);
 app.use('/card_has_account', card_has_accountRouter);
-app.use('/login', loginRouter);
+
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']

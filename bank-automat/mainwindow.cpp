@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -67,7 +68,9 @@ void MainWindow::onCancelClicked()
 void MainWindow::onokButtonclicked()
 {
     QJsonObject jsonObj;
+    QString username = ui->lineEdit->text();
     QString password = ui->pinCodeLineEdit->text();
+    jsonObj.insert("username", username);
     jsonObj.insert("password", password);
 
     QString site_url="http://127.0.0.1:3000/login";
@@ -78,68 +81,37 @@ void MainWindow::onokButtonclicked()
     connect(postManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
 
     reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
-    }
-
-void MainWindow::loginSlot(QNetworkReply *reply)
-{
-    response_data=reply->readAll();
-    qDebug()<<response_data;
-    if (response_data.length()<2){
-        qDebug()<<"Virhe tietokanta yhteydessä";
-                    ui->infoLabel->setText("Virhe tietokanta yhteydessä");
-    }
-    else{
-         if (response_data=="4078"){
-        qDebug()<<"Login ok";
-             ui->infoLabel->setText("Login ok");
-    }
-         else {
-             qDebug()<<"Väärä salasana";
-             ui->infoLabel->setText("väärä salasana");
-         }
-    }
-    reply->deleteLater();
-    postManager->deleteLater();
 }
 
-/*QJsonObject jsonObj;
- * Qstring pin=ui->pinCodeLineEdit->text();
-jsonObj.insert("pin", pin);
 
-QString site_url="http://localhost:3000/book";
-QNetworkRequest request((site_url));
-request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-//WEBTOKEN ALKU
-QByteArray myToken="Bearer xRstgr...";
-request.setRawHeader(QByteArray("Authorization"),(myToken));
-//WEBTOKEN LOPPU
-
-postManager = new QNetworkAccessManager(this);
-connect(postManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
-
-reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
-*/
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
     response_data=reply->readAll();
     qDebug()<<response_data;
-    if(response_data.lenght()<2){
+    if(response_data.length()<2){
         qDebug()<<"Palvelin ei vastaa";
+        ui->infoLabel->setText("Palvelin ei vastaa ");
     }
     else{
         if(response_data=="-4078"){
             qDebug()<<"palvelin ei ole yhteydessä";
+                        ui->infoLabel->setText("palvelin ei ole yhteydessä");
         }
         else{
-            if (response_data!="false" && response_data.lenght()>20){
+            if (response_data!="false" && response_data.length()>20){
                 qDebug()<<"Login ok";
+                ui->infoLabel->setText("Login ok");
             }
             else{
                 qDebug()<<"väärä pin";
+                ui->infoLabel->setText("väärä pin");
             }
         }
+        reply->deleteLater();
+        postManager->deleteLater();
     }
-    reply->deleteLater();
-    postManager->deleteLater();
 }
+
+
+
+
