@@ -74,24 +74,36 @@ void MainWindow::onCancelClicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-
 void MainWindow::onokButtonclicked()
 {
-    QJsonObject jsonObj;
-    QString username = ui->lineEdit->text();
-    QString password = ui->pinCodeLineEdit->text();
-    jsonObj.insert("username", username);
-    jsonObj.insert("password", password);
+    int currentIndex = ui->stackedWidget->currentIndex();
 
-    QString site_url="http://127.0.0.1:3000/login";
-    QNetworkRequest request((site_url));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    switch (currentIndex) {
+    case 1:
+        // Prepare the data for network request
+        QJsonObject jsonObj;
+        QString username = ui->lineEdit->text();
+        QString password = ui->pinCodeLineEdit->text();
+        jsonObj.insert("username", username);
+        jsonObj.insert("password", password);
 
-    postManager = new QNetworkAccessManager(this);
-    connect(postManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+        // Set up the network request
+        QString site_url = "http://127.0.0.1:3000/login";
+        QNetworkRequest request((site_url));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+        // Initialize the network access manager and connect the slot
+        postManager = new QNetworkAccessManager(this);
+        connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+
+        // Send the request
+        reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+        break;
+
+        // ... other cases ...
+    }
 }
+
 
 
 void MainWindow::loginSlot(QNetworkReply *reply)
