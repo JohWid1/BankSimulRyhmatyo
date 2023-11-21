@@ -6,7 +6,9 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QTimer>
-
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +28,7 @@ private slots:
     void clearClicked();
     void onCancelClicked();
     void onokButtonclicked();
+    void loginSlot (QNetworkReply *reply);
     void loginSlot (QNetworkReply *reply);
 
 private:

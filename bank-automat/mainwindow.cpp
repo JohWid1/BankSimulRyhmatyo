@@ -1,14 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
-
-
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
     connect(ui->insertCardButton, SIGNAL(clicked()), this, SLOT(onInsertCardClicked()));
@@ -68,25 +66,40 @@ void MainWindow::onCancelClicked()
 
 void MainWindow::onokButtonclicked()
 {
-    int currentIndex = ui->stackedWidget->currentIndex();
+    QJsonObject jsonObj;
+    QString password = ui->pinCodeLineEdit->text();
+    jsonObj.insert("password", password);
 
-    switch (currentIndex) {
-    case 1:
-        // Special behavior for index 1 (e.g., PIN verification)
-        if (ui->pinCodeLineEdit->text() == "1234") {
-            ui->stackedWidget->setCurrentIndex(2); // Go to the next index on correct PIN
-        } else {
-            ui->infoLabel->setText("Wrong pin, try again");
-        }
-        break;
+    QString site_url="http://127.0.0.1:3000/login";
+    QNetworkRequest request((site_url));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-        // Add more cases here for different indices if needed
-        // case 2, case 3, etc.
+    postManager = new QNetworkAccessManager(this);
+    connect(postManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
 
-    default:
-        // Default behavior if none of the cases match
-        break;
+    reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
     }
+
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    qDebug()<<response_data;
+    if (response_data.length()<2){
+        qDebug()<<"Virhe tietokanta yhteydessä";
+                    ui->infoLabel->setText("Virhe tietokanta yhteydessä");
+    }
+    else{
+         if (response_data=="4078"){
+        qDebug()<<"Login ok";
+             ui->infoLabel->setText("Login ok");
+    }
+         else {
+             qDebug()<<"Väärä salasana";
+             ui->infoLabel->setText("väärä salasana");
+         }
+    }
+    reply->deleteLater();
+    postManager->deleteLater();
 }
 
 /*QJsonObject jsonObj;
