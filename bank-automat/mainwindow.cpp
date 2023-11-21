@@ -1,13 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <saldo.h>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow) , saldo(new Saldo(this))
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+
+    ui->stackedWidget->insertWidget(4 ,saldo);
+
+
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
     connect(ui->insertCardButton, SIGNAL(clicked()), this, SLOT(onInsertCardClicked()));
@@ -26,12 +32,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->N9, SIGNAL(clicked()), this, SLOT(numPressed()));
     ui->insertCardButton->setText("Korttiluukku\n");
 
+    connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
+    connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
+
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete saldo;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -112,6 +122,14 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
 }
 
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
 
+void MainWindow::movesaldoback()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
 
 

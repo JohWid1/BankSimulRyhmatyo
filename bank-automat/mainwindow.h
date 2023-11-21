@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QTimer>
+#include <saldo.h>
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
@@ -21,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //void onSaldoBack();
+
 
 private slots:
     void onInsertCardClicked();
@@ -30,8 +33,19 @@ private slots:
     void onokButtonclicked();
     void loginSlot (QNetworkReply *reply);
 
+
+    void on_pushButton_2_clicked();
+    void movesaldoback();
+
+
+
+    void on_pushButton_2_clicked();
+    void movesaldoback();
+
+
 private:
     Ui::MainWindow *ui;
+    Saldo *saldo;
     QNetworkAccessManager *postManager;
     QNetworkReply *reply;
     QByteArray response_data;
