@@ -111,6 +111,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             if (response_data!="false" && response_data.length()>20){
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
+                ui->stackedWidget->setCurrentIndex(2);
             }
             else{
                 qDebug()<<"väärä pin";
