@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);
 
     ui->stackedWidget->insertWidget(4 ,saldo);
-
+    ui->stackedWidget->insertWidget(5, &nosto);
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
@@ -34,6 +34,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
+
+    connect(ui->N0, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N1, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N2, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N3, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N4, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N5, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N6, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N7, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N8, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(ui->N9, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon()));
+    connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));
 
 
 }
@@ -145,4 +158,15 @@ void MainWindow::movesaldoback()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::nostoTakaisinValikkoon()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+
+void MainWindow::on_withdrawButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
 

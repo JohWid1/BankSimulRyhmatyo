@@ -11,14 +11,17 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    nosto.cpp \
     saldo.cpp
 
 HEADERS += \
     mainwindow.h \
+    nosto.h \
     saldo.h
 
 FORMS += \
     mainwindow.ui \
+    nosto.ui \
     saldo.ui
 
 # Default rules for deployment.

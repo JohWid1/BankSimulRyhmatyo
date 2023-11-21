@@ -7,6 +7,7 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
+#include <nosto.h>
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
@@ -36,11 +37,15 @@ private slots:
 
     void on_pushButton_2_clicked();
     void movesaldoback();
+    void nostoTakaisinValikkoon();
+
+    void on_withdrawButton_clicked();
 
 
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
+    Nosto nosto;
     QNetworkAccessManager *postManager;
     QNetworkReply *reply;
     QByteArray response_data;
