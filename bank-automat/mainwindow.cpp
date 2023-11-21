@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 #include <saldo.h>
 
 
@@ -73,27 +74,64 @@ void MainWindow::onCancelClicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-
 void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
 
     switch (currentIndex) {
     case 1:
-        // Special behavior for index 1 (e.g., PIN verification)
-        if (ui->pinCodeLineEdit->text() == "1234") {
-            ui->stackedWidget->setCurrentIndex(2); // Go to the next index on correct PIN
-        } else {
-            ui->infoLabel->setText("Wrong pin, try again");
+        // Prepare the data for network request
+        QJsonObject jsonObj;
+        QString username = ui->lineEdit->text();
+        QString password = ui->pinCodeLineEdit->text();
+        jsonObj.insert("username", username);
+        jsonObj.insert("password", password);
+
+        // Set up the network request
+        QString site_url = "http://127.0.0.1:3000/login";
+        QNetworkRequest request((site_url));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        // Initialize the network access manager and connect the slot
+        postManager = new QNetworkAccessManager(this);
+        connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+
+        // Send the request
+        reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+        break;
+
+        // ... other cases ...
+    }
+}
+
+
+
+void MainWindow::loginSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    qDebug()<<response_data;
+    if(response_data.length()<2){
+        qDebug()<<"Palvelin ei vastaa";
+        ui->infoLabel->setText("Palvelin ei vastaa ");
+    }
+    else{
+        if(response_data=="-4078"){
+            qDebug()<<"palvelin ei ole yhteydessä";
+                        ui->infoLabel->setText("palvelin ei ole yhteydessä");
         }
-        break;
-
-        // Add more cases here for different indices if needed
-        // case 2, case 3, etc.
-
-    default:
-        // Default behavior if none of the cases match
-        break;
+        else{
+            if (response_data!="false" && response_data.length()>20){
+                qDebug()<<"Login ok";
+                ui->infoLabel->setText("Login ok");
+                ui->stackedWidget->setCurrentIndex(2);
+            }
+            else{
+                qDebug()<<"väärä pin";
+                ui->infoLabel->setText("väärä pin");
+            }
+        }
+        reply->deleteLater();
+        postManager->deleteLater();
     }
 }
 

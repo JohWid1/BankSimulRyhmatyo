@@ -315,7 +315,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="page">
             <widget class="QLabel" name="insertCardLabel">
@@ -393,6 +393,16 @@ font: 16pt &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
               <string/>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="geometry">
+              <rect>
+               <x>320</x>
+               <y>100</y>
+               <width>113</width>
+               <height>24</height>
+              </rect>
              </property>
             </widget>
            </widget>

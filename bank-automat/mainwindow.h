@@ -1,10 +1,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,8 +30,8 @@ private slots:
     void numPressed();
     void clearClicked();
     void onCancelClicked();
-
     void onokButtonclicked();
+    void loginSlot (QNetworkReply *reply);
 
 
     void on_pushButton_2_clicked();
@@ -36,6 +41,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
+    QNetworkAccessManager *postManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
 
 };
 #endif // MAINWINDOW_H
