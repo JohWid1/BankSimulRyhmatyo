@@ -38,11 +38,6 @@ private slots:
     void movesaldoback();
 
 
-
-    void on_pushButton_2_clicked();
-    void movesaldoback();
-
-
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
