@@ -21,6 +21,9 @@ private slots:
     void on_nostoTakaisin_clicked();
     void on_nostoTakaisin2_clicked();
     void clearClicked();
+    void onSummaButtonClicked();
+    void onInsertCardClicked();
+    void on_withdrawButton_clicked();
 
 signals:
     void nostoSignal();

@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
+    // -----------Nostovalikon signaalinkäsittelyt----------------
+    // Numeronäppäimet
     connect(ui->N0, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
     connect(ui->N1, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
     connect(ui->N2, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
@@ -45,9 +47,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->N7, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
     connect(ui->N8, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
     connect(ui->N9, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon()));
-    connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));
-
+    connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
+    connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
+    connect(ui->insertCardButton, SIGNAL(clicked()), &nosto, SLOT(onInsertCardClicked()));
+    // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
 
 }
 
@@ -63,6 +66,9 @@ void MainWindow::onInsertCardClicked()
            ui->stackedWidget->setCurrentIndex(1);
     }
     if (ui->stackedWidget->currentIndex()==3){
+           ui->stackedWidget->setCurrentIndex(0);
+    }
+    if (ui->stackedWidget->currentIndex()==5){
            ui->stackedWidget->setCurrentIndex(0);
     }
 
@@ -162,8 +168,6 @@ void MainWindow::nostoTakaisinValikkoon()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
-
-
 
 void MainWindow::on_withdrawButton_clicked()
 {
