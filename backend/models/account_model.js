@@ -8,8 +8,8 @@ const account = {
     return db.query('select * from account where idaccount=?', [id], callback);
   },
   add: function(account, callback) {
-    return db.query('insert into account (balance, credit_limit, Customer_idCustomer) values (?, ?, ?)',
-      [account.balance, account.credit_limit, account.Customer_idCustomer], callback);
+    return db.query('insert into account (balance, credit_limit, Customer_idCustomer, type) values (?, ?, ?, ?)',
+      [account.balance, account.credit_limit, account.Customer_idCustomer, account.type], callback);
   },
   delete: function(id, callback) {
     return db.query('delete from account where idaccount=?', [id], callback);

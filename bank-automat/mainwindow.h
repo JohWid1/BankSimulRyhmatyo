@@ -10,6 +10,7 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include "rest_api_client.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,12 +39,17 @@ private slots:
     void movesaldoback();
 
 
+    void on_comboBox_currentTextChanged(const QString &arg1);
+
+
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
     QNetworkAccessManager *postManager;
+    QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+
 
 };
 #endif // MAINWINDOW_H

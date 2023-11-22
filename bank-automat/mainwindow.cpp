@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
 
+
 }
 
 MainWindow::~MainWindow()
@@ -144,5 +145,13 @@ void MainWindow::movesaldoback()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
+
+
+void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
+{
+
+}
+
+
 
 
