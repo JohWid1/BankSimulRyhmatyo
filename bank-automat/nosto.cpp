@@ -17,7 +17,6 @@ Nosto::Nosto(QWidget *parent) :
     connect(ui->summa80, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa100, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa150, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
-
 }
 
 Nosto::~Nosto()
@@ -73,18 +72,20 @@ bool isDivisible(int amount) {
     return amount % 50 == 0 || amount % 20 == 0;
 }
 
-void Nosto::on_withdrawButton_clicked()
+void Nosto::onokButtonclicked()
 {
-    QString insertedAmount = ui->withdrawAmountLineEdit->text();
-    int amount = insertedAmount.toInt();
+    if (ui->withdrawAmountLineEdit->isVisible()) {
+        QString insertedAmount = ui->withdrawAmountLineEdit->text();
+        int amount = insertedAmount.toInt();
 
-    if (isDivisible(amount)) {
-        QString sumText = ui->withdrawAmountLineEdit->text();
-        ui->stackedWidget->setCurrentIndex(2);
-        QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
-        ui->summaLabel->setText(sum_Message);
-    } else {
-        ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
+        if (isDivisible(amount)) {
+            QString sumText = ui->withdrawAmountLineEdit->text();
+            ui->stackedWidget->setCurrentIndex(2);
+            QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
+            ui->summaLabel->setText(sum_Message);
+        } else {
+            ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
+        }
     }
 }
 

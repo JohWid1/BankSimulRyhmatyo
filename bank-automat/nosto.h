@@ -23,7 +23,7 @@ private slots:
     void clearClicked();
     void onSummaButtonClicked();
     void onInsertCardClicked();
-    void on_withdrawButton_clicked();
+    void onokButtonclicked();
 
 signals:
     void nostoSignal();

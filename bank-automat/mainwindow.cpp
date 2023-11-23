@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <saldo.h>
+#include "buttonmanager.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,20 +17,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
+
+    //Signaalien käsittelyä ja buttonien kytkemistä
+    ButtonManager numeronappaimetManager(this); // Luo uusi instanssi luokasta
+
     connect(ui->insertCardButton, SIGNAL(clicked()), this, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), this, SLOT(onokButtonclicked()));
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
-    connect(ui->N0, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N1, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N2, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N3, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N4, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N5, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N6, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N7, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N8, SIGNAL(clicked()), this, SLOT(numPressed()));
-    connect(ui->N9, SIGNAL(clicked()), this, SLOT(numPressed()));
+    numeronappaimetManager.connectNumeronappaimetToSlot(this, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin mainwindowissa
+
     ui->insertCardButton->setText("Korttiluukku\n");
 
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
@@ -37,19 +34,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // -----------Nostovalikon signaalinkäsittelyt----------------
     // Numeronäppäimet
-    connect(ui->N0, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N1, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N2, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N3, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N4, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N5, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N6, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N7, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N8, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
-    connect(ui->N9, SIGNAL(clicked()), &nosto, SLOT(numPressed()));
+    numeronappaimetManager.connectNumeronappaimetToSlot(&nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin kohdassa nosto
     connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), &nosto, SLOT(onInsertCardClicked()));
+    connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
+    connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
 
 }

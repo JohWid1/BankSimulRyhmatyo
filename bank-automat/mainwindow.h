@@ -41,7 +41,6 @@ private slots:
 
     void on_withdrawButton_clicked();
 
-
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;

@@ -226,19 +226,6 @@
       <string>Takaisin</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="withdrawButton">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>140</y>
-       <width>101</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Nosta</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="nostoInfoLabel">
      <property name="geometry">
       <rect>
