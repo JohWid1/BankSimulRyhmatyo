@@ -7,6 +7,7 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
+//uudet
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
@@ -44,6 +45,9 @@ private:
     QNetworkAccessManager *postManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    Saldo *objectSaldoMenu;
+    QByteArray token; //SaldoInfotoken
+
 
 };
 #endif // MAINWINDOW_H

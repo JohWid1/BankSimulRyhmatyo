@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
-
 }
 
 MainWindow::~MainWindow()
@@ -124,6 +123,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 ui->stackedWidget->setCurrentIndex(2);
+                //token="Bearer "+response_data; // saldoinfo token
+                //objectSaldoMenu->setToken(token); // test
             }
             else{
                 qDebug()<<"väärä pin";
