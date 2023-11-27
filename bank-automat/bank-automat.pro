@@ -11,10 +11,12 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    rest_api_client.cpp \
     saldo.cpp
 
 HEADERS += \
     mainwindow.h \
+    rest_api_client.h \
     saldo.h
 
 FORMS += \

@@ -14,6 +14,18 @@ router.get('/',
         })
     });
 
+    router.get('/allcards/',
+    function (request, response) {
+        card.getcards(function (err, dbResult) {
+            if (err) {
+                response.json(err);
+            } else {
+                console.log(dbResult);
+                response.json(dbResult);
+            }
+        })
+    });
+
 router.get('/:id',
     function (request, response) {
         card.getById(request.params.id, function (err, dbResult) {
@@ -60,5 +72,6 @@ function(request, response) {
     }
   });
 });
+
 
 module.exports = router;
