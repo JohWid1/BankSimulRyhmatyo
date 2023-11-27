@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
     // -----------Nostovalikon signaalinkäsittelyt----------------
-    // Numeronäppäimet
     numeronappaimetManager.connectNumeronappaimetToSlot(&nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin kohdassa nosto
     connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
