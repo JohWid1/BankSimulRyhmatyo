@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <saldo.h>
+#include "rest_api_client.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -35,12 +36,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
+    apiClient = new REST_API_Client(this);
+    connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
+    comboBox = ui->comboBox;
+    apiClient->getCardData();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete saldo;
+    delete apiClient;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -77,11 +83,12 @@ void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
 
+
     switch (currentIndex) {
     case 1:
         // Prepare the data for network request
         QJsonObject jsonObj;
-        QString username = ui->lineEdit->text();
+        QString username = getSelectedIdCard();;
         QString password = ui->pinCodeLineEdit->text();
         jsonObj.insert("username", username);
         jsonObj.insert("password", password);
@@ -145,5 +152,16 @@ void MainWindow::movesaldoback()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
+
+
+void MainWindow::updateCardComboBox(const QStringList &cardNames)
+{
+    for (const QString &cardName : cardNames) {
+        QStringList split = cardName.split(" - "); // Splitting the formatted string
+        QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
+        comboBox->addItem(cardName, idCardStr); // Display text is full cardName, data is idCard
+    }
+}
+
 
 

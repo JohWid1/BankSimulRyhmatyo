@@ -395,16 +395,6 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               <string/>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit">
-             <property name="geometry">
-              <rect>
-               <x>320</x>
-               <y>100</y>
-               <width>113</width>
-               <height>24</height>
-              </rect>
-             </property>
-            </widget>
            </widget>
            <widget class="QWidget" name="page_3">
             <widget class="QPushButton" name="pushButton_2">
@@ -633,28 +623,7 @@ font: 12pt &quot;Segoe UI&quot;;</string>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
-          <item>
-           <property name="text">
-            <string>Kortti 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Kortti 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Kortti 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Kortti 4</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QComboBox" name="comboBox"/>
         </item>
        </layout>
       </item>
