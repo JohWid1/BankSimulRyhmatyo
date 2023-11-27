@@ -2,6 +2,7 @@
 #define NOSTO_H
 
 #include <QWidget>
+#include "rest_api_client.h"
 
 namespace Ui {
 class Nosto;
@@ -30,6 +31,7 @@ signals:
 
 private:
     Ui::Nosto *ui;
+    REST_API_Client *withdrawal;
 };
 
 #endif // NOSTO_H

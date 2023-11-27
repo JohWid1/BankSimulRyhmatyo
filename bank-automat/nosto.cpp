@@ -1,6 +1,7 @@
 #include "nosto.h"
 #include "ui_nosto.h"
 #include <mainwindow.h>
+#include "rest_api_client.h"
 
 Nosto::Nosto(QWidget *parent) :
     QWidget(parent),
@@ -10,13 +11,15 @@ Nosto::Nosto(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->withdrawAmountLineEdit->setMaxLength(3);
     ui->withdrawAmountLineEdit->setAlignment(Qt::AlignCenter);
-
+    withdrawal = new REST_API_Client(this);
     connect(ui->summa20, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa40, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa50, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa80, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa100, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa150, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
+
+
 }
 
 Nosto::~Nosto()
@@ -94,6 +97,7 @@ void Nosto::onokButtonclicked()
         if (isDivisible(amount)) {
             QString sumText = ui->withdrawAmountLineEdit->text();
             ui->stackedWidget->setCurrentIndex(2);
+            withdrawal->withdrawal( getSelectedIdCard();sumText.toInt());
             QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
             ui->summaLabel->setText(sum_Message);
         } else {

@@ -7,7 +7,7 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
-#include <nosto.h>
+#include "nosto.h"
 #include "rest_api_client.h"
 #include <QComboBox>
 

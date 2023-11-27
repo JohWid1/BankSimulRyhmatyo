@@ -18,6 +18,7 @@ public:
     //REST_API_Client();
     explicit REST_API_Client(QObject *parent = nullptr);
     void getCardData();
+    void withdrawal(int summa);
     int getIdcard() const;
 
 signals:
