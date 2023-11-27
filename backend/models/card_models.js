@@ -28,7 +28,7 @@ const card={
     return db.query('select pin from card where idcard=?',[idcard],callback);
   },
   getcards: function(callback) {
-    return db.query('call test()', callback);
+    return db.query('call comboboxcard()', callback);
   },
 };
           

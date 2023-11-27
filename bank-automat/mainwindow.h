@@ -7,9 +7,8 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
-#include <QtNetwork>
-#include <QNetworkAccessManager>
-#include <QJsonDocument>
+
+#include "qcombobox.h"
 #include "rest_api_client.h"
 
 QT_BEGIN_NAMESPACE
@@ -37,9 +36,10 @@ private slots:
 
     void on_pushButton_2_clicked();
     void movesaldoback();
+    void updateCardComboBox(const QStringList &data);
 
 
-    void on_comboBox_currentTextChanged(const QString &arg1);
+    //void comboBox(QNetworkReply *reply);
 
 
 private:
@@ -49,7 +49,11 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    REST_API_Client *apiClient;
+    QComboBox *comboBox; // Assuming you have added this to your UI
 
-
+    QString getSelectedIdCard() {
+        return comboBox->currentData().toString(); // This will give you the idcard of the selected item
+    }
 };
 #endif // MAINWINDOW_H
