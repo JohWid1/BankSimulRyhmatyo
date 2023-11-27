@@ -69,7 +69,20 @@ void Nosto::onInsertCardClicked()
 }
 
 bool isDivisible(int amount) {
-    return amount % 50 == 0 || amount % 20 == 0;
+    //return amount % 50 == 0 || amount % 20 == 0;
+    if (amount < 20 || amount > 400) { // Tarkistetaan, että summa on välillä 20-400
+        return false;
+    }
+    if (amount == 30) { // Tarkistetaan, että summa ei ole 30
+        return false;
+    }
+    int jaannos = amount % 10; // Lasketaan summan jakojäännös 10:llä ja tarkistetaan, että se on 0
+    if (jaannos != 0) {
+        return false; // Jos summa ei ole jaollinen 10:llä, sitä ei voi muodostaa seteleillä
+    }
+    else{
+        return true;
+    }
 }
 
 void Nosto::onokButtonclicked()
