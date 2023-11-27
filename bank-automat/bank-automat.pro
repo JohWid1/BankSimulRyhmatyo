@@ -12,12 +12,14 @@ SOURCES += \
     buttonmanager.cpp \
     main.cpp \
     mainwindow.cpp \
+    rest_api_client.cpp \
     nosto.cpp \
     saldo.cpp
 
 HEADERS += \
     buttonmanager.h \
     mainwindow.h \
+    rest_api_client.h \
     nosto.h \
     saldo.h
 

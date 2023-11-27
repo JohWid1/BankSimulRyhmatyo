@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <saldo.h>
+#include "rest_api_client.h"
 #include "buttonmanager.h"
 
 
@@ -32,7 +33,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
-    // -----------Nostovalikon signaalinkäsittelyt----------------
+    apiClient = new REST_API_Client(this);
+    connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
+    comboBox = ui->comboBox;
+    apiClient->getCardData();    // -----------Nostovalikon signaalinkäsittelyt----------------
     numeronappaimetManager.connectNumeronappaimetToSlot(&nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin kohdassa nosto
     connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
@@ -47,6 +51,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete saldo;
+    delete apiClient;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -86,11 +91,12 @@ void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
 
+
     switch (currentIndex) {
     case 1:
         // Prepare the data for network request
         QJsonObject jsonObj;
-        QString username = ui->lineEdit->text();
+        QString username = getSelectedIdCard();;
         QString password = ui->pinCodeLineEdit->text();
         jsonObj.insert("username", username);
         jsonObj.insert("password", password);
@@ -132,6 +138,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 ui->stackedWidget->setCurrentIndex(2);
+                //token="Bearer "+response_data; // saldoinfo token
+                //objectSaldoMenu->setToken(token); // test
             }
             else{
                 qDebug()<<"väärä pin";
@@ -153,6 +161,17 @@ void MainWindow::movesaldoback()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+
+void MainWindow::updateCardComboBox(const QStringList &cardNames)
+{
+    for (const QString &cardName : cardNames) {
+        QStringList split = cardName.split(" - "); // Splitting the formatted string
+        QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
+        comboBox->addItem(cardName, idCardStr); // Display text is full cardName, data is idCard
+    }
+}
+
+
 void MainWindow::nostoTakaisinValikkoon()
 {
     ui->stackedWidget->setCurrentIndex(2);
@@ -162,4 +181,3 @@ void MainWindow::on_withdrawButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
 }
-

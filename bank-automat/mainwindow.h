@@ -8,9 +8,8 @@
 #include <QTimer>
 #include <saldo.h>
 #include <nosto.h>
-#include <QtNetwork>
-#include <QNetworkAccessManager>
-#include <QJsonDocument>
+#include "rest_api_client.h"
+#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +36,10 @@ private slots:
 
     void on_pushButton_2_clicked();
     void movesaldoback();
+    void updateCardComboBox(const QStringList &data);
+
+
+    //void comboBox(QNetworkReply *reply);
     void nostoTakaisinValikkoon();
 
     void on_withdrawButton_clicked();
@@ -46,8 +49,17 @@ private:
     Saldo *saldo;
     Nosto nosto;
     QNetworkAccessManager *postManager;
+    QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    REST_API_Client *apiClient;
+    QComboBox *comboBox; // Assuming you have added this to your UI
+    Saldo *objectSaldoMenu;
+    QByteArray token; //SaldoInfotoken
 
+
+    QString getSelectedIdCard() {
+        return comboBox->currentData().toString(); // This will give you the idcard of the selected item
+    }
 };
 #endif // MAINWINDOW_H
