@@ -429,7 +429,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               <string>Takaisin</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="withdrawButton">
              <property name="geometry">
               <rect>
                <x>0</x>

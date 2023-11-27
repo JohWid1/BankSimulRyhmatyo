@@ -7,6 +7,7 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
+#include <nosto.h>
 #include "rest_api_client.h"
 #include <QComboBox>
 
@@ -39,11 +40,14 @@ private slots:
 
 
     //void comboBox(QNetworkReply *reply);
+    void nostoTakaisinValikkoon();
 
+    void on_withdrawButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
+    Nosto nosto;
     QNetworkAccessManager *postManager;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
