@@ -130,6 +130,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 ui->stackedWidget->setCurrentIndex(2);
+                //token="Bearer "+response_data; // saldoinfo token
+                //objectSaldoMenu->setToken(token); // test
             }
             else{
                 qDebug()<<"väärä pin";
