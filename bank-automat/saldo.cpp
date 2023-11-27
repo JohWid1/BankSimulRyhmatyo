@@ -42,7 +42,7 @@ void Saldo::on_pushButton_saldo_show_clicked()
     //WEBTOKEN LOPPU
     getManager = new QNetworkAccessManager(this);
 
-    connect(getManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
 
     reply = getManager->get(request);
 

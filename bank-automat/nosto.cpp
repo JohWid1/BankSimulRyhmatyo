@@ -25,6 +25,7 @@ Nosto::Nosto(QWidget *parent) :
 Nosto::~Nosto()
 {
     delete ui;
+    delete withdrawal;
 }
 
 void Nosto::on_otherAmountButton_clicked()
@@ -97,7 +98,7 @@ void Nosto::onokButtonclicked()
         if (isDivisible(amount)) {
             QString sumText = ui->withdrawAmountLineEdit->text();
             ui->stackedWidget->setCurrentIndex(2);
-            withdrawal->withdrawal( getSelectedIdCard();sumText.toInt());
+             withdrawal->withdrawal(sumText.toInt());
             QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
             ui->summaLabel->setText(sum_Message);
         } else {
