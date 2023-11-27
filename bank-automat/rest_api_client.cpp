@@ -18,7 +18,9 @@ void REST_API_Client::getCardData()
 {
     QUrl url("http://127.0.0.1:3000/card/allcards"); // Replace with your API endpoint
     QNetworkRequest request(url);
-
+    /*
+     *QUrl url("http://127.0.0.1:3000/account/" + summa);
+     * */
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     manager->get(request); // Send the request
@@ -53,9 +55,5 @@ void REST_API_Client::replyFinished(QNetworkReply *reply)
     emit cardDataReceived(cardNames);
 }
 
-int REST_API_Client::getIdcard() const
-{
-    return idcard;
-}
 
 

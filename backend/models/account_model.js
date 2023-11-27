@@ -18,6 +18,7 @@ const account = {
     return db.query('update account set balance=?,credit_limit=?, Customer_idCustomer=? where idaccount=?',
       [account.balance, account.credit_limit, account.Customer_idCustomer, id],callback);
   },
+  //updatecredit ()
 }
 
 module.exports = account;

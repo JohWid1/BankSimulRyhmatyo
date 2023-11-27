@@ -13,7 +13,7 @@ router.get('/',
             }
         })
     });
-
+//router.get('/account/:id')
 router.get('/:id',
     function (request, response) {
         account.getById(request.params.id, function (err, dbResult) {

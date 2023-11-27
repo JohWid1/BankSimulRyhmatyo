@@ -18,7 +18,6 @@ public:
     //REST_API_Client();
     explicit REST_API_Client(QObject *parent = nullptr);
     void getCardData();
-
     int getIdcard() const;
 
 signals:
@@ -30,7 +29,7 @@ private slots:
 
 private:
     QNetworkAccessManager *manager;
-    int idcard;
+
 
 };
 
