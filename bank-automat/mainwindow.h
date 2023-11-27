@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <saldo.h>
 #include "rest_api_client.h"
+#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
