@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
     apiClient->getCardData();
+
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -51,6 +54,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
+    ui->infoLabel->clear();
     if (ui->stackedWidget->currentIndex()==0){
            ui->stackedWidget->setCurrentIndex(1);
     }
@@ -104,6 +108,7 @@ void MainWindow::onokButtonclicked()
 
         // Send the request
         reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+        ui->pinCodeLineEdit->clear();
         break;
 
         // ... other cases ...
@@ -153,6 +158,10 @@ void MainWindow::movesaldoback()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::onStackedWidgetIndexChanged(int index)
+{
+    comboBox->setDisabled(index != 0);
+}
 
 void MainWindow::updateCardComboBox(const QStringList &cardNames)
 {
@@ -161,7 +170,7 @@ void MainWindow::updateCardComboBox(const QStringList &cardNames)
         QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
         comboBox->addItem(cardName, idCardStr); // Display text is full cardName, data is idCard
     }
+    comboBox->setDisabled(ui->stackedWidget->currentIndex()!= 0);
 }
-
 
 
