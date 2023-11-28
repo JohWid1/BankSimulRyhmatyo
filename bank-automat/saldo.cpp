@@ -1,6 +1,7 @@
 #include "saldo.h"
 #include "ui_saldo.h"
 #include <QJsonObject>
+#include "rest_api_client.h"
 
 
 Saldo::Saldo(QWidget *parent) :
@@ -31,8 +32,9 @@ void Saldo::on_pushButton_4_back_clicked()
 void Saldo::on_pushButton_saldo_show_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
-
-    QString site_url="http://localhost:3000/account";
+    apiClientti = new REST_API_Client(this);
+    QString site_url="http://localhost:3000/account/" + QString::number(apiClientti->getIdcard());
+    qDebug() << "site_url: " << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
     QByteArray token="Bearer xRstgr...";
@@ -40,7 +42,7 @@ void Saldo::on_pushButton_saldo_show_clicked()
     //WEBTOKEN LOPPU
     getManager = new QNetworkAccessManager(this);
 
-    connect(getManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
 
     reply = getManager->get(request);
 

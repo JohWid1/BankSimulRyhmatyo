@@ -10,8 +10,9 @@ class ButtonManager : public QObject
 
 public:
     ButtonManager(QObject *parent = nullptr);
+    ~ButtonManager();
     void connectNumeronappaimetToSlot(QObject *targetObject, const char *slot);
-
+    void connectWithdrawButtonsToSlots(QObject *targetObject, const char *slot);
 private:
     QObject *parentObject;
 };

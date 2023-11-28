@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);
 
     ui->stackedWidget->insertWidget(4 ,saldo);
-    ui->stackedWidget->insertWidget(5, &nosto);
+
+
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
@@ -40,14 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
-    // -----------Nostovalikon signaalinkäsittelyt----------------
-    numeronappaimetManager.connectNumeronappaimetToSlot(&nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin kohdassa nosto
-    connect(&nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
-    connect(ui->clearButton, SIGNAL(clicked()), &nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
-    connect(ui->insertCardButton, SIGNAL(clicked()), &nosto, SLOT(onInsertCardClicked()));
-    connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
-    connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
-    // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
+
+
+
 
 }
 
@@ -69,9 +65,8 @@ void MainWindow::onInsertCardClicked()
     }
     if (ui->stackedWidget->currentIndex()==5){
            ui->stackedWidget->setCurrentIndex(0);
+           nosto->deleteLater();
     }
-
-
 }
 
 void MainWindow::numPressed()
@@ -100,7 +95,7 @@ void MainWindow::onokButtonclicked()
     case 1:
         // Prepare the data for network request
         QJsonObject jsonObj;
-        QString username = getSelectedIdCard();;
+        QString username = getSelectedIdCard();
         QString password = ui->pinCodeLineEdit->text();
         jsonObj.insert("username", username);
         jsonObj.insert("password", password);
@@ -177,7 +172,7 @@ void MainWindow::updateCardComboBox(const QStringList &cardNames)
     } 
 }
 
-void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n korttien lukintaan ollessa k�yt�ss�.
+void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n korttien lukintaan ollessa k�yt�ss�.
 {
     comboBox->setDisabled(index != 0); // aloitusruutua lukuunottamatta korttia ei voi poistaa tai vaihtaa.
 }
@@ -185,9 +180,23 @@ void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n korttien luk
 void MainWindow::nostoTakaisinValikkoon()
 {
     ui->stackedWidget->setCurrentIndex(2);
+    nosto->deleteLater();
 }
 
 void MainWindow::on_withdrawButton_clicked()
 {
+    // -----------Nostovalikon signaalinkäsittelyt----------------
+
+    nosto = new Nosto(this, getSelectedIdCard());
+    qDebug() << "MainWindow: " << getSelectedIdCard();
+    ButtonManager numeroManager(this);
+    numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
+
+    connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
+    connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
+    connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
+    connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
+    // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
+    ui->stackedWidget->insertWidget(5, nosto);
     ui->stackedWidget->setCurrentIndex(5);
 }
