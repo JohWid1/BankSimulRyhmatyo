@@ -37,6 +37,7 @@ private slots:
     void on_pushButton_2_clicked();
     void movesaldoback();
     void updateCardComboBox(const QStringList &data);
+    void onStackedWidgetIndexChanged(int index);
 
 
     //void comboBox(QNetworkReply *reply);

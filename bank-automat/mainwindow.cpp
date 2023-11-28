@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
     apiClient->getCardData();
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
+    comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
+
+
 
 
 
@@ -52,6 +56,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
+    ui->infoLabel->clear();
     if (ui->stackedWidget->currentIndex()==0){
            ui->stackedWidget->setCurrentIndex(1);
     }
@@ -87,7 +92,6 @@ void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
 
-
     switch (currentIndex) {
     case 1:
         // Prepare the data for network request
@@ -108,7 +112,9 @@ void MainWindow::onokButtonclicked()
 
         // Send the request
         reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
+        ui->pinCodeLineEdit->clear();
         break;
+
 
         // ... other cases ...
     }
@@ -164,9 +170,13 @@ void MainWindow::updateCardComboBox(const QStringList &cardNames)
         QStringList split = cardName.split(" - "); // Splitting the formatted string
         QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
         comboBox->addItem(cardName, idCardStr); // Display text is full cardName, data is idCard
-    }
+    } 
 }
 
+void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n korttien lukintaan ollessa k�yt�ss�.
+{
+    comboBox->setDisabled(index != 0); // aloitusruutua lukuunottamatta korttia ei voi poistaa tai vaihtaa.
+}
 
 void MainWindow::nostoTakaisinValikkoon()
 {
