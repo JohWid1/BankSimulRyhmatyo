@@ -50,6 +50,7 @@ void Nosto::on_nostoTakaisin_clicked()
 
 void Nosto::on_nostoTakaisin2_clicked()
 {
+    ui->withdrawAmountLineEdit->clear();
     ui->stackedWidget->setCurrentIndex(0);
 }
 
