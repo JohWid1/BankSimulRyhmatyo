@@ -63,7 +63,9 @@ void Nosto::onSummaButtonClicked()
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     if (button) {
         QString sumText = button->text();
-        withdrawal->withdrawal(sumText.toInt(), currentCard);
+        withdrawal = new REST_API_Client(this);
+        int amount = sumText.toInt();
+        withdrawal->withdrawal(amount, currentCard);
         ui->stackedWidget->setCurrentIndex(2);
         QString sum_Message = "Nostit " + sumText + " Rahat tulevat hetken kuluttua";
         ui->summaLabel->setText(sum_Message);

@@ -18,8 +18,10 @@ router.post('/:id',
     function(request, response) {
       account.withdrawal(request.params.id, request.body, function(err, dbResult) {
         if (err) {
+          console.log(err);
           response.json(err);
         } else {
+          console.log(dbResult);
           response.json(dbResult);
         }
       });

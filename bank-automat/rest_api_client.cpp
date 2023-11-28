@@ -44,7 +44,7 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
     qDebug() << "withdrawal: "<< currentCardInUse;
     // Make the POST request with the parameters in the body
     QNetworkReply *reply = manager->post(request, postDataByteArray);
-
+    qDebug() << "reply: "<< reply;
     /*// Connect signals for handling the response
     QObject::connect(reply, &QNetworkReply::finished, [&]() {
         if (reply->error() == QNetworkReply::NoError) {

@@ -65,9 +65,8 @@ void MainWindow::onInsertCardClicked()
     }
     if (ui->stackedWidget->currentIndex()==5){
            ui->stackedWidget->setCurrentIndex(0);
+           nosto->deleteLater();
     }
-
-
 }
 
 void MainWindow::numPressed()
@@ -181,6 +180,7 @@ void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n kortti
 void MainWindow::nostoTakaisinValikkoon()
 {
     ui->stackedWidget->setCurrentIndex(2);
+    nosto->deleteLater();
 }
 
 void MainWindow::on_withdrawButton_clicked()
@@ -190,14 +190,13 @@ void MainWindow::on_withdrawButton_clicked()
     nosto = new Nosto(this, getSelectedIdCard());
     qDebug() << "MainWindow: " << getSelectedIdCard();
     ButtonManager numeroManager(this);
-    numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin kohdassa nosto
+    numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
+
     connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
-    connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
     ui->stackedWidget->insertWidget(5, nosto);
     ui->stackedWidget->setCurrentIndex(5);
-    //nosto->deleteLater();
 }
