@@ -27,7 +27,7 @@ void REST_API_Client::getCardData()
     manager->get(request); // Send the request
 }
 
-void REST_API_Client::withdrawal(int summa)
+void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
 {
 
     // Construct the parameters using QUrlQuery
@@ -38,9 +38,10 @@ void REST_API_Client::withdrawal(int summa)
     QByteArray postDataByteArray = postData.toString(QUrl::FullyEncoded).toUtf8();
 
     // Create a QNetworkRequest and set the URL
-    QNetworkRequest request(QUrl("http://127.0.0.1:3000/account/" + QString::number(getIdcard())));
+    QNetworkRequest request(QUrl("http://127.0.0.1:3000/account/" + currentCardInUse));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-
+    qDebug() << "http://127.0.0.1:3000/account/" + currentCardInUse;
+    qDebug() << "withdrawal: "<< currentCardInUse;
     // Make the POST request with the parameters in the body
     QNetworkReply *reply = manager->post(request, postDataByteArray);
 

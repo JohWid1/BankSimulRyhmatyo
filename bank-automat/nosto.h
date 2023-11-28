@@ -13,7 +13,7 @@ class Nosto : public QWidget
     Q_OBJECT
 
 public:
-    explicit Nosto(QWidget *parent = nullptr);
+    explicit Nosto(QWidget *parent = nullptr, QString currentCardInUse="bugi");
     ~Nosto();
 
 private slots:
@@ -32,6 +32,8 @@ signals:
 private:
     Ui::Nosto *ui;
     REST_API_Client *withdrawal;
+    QString currentCard;
+
 };
 
 #endif // NOSTO_H

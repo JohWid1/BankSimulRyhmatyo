@@ -47,7 +47,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
-    Nosto nosto;
+    Nosto *nosto;
     QNetworkAccessManager *postManager;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;

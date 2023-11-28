@@ -3,7 +3,7 @@
 #include <mainwindow.h>
 #include "rest_api_client.h"
 
-Nosto::Nosto(QWidget *parent) :
+Nosto::Nosto(QWidget *parent, QString currentCardInUse) :
     QWidget(parent),
     ui(new Ui::Nosto)
 {
@@ -11,13 +11,14 @@ Nosto::Nosto(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->withdrawAmountLineEdit->setMaxLength(3);
     ui->withdrawAmountLineEdit->setAlignment(Qt::AlignCenter);
-    withdrawal = new REST_API_Client(this);
     connect(ui->summa20, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa40, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa50, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa80, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa100, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     connect(ui->summa150, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
+    qDebug() << "Nosto luotu";
+    currentCard = currentCardInUse;
 
 
 }
@@ -25,7 +26,8 @@ Nosto::Nosto(QWidget *parent) :
 Nosto::~Nosto()
 {
     delete ui;
-    delete withdrawal;
+    qDebug() << "Nosto tuhottu";
+
 }
 
 void Nosto::on_otherAmountButton_clicked()
@@ -61,6 +63,7 @@ void Nosto::onSummaButtonClicked()
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     if (button) {
         QString sumText = button->text();
+        withdrawal->withdrawal(sumText.toInt(), currentCard);
         ui->stackedWidget->setCurrentIndex(2);
         QString sum_Message = "Nostit " + sumText + " Rahat tulevat hetken kuluttua";
         ui->summaLabel->setText(sum_Message);
@@ -96,11 +99,14 @@ void Nosto::onokButtonclicked()
         int amount = insertedAmount.toInt();
 
         if (isDivisible(amount)) {
+            withdrawal = new REST_API_Client(this);
             QString sumText = ui->withdrawAmountLineEdit->text();
             ui->stackedWidget->setCurrentIndex(2);
-             withdrawal->withdrawal(sumText.toInt());
+            qDebug() << "onOkButtonClicked: " << currentCard;
+            withdrawal->withdrawal(amount, currentCard);
             QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
             ui->summaLabel->setText(sum_Message);
+            //withdrawal->deleteLater();
         } else {
             ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
         }
