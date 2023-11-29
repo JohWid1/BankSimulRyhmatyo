@@ -4,6 +4,7 @@
 #include <saldo.h>
 #include "rest_api_client.h"
 #include "buttonmanager.h"
+#include <tilitapahtumat.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stackedWidget->insertWidget(4 ,saldo);
     ui->stackedWidget->insertWidget(5, &nosto);
+    ui->stackedWidget->insertWidget(6, &tilitapahtumat);
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
@@ -33,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
+
     apiClient = new REST_API_Client(this);
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
@@ -44,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
     connect(ui->okButton, SIGNAL(clicked()), &nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
+
+    // tililtapahtumat
+    connect(&tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
 }
 
@@ -181,3 +187,16 @@ void MainWindow::on_withdrawButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
 }
+
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::tilibackClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+

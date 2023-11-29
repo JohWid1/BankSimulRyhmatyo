@@ -31,12 +31,15 @@ private slots:
     void on_pushButton_saldo_show_clicked();
     void getsaldoInfoSlot(QNetworkReply *reply);
 
+    void onStackedWidgetPageChanged(int index);
+
 private:
     Ui::Saldo *ui;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
-    QByteArray token; //saldo token
+    QByteArray token;
+
 
 };
 

@@ -455,7 +455,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               </rect>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: red</string>
+              <string notr="true">color: black</string>
              </property>
              <property name="text">
               <string>Tilitapahtumat</string>
