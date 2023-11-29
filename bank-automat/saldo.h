@@ -1,12 +1,10 @@
 #ifndef SALDO_H
 #define SALDO_H
-
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
-
-
 #include <QWidget>
+#include "rest_api_client.h"
 
 namespace Ui {
 class Saldo;
@@ -38,9 +36,8 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
-    QByteArray token;
-
-
+    QByteArray token; //saldo token
+    REST_API_Client *apiClientti;
 };
 
 #endif // SALDO_H

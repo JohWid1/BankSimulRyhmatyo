@@ -7,7 +7,7 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <saldo.h>
-#include <nosto.h>
+#include "nosto.h"
 #include "rest_api_client.h"
 #include <QComboBox>
 #include <tilitapahtumat.h>
@@ -43,6 +43,7 @@ private slots:
     void movesaldoback();
 
     void updateCardComboBox(const QStringList &data);
+    void onStackedWidgetIndexChanged(int index);
 
 
     //void comboBox(QNetworkReply *reply);
@@ -58,7 +59,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;
-    Nosto nosto;
+    Nosto *nosto;
     QNetworkAccessManager *postManager;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
