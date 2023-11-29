@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stackedWidget->insertWidget(4 ,saldo);
 
-
-    ui->stackedWidget->insertWidget(6, &tilitapahtumat);
+    tilitapahtumat = (new Tilitapahtumat(this));
+    ui->stackedWidget->insertWidget(6, tilitapahtumat);
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
@@ -44,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
-    // tililtapahtumat
-    connect(&tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
+    // tilitapahtumat
+    connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
 }
 
@@ -206,7 +206,7 @@ void MainWindow::on_withdrawButton_clicked()
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(6);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::tilibackClicked()

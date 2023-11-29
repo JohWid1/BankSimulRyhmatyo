@@ -68,7 +68,7 @@ private:
     QComboBox *comboBox; // Assuming you have added this to your UI
     Saldo *objectSaldoMenu;
     QByteArray token;
-    Tilitapahtumat tilitapahtumat;
+    Tilitapahtumat *tilitapahtumat;
 
 
     QString getSelectedIdCard() {

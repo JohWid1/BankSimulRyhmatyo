@@ -65,7 +65,19 @@ void Nosto::onSummaButtonClicked()
     if (button) {
         QString sumText = button->text();
         withdrawal = new REST_API_Client(this);
-        int amount = sumText.toInt();
+
+
+        QRegularExpression re("\\d+"); // Search for the regular expression within the string
+        QRegularExpressionMatch match = re.match(sumText);
+        int amount = 0; // Default value if no digits are found
+
+        // If a match is found, extract the digits and convert to an integer
+        if (match.hasMatch()) {
+            QString matchedText = match.captured();
+            amount = matchedText.toInt();
+        }
+
+        qDebug() << "amount: " << amount;
         withdrawal->withdrawal(amount, currentCard);
         ui->stackedWidget->setCurrentIndex(2);
         QString sum_Message = "Nostit " + sumText + " Rahat tulevat hetken kuluttua";
