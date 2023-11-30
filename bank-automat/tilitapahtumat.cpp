@@ -12,6 +12,7 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tableTilitapahtumat->horizontalHeader()->hide();
+    ui->tableTilitapahtumat->verticalHeader()->hide();
 
 }
 
