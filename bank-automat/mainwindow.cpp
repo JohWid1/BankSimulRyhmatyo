@@ -214,4 +214,19 @@ void MainWindow::tilibackClicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::debitButtonClicked()
+{
+
+}
+
+void MainWindow::creditButtonClicked()
+{
+
+}
+
+void MainWindow::sharedAccountButtonClicked()
+{
+
+}
+
 
