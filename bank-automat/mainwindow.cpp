@@ -4,6 +4,7 @@
 #include <saldo.h>
 #include "rest_api_client.h"
 #include "buttonmanager.h"
+#include <tilitapahtumat.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stackedWidget->insertWidget(4 ,saldo);
 
-
+    tilitapahtumat = (new Tilitapahtumat(this));
+    ui->stackedWidget->insertWidget(6, tilitapahtumat);
 
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
@@ -34,16 +36,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
+
     apiClient = new REST_API_Client(this);
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
-    apiClient->getCardData();
+    apiClient->getCardData(); 
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
-
-
-
+    // tilitapahtumat
+    connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
 }
 
@@ -200,3 +202,16 @@ void MainWindow::on_withdrawButton_clicked()
     ui->stackedWidget->insertWidget(5, nosto);
     ui->stackedWidget->setCurrentIndex(5);
 }
+
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::tilibackClicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+

@@ -10,7 +10,7 @@ Saldo::Saldo(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
 
 }
 
@@ -24,6 +24,8 @@ Saldo::~Saldo()
 
 void Saldo::on_pushButton_4_back_clicked()
 {
+    ui->textEdit1->clear();
+
     emit backclicked();
 }
 
@@ -47,6 +49,8 @@ void Saldo::on_pushButton_saldo_show_clicked()
     reply = getManager->get(request);
 
 }
+
+
 
 void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 {
@@ -74,6 +78,7 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 
         ui->textEdit1->setText( QString::number(balance));
 
+
     } else {
         qDebug() << "Invalid JSON format";  // Handle the case where the JSON is not an array
     }
@@ -83,6 +88,11 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 
 
 }
-
+void Saldo::onStackedWidgetPageChanged(int index)
+{
+    if (index != 5) {
+        ui->textEdit1->clear();
+    }
+}
 
 
