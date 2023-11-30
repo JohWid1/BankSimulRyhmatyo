@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->insertCardButton->setText("Korttiluukku\n");
 
-    connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
+    connect(ui->saldoButton, SIGNAL(clicked()) , this, SLOT (saldoButtonClicked()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
     apiClient = new REST_API_Client(this);
@@ -152,7 +152,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::saldoButtonClicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }

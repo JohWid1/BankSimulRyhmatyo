@@ -315,7 +315,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page">
             <widget class="QLabel" name="insertCardLabel">
@@ -397,7 +397,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
             </widget>
            </widget>
            <widget class="QWidget" name="page_3">
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="saldoButton">
              <property name="geometry">
               <rect>
                <x>420</x>
@@ -413,7 +413,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               <string>Saldo</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="valikkoTakaisin">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -445,7 +445,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               <string>Nosta</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="tilitapahtumatButton">
              <property name="geometry">
               <rect>
                <x>420</x>

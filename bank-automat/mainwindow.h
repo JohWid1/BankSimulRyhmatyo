@@ -34,7 +34,7 @@ private slots:
     void loginSlot (QNetworkReply *reply);
 
 
-    void on_pushButton_2_clicked();
+    void saldoButtonClicked();
     void movesaldoback();
     void updateCardComboBox(const QStringList &data);
     void onStackedWidgetIndexChanged(int index);
@@ -44,6 +44,8 @@ private slots:
     void nostoTakaisinValikkoon();
 
     void on_withdrawButton_clicked();
+
+
 
 private:
     Ui::MainWindow *ui;
