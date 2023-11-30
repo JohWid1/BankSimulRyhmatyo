@@ -189,8 +189,10 @@ void MainWindow::on_withdrawButton_clicked()
 {
     // -----------Nostovalikon signaalinkäsittelyt----------------
 
-    nosto = new Nosto(this, getSelectedIdCard());
-    qDebug() << "MainWindow: " << getSelectedIdCard();
+    qDebug() << comboBox->currentData().toString();
+    QString currentCard = comboBox->currentData().toString();
+    nosto = new Nosto(this, currentCard);
+    qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);
     numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
 
