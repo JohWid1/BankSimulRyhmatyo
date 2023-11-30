@@ -10,6 +10,11 @@
 #include "nosto.h"
 #include "rest_api_client.h"
 #include <QComboBox>
+#include <tilitapahtumat.h>
+
+#include <QTextEdit>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,7 +27,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //void onSaldoBack();
+
 
 
 private slots:
@@ -36,6 +41,7 @@ private slots:
 
     void saldoButtonClicked();
     void movesaldoback();
+
     void updateCardComboBox(const QStringList &data);
     void onStackedWidgetIndexChanged(int index);
 
@@ -45,6 +51,11 @@ private slots:
 
     void on_withdrawButton_clicked();
 
+
+
+
+    void on_pushButton_5_clicked();
+    void tilibackClicked();
 
 
 private:
@@ -58,7 +69,8 @@ private:
     REST_API_Client *apiClient;
     QComboBox *comboBox; // Assuming you have added this to your UI
     Saldo *objectSaldoMenu;
-    QByteArray token; //SaldoInfotoken
+    QByteArray token;
+    Tilitapahtumat *tilitapahtumat;
 
 
     QString getSelectedIdCard() {

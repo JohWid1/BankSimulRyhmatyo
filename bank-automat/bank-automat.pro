@@ -14,19 +14,22 @@ SOURCES += \
     mainwindow.cpp \
     rest_api_client.cpp \
     nosto.cpp \
-    saldo.cpp
+    saldo.cpp \
+    tilitapahtumat.cpp
 
 HEADERS += \
     buttonmanager.h \
     mainwindow.h \
     rest_api_client.h \
     nosto.h \
-    saldo.h
+    saldo.h \
+    tilitapahtumat.h
 
 FORMS += \
     mainwindow.ui \
     nosto.ui \
-    saldo.ui
+    saldo.ui \
+    tilitapahtumat.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

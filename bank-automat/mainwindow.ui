@@ -315,7 +315,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <widget class="QLabel" name="insertCardLabel">
@@ -455,7 +455,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               </rect>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: red</string>
+              <string notr="true">color: black</string>
              </property>
              <property name="text">
               <string>Tilitapahtumat</string>
