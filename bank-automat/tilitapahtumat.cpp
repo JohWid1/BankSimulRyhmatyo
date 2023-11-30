@@ -11,6 +11,7 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui(new Ui::Tilitapahtumat)
 {
     ui->setupUi(this);
+    ui->tableTilitapahtumat->horizontalHeader()->hide();
 
 }
 
@@ -39,8 +40,7 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
     params.addQueryItem("accountid", "2");
     QString paramsString = params.toString(QUrl::FullyEncoded);
 
-    QByteArray postData;
-    postData.append(paramsString);
+    QByteArray postData = paramsString.toUtf8();
 
     QString site_url = "http://localhost:3000/viewtransactions";
     qDebug() << "site_url: " << site_url;
