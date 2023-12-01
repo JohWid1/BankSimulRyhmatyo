@@ -30,7 +30,6 @@ private slots:
     void on_pushButton_tilitapahtumat_back_clicked();
 
     void on_pushButton_tilitapahtumat_forward_clicked();
-
 private:
     Ui::Tilitapahtumat *ui;
     REST_API_Client *next;
