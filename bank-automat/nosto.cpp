@@ -118,14 +118,9 @@ void Nosto::onokButtonclicked()
 
         if (isDivisible(amount)) {
             withdrawal = new REST_API_Client(this);
-            QString sumText = ui->withdrawAmountLineEdit->text();
-
             qDebug() << "onOkButtonClicked: " << QString::number(currentCard);
             //withdrawal->withdrawal(amount, QString::number(currentCard));
             this->withdrawAndCheckBalance(currentCard,1,amount);
-            ui->stackedWidget->setCurrentIndex(2);
-            QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
-            ui->summaLabel->setText(sum_Message);
         } else {
             ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
         }
@@ -144,7 +139,7 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     QByteArray postData = paramsString.toUtf8();
 
 
-    QString site_url = "http://localhost:3000/viewtransactions";
+    QString site_url = "http://localhost:3000/withdraw";
     qDebug() << "site_url: " << site_url;
 
     QNetworkRequest request((site_url));
@@ -162,16 +157,51 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getNostoReplySlot(QNetworkReply*)));
 
     // Set the HTTP method and body
-    reply = getManager->post(request, postData);
+    getManager->post(request, postData);
 
 }
 
 void Nosto::getNostoReplySlot(QNetworkReply *reply)
 {
 
+    if(reply->error())
+    {
+        qDebug() << "ERROR:" << reply->errorString();
+        return;
+    }
+
+    QByteArray responseBytes = reply->readAll();
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
+
+    if (!jsonResponse.isArray()) {
+        qDebug() << "Invalid JSON response";
+        return;
+    }
+
+    QJsonArray jsonArray = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
+    QStringList cardNames;
+
+    for (const QJsonValue &value : jsonArray) {
+        QJsonObject obj = value.toObject();
+        sqlreply = obj["reply"].toString();
+    }
+    qDebug() << "Sqlreply: " << sqlreply;
+
+    QString sumText = ui->withdrawAmountLineEdit->text();
+    ui->stackedWidget->setCurrentIndex(2);
+    QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
+    ui->summaLabel->setText(sum_Message);
+    reply->deleteLater();
+    getManager->deleteLater();
+}
+/*
+
+
+*/
+
+/*
     response_data = reply->readAll();
     qDebug() << "DATA : " << response_data;
-
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
 
     if (json_doc.isArray()) {  // Check if the document is an array
@@ -179,22 +209,11 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
 
         // Assuming you have only one object in the array
         QJsonObject json_obj = json_array.at(0).toObject();
+        QString sqlreply = json_obj["reply"].toString();
 
-        int idAccount = json_obj["idaccount"].toInt();
-        int balance = json_obj["balance"].toInt();
-        int creditLimit = json_obj["credit_limit"].toInt();
-        int customerId = json_obj["Customer_idCustomer"].toInt();
 
-        qDebug() << "idaccount: " << idAccount;
-        qDebug() << "balance: " << balance;
-        qDebug() << "credit_limit: " << creditLimit;
-        qDebug() << "Customer_idCustomer: " << customerId;
-
+        qDebug() << "Reply: " + sqlreply;
     } else {
         qDebug() << "Invalid JSON format";  // Handle the case where the JSON is not an array
     }
-
-    reply->deleteLater();
-    getManager->deleteLater();
-}
-
+ */

@@ -39,8 +39,9 @@ private:
     int currentCard;
     QByteArray token; //saldo token
     QNetworkAccessManager *getManager;
-    QNetworkReply *reply;
+ //   QNetworkReply *reply;
     QByteArray response_data;
+    QString sqlreply;
 
 };
 

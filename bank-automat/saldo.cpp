@@ -13,6 +13,7 @@ Saldo::Saldo(QWidget *parent) :
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
     this->on_pushButton_saldo_show_clicked();
     ui->pushButton_saldo_show->hide();
+    ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
 
 Saldo::~Saldo()

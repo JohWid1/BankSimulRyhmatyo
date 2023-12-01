@@ -15,6 +15,7 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui->tableTilitapahtumat->verticalHeader()->hide();
     ui->tableTilitapahtumat->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableTilitapahtumat->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->on_pushButton_tilitapahtumat_back_clicked();
 
 }
 

@@ -1,10 +1,9 @@
 const db = require('../database');
 
-const account = {
-  withdrawal: function(account, callback) {
-    return db.query('call withdrawal(?, ?)', [account.sum, account.idaccount, account.idcard], callback);
+const withdraw = {
+  post: function(account, callback) {
+    return db.query('call withdrawal(?, ?, ?)', [account.cardid, account.accountid, account.sum], callback);
   },
-  //updatecredit ()
 }
 
-module.exports = account;
+module.exports = withdraw;
