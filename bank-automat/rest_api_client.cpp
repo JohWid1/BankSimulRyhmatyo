@@ -91,6 +91,12 @@ void REST_API_Client::replyFinished(QNetworkReply *reply)
 
     for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
+        int idcard = obj["idcard"].toInt();
+        bool debit = obj["debit"].toBool();
+        bool credit = obj["credit"].toBool();
+        bool multicard = obj["multicard"].toBool();
+        QString cardType = obj["card_type"].toString();
+        cardNames.append(QString::number(idcard) + " - " + cardType); // Keeping your original line
         QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
         cardNames.append(cardInfo); // Format: "1 - Debit"
     }

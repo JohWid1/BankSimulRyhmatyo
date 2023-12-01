@@ -1,7 +1,7 @@
-/* Luodaan t‰nne kaikki QT:n ja REST API:en v‰liset keskustelut
- * Esimerkkin‰ MySQL luotu proceduuri jota pystyt‰‰n nyt kutsumaan
- * REST API:lla javascriptiss‰, niin t‰nne luodaan yhteys
- * javascriptin REST API:n ja QT: v‰lille.
+/* Luodaan tanne kaikki QT:n ja REST API:en valiset keskustelut
+ * Esimerkkina MySQL luotu proceduuri jota pystyt‰‰n nyt kutsumaan
+ * REST API:lla javascriptissa, niin tanne luodaan yhteys
+ * javascriptin REST API:n ja QT: valille.
 */
 
 #ifndef REST_API_CLIENT_H
@@ -30,6 +30,7 @@ private slots:
 
 private:
     QNetworkAccessManager *manager;
+
 
 
 };
