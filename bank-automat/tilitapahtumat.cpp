@@ -4,7 +4,7 @@
 #include "qjsonobject.h"
 #include "qurlquery.h"
 #include "ui_tilitapahtumat.h"
-//#include "mainwindow.h"
+#include <QtWidgets/QScrollBar>
 
 Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     QWidget(parent),
@@ -13,6 +13,8 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui->setupUi(this);
     ui->tableTilitapahtumat->horizontalHeader()->hide();
     ui->tableTilitapahtumat->verticalHeader()->hide();
+    ui->tableTilitapahtumat->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->tableTilitapahtumat->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 }
 
@@ -68,31 +70,37 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
 void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
 {
 
+
     response_data = reply->readAll();
     qDebug() << "DATA : " << response_data;
 
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
 
-    if (json_doc.isArray()) {  // Check if the document is an array
+    if (json_doc.isArray()) {
         QJsonArray json_array = json_doc.array();
 
-        // Assuming you have only one object in the array
-        QJsonObject json_obj = json_array.at(0).toObject();
+        ui->tableTilitapahtumat->setRowCount(0);
 
-        int idtransaction = json_obj["idtransaction"].toInt();
-        QString action = json_obj["action"].toString();
-        int sum = json_obj["sum"].toInt();
-        QString timestamp = json_obj["timestamp"].toString();
-        int cardaccountid = json_obj["cardaccountid"].toInt();
+        for (const QJsonValue &transactionValue : json_array) {
+            QJsonObject transactionObject = transactionValue.toObject();
 
-        qDebug() << "idtransaction: " << idtransaction;
-        qDebug() << "action: " << action;
-        qDebug() << "sum: " << sum;
-        qDebug() << "timestamp: " << timestamp;
-        qDebug() << "cardaccountid: " << cardaccountid;
+            int idtransaction = transactionObject["idtransaction"].toInt();
+            QString action = transactionObject["action"].toString();
+            int sum = transactionObject["sum"].toInt();
+            QString timestamp = transactionObject["timestamp"].toString();
+            int cardaccountid = transactionObject["cardaccountid"].toInt();
 
-        ui->textEdit_tilitapahtumat->setText( QString::number(sum));
 
+            int row = ui->tableTilitapahtumat->rowCount();
+            ui->tableTilitapahtumat->insertRow(row);
+
+
+            ui->tableTilitapahtumat->setItem(row, 0, new QTableWidgetItem(QString::number(idtransaction)));
+            ui->tableTilitapahtumat->setItem(row, 1, new QTableWidgetItem(action));
+            ui->tableTilitapahtumat->setItem(row, 2, new QTableWidgetItem(QString::number(sum)));
+            ui->tableTilitapahtumat->setItem(row, 3, new QTableWidgetItem(timestamp));
+            ui->tableTilitapahtumat->setItem(row, 4, new QTableWidgetItem(QString::number(cardaccountid)));
+        }
 
     } else {
         qDebug() << "Invalid JSON format";  // Handle the case where the JSON is not an array
@@ -101,6 +109,8 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
     reply->deleteLater();
     getManager->deleteLater();
 }
+
+
 
 void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
 {
