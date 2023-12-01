@@ -13,10 +13,8 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui->setupUi(this);
     ui->tableTilitapahtumat->horizontalHeader()->hide();
     ui->tableTilitapahtumat->verticalHeader()->hide();
-
     ui->tableTilitapahtumat->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableTilitapahtumat->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
 
 }
 

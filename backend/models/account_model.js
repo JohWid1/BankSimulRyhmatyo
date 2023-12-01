@@ -18,8 +18,8 @@ const account = {
     return db.query('delete from account where idaccount=?', [id], callback);
   },
   update: function(id, account, callback) {
-    return db.query('update account set balance=?,credit_limit=?, Customer_idCustomer=? where idaccount=?',
-      [account.balance, account.credit_limit, account.Customer_idCustomer, id],callback);
+    return db.query('update account set balance=?,credit_limit=?, Customer_idCustomer=?, type=? where idaccount=?',
+      [account.balance, account.credit_limit, account.Customer_idCustomer, account.type, id], callback);
   },
   //updatecredit ()
 }
