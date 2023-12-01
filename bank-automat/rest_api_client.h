@@ -30,8 +30,6 @@ private slots:
 
 private:
     QNetworkAccessManager *manager;
-
-
 };
 
 #endif // REST_API_CLIENT_H

@@ -190,7 +190,7 @@ void MainWindow::on_withdrawButton_clicked()
     // -----------Nostovalikon signaalinkäsittelyt----------------
 
     qDebug() << comboBox->currentData().toString();
-    QString currentCard = comboBox->currentData().toString();
+    int currentCard = comboBox->currentData().toInt();
     nosto = new Nosto(this, currentCard);
     qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);

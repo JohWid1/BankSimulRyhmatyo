@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>501</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
     <widget class="QPushButton" name="pushButton_4_back">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>140</y>
        <width>80</width>
        <height>51</height>
@@ -60,8 +60,8 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>60</y>
+       <x>200</x>
+       <y>40</y>
        <width>101</width>
        <height>31</height>
       </rect>
@@ -75,36 +75,53 @@
       <string>Tilin Saldo</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_saldo_show">
-     <property name="geometry">
-      <rect>
-       <x>310</x>
-       <y>90</y>
-       <width>80</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Näytä Saldo</string>
-     </property>
-    </widget>
     <widget class="QTextEdit" name="textEdit1">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>100</y>
+       <x>190</x>
+       <y>80</y>
        <width>104</width>
        <height>41</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>14</pointsize>
       </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">text-align:center;
+border-color: rgb(255,255,255);
+border-width: 2px;
+border-style: solid;
+border-radius: 9px;
+padding: 2px;</string>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="page_2"/>
+  </widget>
+  <widget class="QPushButton" name="pushButton_saldo_show">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>140</y>
+     <width>80</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Näytä Saldo</string>
+   </property>
   </widget>
  </widget>
  <resources/>
