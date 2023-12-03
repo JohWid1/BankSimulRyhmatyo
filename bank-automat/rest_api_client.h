@@ -20,6 +20,7 @@ public:
     void getCardData();
     void withdrawal(int summa, QString currentCardInUse);
     int getIdcard() const;
+    void getCardTypes(int idcard);
 
 signals:
     void cardDataReceived(const QStringList &data);
@@ -27,9 +28,12 @@ signals:
 
 private slots:
     void replyFinished(QNetworkReply *reply);
+   // void getCardTypes(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *manager;
+    QByteArray response_data;
+    QNetworkReply *reply;
 
 
 

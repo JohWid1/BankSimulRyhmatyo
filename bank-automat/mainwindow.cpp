@@ -86,7 +86,11 @@ void MainWindow::numPressed()
 
 void MainWindow::clearClicked()
 {
-    ui->pinCodeLineEdit->clear();
+    //ui->pinCodeLineEdit->clear();
+    //----------Testausta varten---------
+    int idcard = 1;
+    REST_API_Client* client = new REST_API_Client(this); // assuming REST_API_Client is your class
+    client->getCardTypes(idcard);
 }
 
 void MainWindow::onCancelClicked()

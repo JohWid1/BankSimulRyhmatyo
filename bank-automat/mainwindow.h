@@ -74,7 +74,7 @@ private:
     Saldo *objectSaldoMenu;
     QByteArray token;
     Tilitapahtumat *tilitapahtumat;
-    bool tobool;
+    //QStringList cardNames;
 
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item

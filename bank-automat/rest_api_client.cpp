@@ -64,10 +64,14 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
     */
 }
 
+
 int REST_API_Client::getIdcard() const
 {
-    return(2);
+    return(1);
 }
+
+
+
 
 
 void REST_API_Client::replyFinished(QNetworkReply *reply)
@@ -92,17 +96,55 @@ void REST_API_Client::replyFinished(QNetworkReply *reply)
     for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
         int idcard = obj["idcard"].toInt();
-        bool debit = obj["debit"].toBool();
-        bool credit = obj["credit"].toBool();
-        bool multicard = obj["multicard"].toBool();
         QString cardType = obj["card_type"].toString();
         cardNames.append(QString::number(idcard) + " - " + cardType); // Keeping your original line
         QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
-        cardNames.append(cardInfo); // Format: "1 - Debit"
+        //cardNames.append(cardInfo); // Format: "1 - Debit"
     }
     qDebug() << "Emitting cardDataReceived with data:" << cardNames;
     emit cardDataReceived(cardNames);
 }
 
+void REST_API_Client::getCardTypes(int idcard)
+{
 
+    // Construct the parameters using QUrlQuery
+    QUrlQuery postData;
+    postData.addQueryItem("idcard", QString::number(idcard)); // Replace with your parameter(s)
+
+    // Encode the parameters to a QByteArray
+    QByteArray postDataByteArray = postData.toString(QUrl::FullyEncoded).toUtf8();
+    // ----------Testing-------------
+    QString urlString = QString("http://127.0.0.1:3000/getaccountselection/%1").arg(idcard);
+    QNetworkRequest request((QUrl(urlString)));
+    qDebug() << "Request URL: " << urlString;
+    qDebug() << "DATA : " << idcard;
+    //--------Testing Ends-----------
+
+    // Create a QNetworkRequest and set the URL
+    //QNetworkRequest request(QUrl(&"http://127.0.0.1:3000/getaccountselection/" + [idcard]));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    qDebug() << &"http://127.0.0.1:3000/getaccountselection/" [idcard];
+    qDebug() << "DATA : "<< idcard;
+    // Make the POST request with the parameters in the body
+    QNetworkReply *reply = manager->post(request, postDataByteArray);
+    qDebug() << "reply: "<< reply;
+    // Connect signals for handling the response
+    QObject::connect(reply, &QNetworkReply::finished, [&]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            // Read and handle the response data
+            QByteArray responseData = reply->readAll();
+            // Process responseData as needed
+            qDebug() << "Response:" << responseData;
+        } else {
+            // Handle error case
+            qDebug() << "Error:" << reply->errorString();
+        }
+
+        // Clean up resources
+        reply->deleteLater();
+       // qApp->quit();
+    });
+
+}
 
