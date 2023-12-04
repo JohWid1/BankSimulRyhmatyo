@@ -38,6 +38,7 @@ private:
     QByteArray response_data;
     QByteArray token; //saldo token
     REST_API_Client *apiClientti;
+
 };
 
 #endif // SALDO_H

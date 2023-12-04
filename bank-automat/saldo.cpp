@@ -8,6 +8,7 @@ Saldo::Saldo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Saldo)
 {
+    //ui->setToken();
     ui->setupUi(this);
 
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
@@ -19,6 +20,11 @@ Saldo::Saldo(QWidget *parent) :
 Saldo::~Saldo()
 {
     delete ui;
+}
+
+void Saldo::setToken(const QByteArray &newToken)
+{
+    token=new token;
 }
 
 

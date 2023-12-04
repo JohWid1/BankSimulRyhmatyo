@@ -60,7 +60,6 @@ private slots:
     void creditButtonClicked();
     void sharedAccountButtonClicked();
 
-
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;

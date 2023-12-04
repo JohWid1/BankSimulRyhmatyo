@@ -290,6 +290,18 @@
           </property>
          </spacer>
         </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="loginDll">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>LoginDLL</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item row="0" column="0" colspan="3">
