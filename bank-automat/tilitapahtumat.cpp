@@ -118,6 +118,7 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
 {
 
     // Construct the parameters
+
     QUrlQuery params;
     params.addQueryItem("cardid", "2");
     params.addQueryItem("accountid", "2");
