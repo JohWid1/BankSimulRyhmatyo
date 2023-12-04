@@ -1,5 +1,5 @@
 /* Luodaan tanne kaikki QT:n ja REST API:en valiset keskustelut
- * Esimerkkina MySQL luotu proceduuri jota pystytään nyt kutsumaan
+ * Esimerkkina MySQL luotu proceduuri jota pystytï¿½ï¿½n nyt kutsumaan
  * REST API:lla javascriptissa, niin tanne luodaan yhteys
  * javascriptin REST API:n ja QT: valille.
 */
@@ -34,8 +34,6 @@ private:
     QNetworkAccessManager *manager;
     QByteArray response_data;
     QNetworkReply *reply;
-
-
 
 };
 
