@@ -29,7 +29,6 @@ void REST_API_Client::getCardData()
 
 void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
 {
-
     // Construct the parameters using QUrlQuery
     QUrlQuery postData;
     postData.addQueryItem("amount", QString::number(summa)); // Replace with your parameter(s)
@@ -45,23 +44,6 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
     // Make the POST request with the parameters in the body
     QNetworkReply *reply = manager->post(request, postDataByteArray);
     qDebug() << "reply: "<< reply;
-    /*// Connect signals for handling the response
-    QObject::connect(reply, &QNetworkReply::finished, [&]() {
-        if (reply->error() == QNetworkReply::NoError) {
-            // Read and handle the response data
-            QByteArray responseData = reply->readAll();
-            // Process responseData as needed
-            qDebug() << "Response:" << responseData;
-        } else {
-            // Handle error case
-            qDebug() << "Error:" << reply->errorString();
-        }
-
-        // Clean up resources
-        reply->deleteLater();
-       // qApp->quit();
-    });
-    */
 }
 
 int REST_API_Client::getIdcard() const
