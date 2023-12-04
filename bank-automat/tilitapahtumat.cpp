@@ -42,6 +42,7 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
     QUrlQuery params;
     params.addQueryItem("cardid", "2");
     params.addQueryItem("accountid", "2");
+    params.addQueryItem("offsetti", "1");
     QString paramsString = params.toString(QUrl::FullyEncoded);
 
     QByteArray postData = paramsString.toUtf8();
@@ -72,13 +73,16 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
 {
 
 
-    response_data = reply->readAll();
+    QByteArray response_data = reply->readAll();
     qDebug() << "DATA : " << response_data;
 
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
 
-    if (json_doc.isArray()) {
-        QJsonArray json_array = json_doc.array();
+    if (!json_doc.isArray()) {
+        qDebug() << "Ulompi paketti rikki";
+        return;
+    }else{
+        QJsonArray json_array = json_doc.array().first().toArray();
 
         ui->tableTilitapahtumat->setRowCount(0);
 
@@ -102,9 +106,6 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
             ui->tableTilitapahtumat->setItem(row, 3, new QTableWidgetItem(timestamp));
             ui->tableTilitapahtumat->setItem(row, 4, new QTableWidgetItem(QString::number(cardaccountid)));
         }
-
-    } else {
-        qDebug() << "Invalid JSON format";  // Handle the case where the JSON is not an array
     }
 
     reply->deleteLater();
@@ -116,5 +117,34 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
 void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
 {
 
+    // Construct the parameters
+
+    QUrlQuery params;
+    params.addQueryItem("cardid", "2");
+    params.addQueryItem("accountid", "2");
+    params.addQueryItem("offsetti", "2");
+    QString paramsString = params.toString(QUrl::FullyEncoded);
+
+    QByteArray postData = paramsString.toUtf8();
+
+    QString site_url = "http://localhost:3000/viewtransactions";
+    qDebug() << "site_url: " << site_url;
+
+    QNetworkRequest request((site_url));
+
+    // Set header for content type
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    //WEBTOKEN ALKU
+    QByteArray token="Bearer xRstgr...";
+    request.setRawHeader(QByteArray("Authorization"),(token));
+    //WEBTOKEN LOPPU
+
+    getManager = new QNetworkAccessManager(this);
+
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
+
+    // Set the HTTP method and body
+    reply = getManager->post(request, postData);
 }
 

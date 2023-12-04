@@ -218,7 +218,7 @@ void MainWindow::on_withdrawButton_clicked()
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->setCurrentIndex(6);
 }
 
 void MainWindow::tilibackClicked()
