@@ -97,7 +97,7 @@ void REST_API_Client::getCardTypes(int idcard)
     // Encode the parameters to a QByteArray
     QByteArray postDataByteArray = postData.toString(QUrl::FullyEncoded).toUtf8();
     // ----------Testing-------------
-    QString urlString = QString("http://127.0.0.1:3000/getaccountselection/%1").arg(idcard);
+    QString urlString = QString("http://127.0.0.1:3000/card/getaccountselection/%1").arg(idcard);
     QNetworkRequest request((QUrl(urlString)));
     qDebug() << "Request URL: " << urlString;
     qDebug() << "DATA : " << idcard;
@@ -106,7 +106,7 @@ void REST_API_Client::getCardTypes(int idcard)
     // Create a QNetworkRequest and set the URL
     //QNetworkRequest request(QUrl(&"http://127.0.0.1:3000/getaccountselection/" + [idcard]));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    qDebug() << &"http://127.0.0.1:3000/getaccountselection/" [idcard];
+    qDebug() << urlString;
     qDebug() << "DATA : "<< idcard;
     // Make the POST request with the parameters in the body
     QNetworkReply *reply = manager->post(request, postDataByteArray);
