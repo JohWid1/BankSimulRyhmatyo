@@ -43,7 +43,7 @@ private:
  //   QNetworkReply *reply;
     QByteArray response_data;
     QString sqlreply;
-
+    QString amount;
 };
 
 #endif // NOSTO_H
