@@ -197,15 +197,14 @@ void MainWindow::nostoTakaisinValikkoon()
 
 void MainWindow::on_withdrawButton_clicked()
 {
-    // -----------Nostovalikon signaalinkäsittelyt----------------
-
     qDebug() << comboBox->currentData().toString();
     int currentCard = comboBox->currentData().toInt();
-    nosto = new Nosto(this, currentCard);
+    int currentAccount = 2;
+    nosto = new Nosto(this, currentCard, currentAccount);
     qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);
-    numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
-
+    // -----------Nostovalikon signaalinkäsittelyt----------------
+    numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
     connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));

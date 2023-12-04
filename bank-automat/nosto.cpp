@@ -4,7 +4,7 @@
 //#include "rest_api_client.h"
 Q_GLOBAL_STATIC_WITH_ARGS(QRegularExpression, regExp, {"\\d+"});
 
-Nosto::Nosto(QWidget *parent, int currentCardInUse) :
+Nosto::Nosto(QWidget *parent, int currentCardInUse, int currentAccountInUse) :
     QWidget(parent),
     ui(new Ui::Nosto)
 {
@@ -20,6 +20,7 @@ Nosto::Nosto(QWidget *parent, int currentCardInUse) :
     connect(ui->summa150, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     qDebug() << "Nosto luotu";
     currentCard = currentCardInUse;
+    currentAccount = currentAccountInUse;
 }
 
 Nosto::~Nosto()
@@ -28,6 +29,8 @@ Nosto::~Nosto()
     qDebug() << "Nosto tuhottu";
 
 }
+
+
 
 void Nosto::on_otherAmountButton_clicked()
 {
@@ -117,10 +120,10 @@ void Nosto::onokButtonclicked()
         int amount = insertedAmount.toFloat();
 
         if (isDivisible(amount)) {
-            withdrawal = new REST_API_Client(this);
+            //withdrawal = new REST_API_Client(this);
             qDebug() << "onOkButtonClicked: " << QString::number(currentCard);
             //withdrawal->withdrawal(amount, QString::number(currentCard));
-            this->withdrawAndCheckBalance(currentCard,1,amount);
+            this->withdrawAndCheckBalance(currentCard,currentAccount,amount);
         } else {
             ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
         }
@@ -179,43 +182,18 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
     }
 
     QJsonArray jsonArray = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
-
-    /*for (const QJsonValue &value : jsonArray) {
-        QJsonObject obj = value.toObject();
-        sqlreply = obj["reply"].toString();
-    }
-    */
     QJsonObject json_obj = jsonArray.at(0).toObject();
     sqlreply = json_obj["reply"].toString();
     qDebug() << "Sqlreply: " << sqlreply;
-
-    QString sumText = ui->withdrawAmountLineEdit->text();
-    ui->stackedWidget->setCurrentIndex(2);
-    QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
-    ui->summaLabel->setText(sum_Message);
-    reply->deleteLater();
-    getManager->deleteLater();
-}
-/*
-
-
-*/
-
-/*
-    response_data = reply->readAll();
-    qDebug() << "DATA : " << response_data;
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-
-    if (json_doc.isArray()) {  // Check if the document is an array
-        QJsonArray json_array = json_doc.array();
-
-        // Assuming you have only one object in the array
-        QJsonObject json_obj = json_array.at(0).toObject();
-        QString sqlreply = json_obj["reply"].toString();
-
-
-        qDebug() << "Reply: " + sqlreply;
-    } else {
-        qDebug() << "Invalid JSON format";  // Handle the case where the JSON is not an array
+    if (sqlreply=="success"){
+        QString sumText = ui->withdrawAmountLineEdit->text();
+        ui->stackedWidget->setCurrentIndex(2);
+        QString sum_Message = "Nostit " + sumText + "€ " + " Rahat tulevat hetken kuluttua";
+        ui->summaLabel->setText(sum_Message);
+        reply->deleteLater();
+        getManager->deleteLater();
+    }else{
+        ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
     }
- */
+
+}
