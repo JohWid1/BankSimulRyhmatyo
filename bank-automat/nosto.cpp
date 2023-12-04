@@ -179,12 +179,14 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
     }
 
     QJsonArray jsonArray = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
-    QStringList cardNames;
 
-    for (const QJsonValue &value : jsonArray) {
+    /*for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
         sqlreply = obj["reply"].toString();
     }
+    */
+    QJsonObject json_obj = jsonArray.at(0).toObject();
+    sqlreply = json_obj["reply"].toString();
     qDebug() << "Sqlreply: " << sqlreply;
 
     QString sumText = ui->withdrawAmountLineEdit->text();
