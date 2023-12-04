@@ -28,10 +28,11 @@ signals:
 
 private slots:
     void replyFinished(QNetworkReply *reply);
-   // void getCardTypes(QNetworkReply *reply);
+    void postREST_API_Client(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *manager;
+    QNetworkAccessManager *getManager;
     QByteArray response_data;
     QNetworkReply *reply;
 

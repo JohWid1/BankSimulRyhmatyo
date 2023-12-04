@@ -139,7 +139,7 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     QByteArray postData = paramsString.toUtf8();
 
 
-    QString site_url = "http://localhost:3000/withdraw";
+    QString site_url = "http://127.0.0.1:3000/withdraw";
     qDebug() << "site_url: " << site_url;
 
     QNetworkRequest request((site_url));
