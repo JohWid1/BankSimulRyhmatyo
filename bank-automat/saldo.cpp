@@ -22,11 +22,12 @@ Saldo::~Saldo()
     delete ui;
 }
 
-void Saldo::setToken(const QByteArray &newToken)
+/*void Saldo::setToken(const QByteArray &newToken)
 {
     token=new token;
 }
 
+*/
 
 
 
