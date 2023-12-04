@@ -30,6 +30,20 @@ const card={
   getcards: function(callback) {
     return db.query('call comboboxcard()', callback);
   },
+  // calls procedure where idcard and corresponding idaccount are linked.
+  /*getaccountselection: function(idcard, callback) {
+    return db.query('call getaccountselection(?)',[idcard], callback);
+  },
+  */
+  getaccountselection: function(idcard, callback) {
+    db.query('call getaccountselection(?)', [idcard], function(error, results, fields) {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, JSON.stringify(results));
+        }
+    });
+},
 };
           
 module.exports = card;

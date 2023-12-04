@@ -1,7 +1,7 @@
-/* Luodaan tänne kaikki QT:n ja REST API:en väliset keskustelut
- * Esimerkkinä MySQL luotu proceduuri jota pystytään nyt kutsumaan
- * REST API:lla javascriptissä, niin tänne luodaan yhteys
- * javascriptin REST API:n ja QT: välille.
+/* Luodaan tanne kaikki QT:n ja REST API:en valiset keskustelut
+ * Esimerkkina MySQL luotu proceduuri jota pystytï¿½ï¿½n nyt kutsumaan
+ * REST API:lla javascriptissa, niin tanne luodaan yhteys
+ * javascriptin REST API:n ja QT: valille.
 */
 
 #ifndef REST_API_CLIENT_H
@@ -20,6 +20,7 @@ public:
     void getCardData();
     void withdrawal(int summa, QString currentCardInUse);
     int getIdcard() const;
+    void getCardTypes(int idcard);
 
 signals:
     void cardDataReceived(const QStringList &data);
@@ -27,9 +28,14 @@ signals:
 
 private slots:
     void replyFinished(QNetworkReply *reply);
+    void postREST_API_Client(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *manager;
+    QNetworkAccessManager *getManager;
+    QByteArray response_data;
+    QNetworkReply *reply;
+
 };
 
 #endif // REST_API_CLIENT_H

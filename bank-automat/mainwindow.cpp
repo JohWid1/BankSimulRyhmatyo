@@ -47,6 +47,11 @@ MainWindow::MainWindow(QWidget *parent)
     // tilitapahtumat
     connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
+
+    connect(ui->debitButton, SIGNAL(clicked()), this, SLOT(debitButtonClicked()));
+    connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
+    connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
+
 }
 
 MainWindow::~MainWindow()
@@ -81,7 +86,11 @@ void MainWindow::numPressed()
 
 void MainWindow::clearClicked()
 {
-    ui->pinCodeLineEdit->clear();
+    //ui->pinCodeLineEdit->clear();
+    //----------Testausta varten---------
+    int idcard = 1;
+    REST_API_Client* client = new REST_API_Client(this); // assuming REST_API_Client is your class
+    client->getCardTypes(idcard);
 }
 
 void MainWindow::onCancelClicked()
@@ -125,6 +134,7 @@ void MainWindow::onokButtonclicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
+
     response_data=reply->readAll();
     qDebug()<<response_data;
     if(response_data.length()<2){
@@ -174,9 +184,9 @@ void MainWindow::updateCardComboBox(const QStringList &cardNames)
     } 
 }
 
-void MainWindow::onStackedWidgetIndexChanged(int index)// k�ytet��n korttien lukintaan ollessa k�yt�ss�.
+void MainWindow::onStackedWidgetIndexChanged(int index)// Used to lock card in combobox
 {
-    comboBox->setDisabled(index != 0); // aloitusruutua lukuunottamatta korttia ei voi poistaa tai vaihtaa.
+    comboBox->setDisabled(index != 0); // aside from "insert card" page card cannot be changed.
 }
 
 void MainWindow::nostoTakaisinValikkoon()
@@ -214,6 +224,21 @@ void MainWindow::on_pushButton_5_clicked()
 void MainWindow::tilibackClicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::debitButtonClicked()
+{
+    
+}
+
+void MainWindow::creditButtonClicked()
+{
+    
+}
+
+void MainWindow::sharedAccountButtonClicked()
+{
+    
 }
 
 
