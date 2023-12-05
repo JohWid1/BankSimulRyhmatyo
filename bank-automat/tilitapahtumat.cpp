@@ -5,6 +5,7 @@
 #include "qurlquery.h"
 #include "ui_tilitapahtumat.h"
 #include <QtWidgets/QScrollBar>
+#include <QUrlQuery>
 
 Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     QWidget(parent),
@@ -15,8 +16,9 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui->tableTilitapahtumat->verticalHeader()->hide();
     ui->tableTilitapahtumat->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableTilitapahtumat->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->on_pushButton_tilitapahtumat_back_clicked();
-
+    //this->on_pushButton_tilitapahtumat_back_clicked();
+    //this->clicked(&offsetti); // pitäisi jotenkin toimia defaultti statena että nähään 1-5 ensimmäisenä??
+    offsetti = 1;
 }
 
 Tilitapahtumat::~Tilitapahtumat()
@@ -30,11 +32,10 @@ void Tilitapahtumat::on_pushButton_tili_backAlkuvalikko_clicked()
 }
 
 
-
-
-
-void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
+void Tilitapahtumat::clicked(int* offsetti)
 {
+
+
     ui->stackedWidget->setCurrentIndex(5);
     apiClientti = new REST_API_Client(this);
 
@@ -42,7 +43,9 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
     QUrlQuery params;
     params.addQueryItem("cardid", "2");
     params.addQueryItem("accountid", "2");
-    params.addQueryItem("offsetti", "1");
+    //params.addQueryItem("offsetti", "1");
+    params.addQueryItem("offsetti", QString::number(*offsetti));
+
     QString paramsString = params.toString(QUrl::FullyEncoded);
 
     QByteArray postData = paramsString.toUtf8();
@@ -66,6 +69,16 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
 
     // Set the HTTP method and body
     reply = getManager->post(request, postData);
+}
+
+
+
+void Tilitapahtumat::on_pushButton_tilitapahtumat_back_clicked()
+{
+    if (offsetti > 1){
+        offsetti = offsetti - 1;
+        clicked(&offsetti);
+    }
 
 }
 
@@ -117,34 +130,7 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
 void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
 {
 
-    // Construct the parameters
-
-    QUrlQuery params;
-    params.addQueryItem("cardid", "2");
-    params.addQueryItem("accountid", "2");
-    params.addQueryItem("offsetti", "2");
-    QString paramsString = params.toString(QUrl::FullyEncoded);
-
-    QByteArray postData = paramsString.toUtf8();
-
-    QString site_url = "http://localhost:3000/viewtransactions";
-    qDebug() << "site_url: " << site_url;
-
-    QNetworkRequest request((site_url));
-
-    // Set header for content type
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-
-    //WEBTOKEN ALKU
-    QByteArray token="Bearer xRstgr...";
-    request.setRawHeader(QByteArray("Authorization"),(token));
-    //WEBTOKEN LOPPU
-
-    getManager = new QNetworkAccessManager(this);
-
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
-
-    // Set the HTTP method and body
-    reply = getManager->post(request, postData);
+    offsetti = offsetti + 1;
+    clicked(&offsetti);
 }
 
