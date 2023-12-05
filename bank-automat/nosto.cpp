@@ -149,6 +149,7 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
 
     //WEBTOKEN ALKU
     QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<token;
     request.setRawHeader(QByteArray("Authorization"),(token));
     //WEBTOKEN LOPPU
 
