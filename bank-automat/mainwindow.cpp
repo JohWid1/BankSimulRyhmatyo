@@ -151,7 +151,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 ui->stackedWidget->setCurrentIndex(2);
-                //token="Bearer "+response_data; // saldoinfo token
+                token="Bearer "+response_data; // saldoinfo token
                 //objectSaldoMenu->setToken(token); // test
             }
             else{
@@ -166,6 +166,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    saldo->setToken(token);
+    saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
 
