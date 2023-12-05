@@ -10,7 +10,6 @@ Saldo::Saldo(QWidget *parent) :
 {
     //ui->setToken();
     ui->setupUi(this);
-
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
     this->on_pushButton_saldo_show_clicked();
     ui->pushButton_saldo_show->hide();
@@ -26,7 +25,6 @@ Saldo::~Saldo()
 {
     token=new token;
 }
-
 */
 
 
