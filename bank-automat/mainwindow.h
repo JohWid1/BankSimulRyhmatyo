@@ -30,6 +30,7 @@ public:
 
 
 
+
 private slots:
     void onInsertCardClicked();
     void numPressed();
@@ -59,6 +60,8 @@ private slots:
     void debitButtonClicked();
     void creditButtonClicked();
     void sharedAccountButtonClicked();
+
+
 
 private:
     Ui::MainWindow *ui;
