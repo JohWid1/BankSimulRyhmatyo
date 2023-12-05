@@ -32,7 +32,6 @@ Nosto::~Nosto()
 }
 
 
-
 void Nosto::on_otherAmountButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
@@ -128,10 +127,8 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     qDebug() << "Response:" << paramsString;
     QByteArray postData = paramsString.toUtf8();
 
-
     QString site_url = "http://127.0.0.1:3000/withdraw";
     qDebug() << "site_url: " << site_url;
-
     QNetworkRequest request((site_url));
 
     // Set header for content type
@@ -143,9 +140,7 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     //WEBTOKEN LOPPU
 
     getManager = new QNetworkAccessManager(this);
-
     connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getNostoReplySlot(QNetworkReply*)));
-
     // Set the HTTP method and body
     getManager->post(request, postData);
 
@@ -184,9 +179,11 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
     // Extract 'reply' and 'amount' values
     QString sqlreply = innerObject["reply"].toString();
     double amount = innerObject["amount"].toDouble();
+    QString transactionreply = innerObject["transactionreply"].toString();
 
     qDebug() << "Reply:" << sqlreply;
     qDebug() << "Amount:" << amount;
+    qDebug() << "Transactionreply:" << transactionreply;
 
     if (sqlreply=="success"){
         ui->stackedWidget->setCurrentIndex(2);
@@ -197,5 +194,4 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
     }else{
         ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
     }
-
 }
