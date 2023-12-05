@@ -8,11 +8,9 @@ Saldo::Saldo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Saldo)
 {
-    //ui->setToken();
     ui->setupUi(this);
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
-    this->on_pushButton_saldo_show_clicked();
-    ui->pushButton_saldo_show->hide();
+    //ui->pushButton_saldo_show->hide();
     ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
 
@@ -21,13 +19,11 @@ Saldo::~Saldo()
     delete ui;
 }
 
-/*void Saldo::setToken(const QByteArray &newToken)
+void Saldo::setToken(const QByteArray &newToken)
 {
-    token=new token;
+    token=newToken;
+    qDebug()<<"settoken: "<<token;
 }
-*/
-
-
 
 void Saldo::on_pushButton_4_back_clicked()
 {
@@ -45,8 +41,10 @@ void Saldo::on_pushButton_saldo_show_clicked()
     qDebug() << "site_url: " << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
-    QByteArray token="Bearer xRstgr...";
-    request.setRawHeader(QByteArray("Authorization"),(token));
+    QByteArray tokeni=token;
+    //QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<tokeni;
+    request.setRawHeader(QByteArray("Authorization"),(tokeni));
     //WEBTOKEN LOPPU
     getManager = new QNetworkAccessManager(this);
 

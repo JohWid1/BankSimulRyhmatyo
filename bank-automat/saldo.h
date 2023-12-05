@@ -19,17 +19,15 @@ public:
     ~Saldo();
 
     void setToken(const QByteArray &newToken);
+    void on_pushButton_saldo_show_clicked();
 
 signals:
     void backclicked();
 
 private slots:
     void on_pushButton_4_back_clicked();
-
-    void on_pushButton_saldo_show_clicked();
-    void getsaldoInfoSlot(QNetworkReply *reply);
-
     void onStackedWidgetPageChanged(int index);
+    void getsaldoInfoSlot(QNetworkReply *reply);
 
 private:
     Ui::Saldo *ui;
