@@ -60,6 +60,8 @@ private slots:
     void creditButtonClicked();
     void sharedAccountButtonClicked();
 
+    void accountSelectionDataReadySignalReceived();
+
 
 private:
     Ui::MainWindow *ui;
@@ -75,10 +77,10 @@ private:
     QByteArray token;
     Tilitapahtumat *tilitapahtumat;
     //QStringList cardNames;
-    REST_API_Client *restapiclient;
 
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item
     }
+
 };
 #endif // MAINWINDOW_H

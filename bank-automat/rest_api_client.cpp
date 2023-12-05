@@ -49,7 +49,7 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
 //-------Määrittää kortin / tilin joka käytössä--------
 int REST_API_Client::getIdcard() const
 {
-    return(1);
+    return(2);
 }
 
 
@@ -92,6 +92,7 @@ void REST_API_Client::getCardTypes(int idcard)
 {
     QUrlQuery params;
     params.addQueryItem("idcard", QString::number(idcard));
+
     QString paramsString = params.toString(QUrl::FullyEncoded);
     qDebug() << "Response:" << paramsString;
     QByteArray postData = paramsString.toUtf8();
@@ -114,6 +115,85 @@ void REST_API_Client::getCardTypes(int idcard)
     getManager->post(request, postData);
 }
 
+void REST_API_Client::setCurrentCard(int setThisCard)
+{
+    currentCard = setThisCard;
+    qDebug()<< "current card: "<< currentCard;
+}
+
+void REST_API_Client::setCurrentAccount(int setThisAccount)
+{
+    if (setThisAccount == 1)
+    {
+        currentAccount=debitAccount;
+    }
+}
+
+int REST_API_Client::checkHowManyRows()
+{
+    qDebug()<<"selected data:"<<this->accountSelectionData;
+    int numberOfRows = this->accountSelectionData.size();
+    qDebug()<< "Data: " <<numberOfRows;
+    return numberOfRows;
+}
+
+int REST_API_Client::checkIfDebitButtonIsNeeded()
+{
+    for (const QJsonValue &value : accountSelectionData) {
+        QJsonObject obj = value.toObject();
+        int idAccount = obj["idaccount"].toInt();
+        QString accountType = obj["type"].toString();
+        int idCustomer = obj["Customer_idCustomer"].toInt();
+        int accountPriority = obj["account_priority"].toInt();
+
+        qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
+        if (accountPriority == 1 && accountType == "debit"){
+            debitAccount=idAccount;
+            return idAccount;
+        }
+    }
+
+    return 0; //palautetaan 0 jos ei debit tiliä löydy
+}
+
+int REST_API_Client::checkIfCreditButtonIsNeeded()
+{
+    for (const QJsonValue &value : accountSelectionData) {
+        QJsonObject obj = value.toObject();
+        int idAccount = obj["idaccount"].toInt();
+        QString accountType = obj["type"].toString();
+        int idCustomer = obj["Customer_idCustomer"].toInt();
+        int accountPriority = obj["account_priority"].toInt();
+
+        qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
+        if (accountPriority == 1 && accountType == "credit"){
+            creditAccount=idAccount;
+            return idAccount;
+        }
+    }
+
+    return 0; //palautetaan 0 jos ei debit tiliä löydy
+}
+
+int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
+{
+    for (const QJsonValue &value : accountSelectionData) {
+        QJsonObject obj = value.toObject();
+        int idAccount = obj["idaccount"].toInt();
+        QString accountType = obj["type"].toString();
+        int idCustomer = obj["Customer_idCustomer"].toInt();
+        int accountPriority = obj["account_priority"].toInt();
+
+        qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
+        if (accountPriority == 0){
+            sharedAccount=idAccount;
+            return idAccount;
+        }
+    }
+
+    return 0; //palautetaan 0 jos ei debit tiliä löydy
+}
+
 
 void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
 {
@@ -132,31 +212,9 @@ void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
         return;
     }
 
-    QJsonArray jsonArray = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
-    QStringList cardNames;
-
-    for (const QJsonValue &value : jsonArray) {
-        QJsonObject obj = value.toObject();
-        int idcard = obj["idaccount"].toInt();
-        QString cardType = obj["type"].toString();
-        int idcustomer = obj["Customer_idCustomer"].toInt();
-        int account_priority = obj["account_priority"].toInt();
-        cardNames.append(QString::number(idcard) + " - " + cardType + " - " + QString::number(idcustomer) + " - " + QString::number(account_priority)); // Keeping your original line
-        //QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
-        //cardNames.append(cardInfo); // Format: "1 - Debit"
-    }
-    qDebug() << "Query results, idcard and type:" << cardNames;
-    /*
-        for (const QJsonValue &value : jsonArray) {
-        QJsonObject obj = value.toObject();
-        qDebug() << "Sqlreply: " << obj[value].toString();
-    }
-
-    //QJsonObject json_obj = jsonArray.at(0).toObject();
-
-    /* QString sqlreply = json_obj["reply"].toString();
-    qDebug() << "Sqlreply: " << sqlreply; */
-
+    this->accountSelectionData = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
+    qDebug()<<"Account selection data: "<<this->accountSelectionData;
+    emit accountSelectionDataReady();
     getManager->deleteLater();
 }
 

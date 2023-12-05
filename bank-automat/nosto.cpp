@@ -4,7 +4,7 @@
 //#include "rest_api_client.h"
 Q_GLOBAL_STATIC_WITH_ARGS(QRegularExpression, regExp, {"\\d+"});
 
-Nosto::Nosto(QWidget *parent, int currentCardInUse) :
+Nosto::Nosto(QWidget *parent, int currentCardInUse, int currentAccountInUse) :
     QWidget(parent),
     ui(new Ui::Nosto)
 {
@@ -20,6 +20,7 @@ Nosto::Nosto(QWidget *parent, int currentCardInUse) :
     connect(ui->summa150, SIGNAL(clicked()), this, SLOT(onSummaButtonClicked()));
     qDebug() << "Nosto luotu";
     currentCard = currentCardInUse;
+    currentAccount = currentAccountInUse;
 }
 
 Nosto::~Nosto()

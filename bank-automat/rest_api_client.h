@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QJsonArray>
+#include <QJsonValue>
 
 
 class REST_API_Client : public QObject
@@ -22,12 +24,23 @@ public:
     int getIdcard() const;
     void getCardTypes(int idcard);
     QString cardType;
-    int idcustomer;
-    int account_priority;
+    void setCurrentCard(int setThisCard);
+    void setCurrentAccount(int setThisAccount);
+    QJsonArray accountSelectionData;
+    int checkHowManyRows();
+    int accountPriority;
+
+    int checkIfDebitButtonIsNeeded();
+    int checkIfCreditButtonIsNeeded();
+    int checkIfSharedAccountButtonIsNeeded();
+
+    int currentAccount;
+
 
 signals:
     void cardDataReceived(const QStringList &data);
     void getCardDataFinished(const QStringList &data);
+    void accountSelectionDataReady();
 
 private slots:
     void replyFinished(QNetworkReply *reply);
@@ -38,6 +51,11 @@ private:
     QNetworkAccessManager *getManager;
     QByteArray response_data;
     QNetworkReply *reply;
+    int currentCard;
+    //int currentAccount;
+    int debitAccount;
+    int creditAccount;
+    int sharedAccount;
 
 };
 
