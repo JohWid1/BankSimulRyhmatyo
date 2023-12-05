@@ -63,7 +63,7 @@ function(request, response) {
   });
 });
 
-/*
+
 router.put('/:id', 
 function(request, response) {
   account.update(request.params.id, request.body, function(err, dbResult) {
@@ -73,6 +73,6 @@ function(request, response) {
       response.json(dbResult);
     }
   });
-});*/
+});
 
 module.exports = router;

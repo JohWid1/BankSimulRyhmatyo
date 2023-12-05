@@ -29,7 +29,6 @@ void REST_API_Client::getCardData()
 
 void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
 {
-
     // Construct the parameters using QUrlQuery
     QUrlQuery postData;
     postData.addQueryItem("amount", QString::number(summa)); // Replace with your parameter(s)
@@ -45,29 +44,16 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
     // Make the POST request with the parameters in the body
     QNetworkReply *reply = manager->post(request, postDataByteArray);
     qDebug() << "reply: "<< reply;
-    /*// Connect signals for handling the response
-    QObject::connect(reply, &QNetworkReply::finished, [&]() {
-        if (reply->error() == QNetworkReply::NoError) {
-            // Read and handle the response data
-            QByteArray responseData = reply->readAll();
-            // Process responseData as needed
-            qDebug() << "Response:" << responseData;
-        } else {
-            // Handle error case
-            qDebug() << "Error:" << reply->errorString();
-        }
-
-        // Clean up resources
-        reply->deleteLater();
-       // qApp->quit();
-    });
-    */
 }
+
 
 int REST_API_Client::getIdcard() const
 {
-    return(2);
+    return(1);
 }
+
+
+
 
 
 void REST_API_Client::replyFinished(QNetworkReply *reply)
@@ -91,12 +77,84 @@ void REST_API_Client::replyFinished(QNetworkReply *reply)
 
     for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
+        int idcard = obj["idcard"].toInt();
+        QString cardType = obj["card_type"].toString();
+        cardNames.append(QString::number(idcard) + " - " + cardType); // Keeping your original line
         QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
-        cardNames.append(cardInfo); // Format: "1 - Debit"
+        //cardNames.append(cardInfo); // Format: "1 - Debit"
     }
     qDebug() << "Emitting cardDataReceived with data:" << cardNames;
     emit cardDataReceived(cardNames);
 }
 
+void REST_API_Client::getCardTypes(int idcard)
+{
+    QUrlQuery params;
+    params.addQueryItem("idcard", QString::number(idcard));
+    QString paramsString = params.toString(QUrl::FullyEncoded);
+    qDebug() << "Response:" << paramsString;
+    QByteArray postData = paramsString.toUtf8();
+
+    QString site_url = "http://127.0.0.1:3000/selectaccount";
+    qDebug() << "site_url: " << site_url;
+
+    QNetworkRequest request((site_url));
+    // Set header for content type
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    //WEBTOKEN ALKU
+    QByteArray token="Bearer xRstgr...";
+    request.setRawHeader(QByteArray("Authorization"),(token));
+    //WEBTOKEN LOPPU
+
+    getManager = new QNetworkAccessManager(this);
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(postREST_API_Client(QNetworkReply*)));
+    // Set the HTTP method and body
+    getManager->post(request, postData);
+}
 
 
+void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
+{
+
+    if(reply->error())
+    {
+        qDebug() << "ERROR:" << reply->errorString();
+        return;
+    }
+
+    QByteArray responseBytes = reply->readAll();
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
+
+    if (!jsonResponse.isArray()) {
+        qDebug() << "Invalid JSON response";
+        return;
+    }
+
+    QJsonArray jsonArray = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
+    QStringList cardNames;
+
+    for (const QJsonValue &value : jsonArray) {
+        QJsonObject obj = value.toObject();
+        int idcard = obj["idaccount"].toInt();
+        QString cardType = obj["type"].toString();
+        int idcustomer = obj["Customer_idCustomer"].toInt();
+        int account_priority = obj["account_priority"].toInt();
+        cardNames.append(QString::number(idcard) + " - " + cardType + " - " + QString::number(idcustomer) + " - " + QString::number(account_priority)); // Keeping your original line
+        //QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
+        //cardNames.append(cardInfo); // Format: "1 - Debit"
+    }
+    qDebug() << "Query results, idcard and type:" << cardNames;
+    /*
+        for (const QJsonValue &value : jsonArray) {
+        QJsonObject obj = value.toObject();
+        qDebug() << "Sqlreply: " << obj[value].toString();
+    }
+
+    //QJsonObject json_obj = jsonArray.at(0).toObject();
+
+    /* QString sqlreply = json_obj["reply"].toString();
+    qDebug() << "Sqlreply: " << sqlreply; */
+
+    getManager->deleteLater();
+}

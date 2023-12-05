@@ -13,7 +13,7 @@ router.get('/',
             }
         })
     });
-
+    //-----for combobox population------
     router.get('/allcards/',
     function (request, response) {
         card.getcards(function (err, dbResult) {
@@ -25,6 +25,18 @@ router.get('/',
             }
         })
     });
+  // calls procedure where idcard and corresponding idaccount are linked.
+    router.get('/getaccountselection/:idcard', function (request, response) {
+      const accountId = request.params.accountId;
+      card.getaccountselection(accountId, function (err, dbResult) {
+        if (err) {
+          response.json(err);
+        } else {
+          console.log(dbResult);
+          response.json(dbResult);
+        }
+      });
+    });
 
 router.get('/:id',
     function (request, response) {
@@ -32,7 +44,7 @@ router.get('/:id',
             if (err) {
                 response.json(err);
             } else {
-                response.json(dbResult);
+                response.json(dbResult[0]);
             }
         })
     });

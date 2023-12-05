@@ -56,6 +56,11 @@ private slots:
     void on_pushButton_5_clicked();
     void tilibackClicked();
 
+    // if card has more than 1 mode
+    void debitButtonClicked();
+    void creditButtonClicked();
+    void sharedAccountButtonClicked();
+
 
 
 private:
@@ -71,7 +76,7 @@ private:
     Saldo *objectSaldoMenu;
     QByteArray token;
     Tilitapahtumat *tilitapahtumat;
-
+    //QStringList cardNames;
 
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item

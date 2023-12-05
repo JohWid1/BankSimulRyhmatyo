@@ -11,7 +11,9 @@ Saldo::Saldo(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
-
+    this->on_pushButton_saldo_show_clicked();
+    ui->pushButton_saldo_show->hide();
+    ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
 
 Saldo::~Saldo()
@@ -25,7 +27,6 @@ Saldo::~Saldo()
 void Saldo::on_pushButton_4_back_clicked()
 {
     ui->textEdit1->clear();
-
     emit backclicked();
 }
 
@@ -47,7 +48,6 @@ void Saldo::on_pushButton_saldo_show_clicked()
     connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getsaldoInfoSlot(QNetworkReply*)));
 
     reply = getManager->get(request);
-
 }
 
 
@@ -85,9 +85,8 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 
     reply->deleteLater();
     getManager->deleteLater();
-
-
 }
+
 void Saldo::onStackedWidgetPageChanged(int index)
 {
     if (index != 5) {
