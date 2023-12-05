@@ -46,7 +46,7 @@ void REST_API_Client::withdrawal(int summa, QString currentCardInUse)
     qDebug() << "reply: "<< reply;
 }
 
-
+//-------Määrittää kortin / tilin joka käytössä--------
 int REST_API_Client::getIdcard() const
 {
     return(1);
@@ -78,13 +78,14 @@ void REST_API_Client::replyFinished(QNetworkReply *reply)
     for (const QJsonValue &value : jsonArray) {
         QJsonObject obj = value.toObject();
         int idcard = obj["idcard"].toInt();
-        QString cardType = obj["card_type"].toString();
+        this->cardType = obj["card_type"].toString();
         cardNames.append(QString::number(idcard) + " - " + cardType); // Keeping your original line
-        QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + obj["card_type"].toString();
+        QString cardInfo = QString::number(obj["idcard"].toInt()) + " - " + this->cardType;
         //cardNames.append(cardInfo); // Format: "1 - Debit"
     }
     qDebug() << "Emitting cardDataReceived with data:" << cardNames;
     emit cardDataReceived(cardNames);
+
 }
 
 void REST_API_Client::getCardTypes(int idcard)
@@ -158,3 +159,8 @@ void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
 
     getManager->deleteLater();
 }
+
+
+
+
+

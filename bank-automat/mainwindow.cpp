@@ -150,7 +150,14 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             if (response_data!="false" && response_data.length()>20){
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
+                //if ()
+                //{
+                //    ui->stackedWidget->setCurrentIndex(5);
+                //}
+                //else
+                {
                 ui->stackedWidget->setCurrentIndex(2);
+                }
                 //token="Bearer "+response_data; // saldoinfo token
                 //objectSaldoMenu->setToken(token); // test
             }
@@ -180,6 +187,8 @@ void MainWindow::updateCardComboBox(const QStringList &cardNames)
     for (const QString &cardName : cardNames) {
         QStringList split = cardName.split(" - "); // Splitting the formatted string
         QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
+        QString cardType = split.at(1); // Extracting the card type
+        QVariant data = QVariant::fromValue(QPair<QString, QString>(idCardStr, cardType));
         comboBox->addItem(cardName, idCardStr); // Display text is full cardName, data is idCard
     } 
 }

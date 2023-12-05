@@ -21,6 +21,9 @@ public:
     void withdrawal(int summa, QString currentCardInUse);
     int getIdcard() const;
     void getCardTypes(int idcard);
+    QString cardType;
+    int idcustomer;
+    int account_priority;
 
 signals:
     void cardDataReceived(const QStringList &data);

@@ -75,6 +75,7 @@ private:
     QByteArray token;
     Tilitapahtumat *tilitapahtumat;
     //QStringList cardNames;
+    REST_API_Client *restapiclient;
 
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item
