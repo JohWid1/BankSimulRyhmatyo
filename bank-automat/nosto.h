@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "rest_api_client.h"
+#include <QLabel>
 
 namespace Ui {
 class Nosto;
@@ -33,6 +34,8 @@ private:
     Ui::Nosto *ui;
     REST_API_Client *withdrawal;
     QString currentCard;
+
+    QLabel* messageLabel;
 
 };
 

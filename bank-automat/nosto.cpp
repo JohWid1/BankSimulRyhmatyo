@@ -127,4 +127,3 @@ void Nosto::onokButtonclicked()
         }
     }
 }
-

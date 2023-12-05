@@ -5,6 +5,8 @@
 #include "rest_api_client.h"
 
 
+
+
 namespace Ui {
 class Tilitapahtumat;
 }
@@ -16,11 +18,12 @@ class Tilitapahtumat : public QWidget
 public:
     explicit Tilitapahtumat(QWidget *parent = nullptr);
     ~Tilitapahtumat();
+    void clicked(int *offsetti);
+
 
 signals:
     void tilitapahtumaSignal();
     void tilitapahtumaBackClicked();
-
 
 
 private slots:
@@ -30,6 +33,8 @@ private slots:
     void on_pushButton_tilitapahtumat_back_clicked();
 
     void on_pushButton_tilitapahtumat_forward_clicked();
+
+
 private:
     Ui::Tilitapahtumat *ui;
     REST_API_Client *next;
@@ -39,6 +44,12 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+
+    //uusi
+    int currentPage = 1;
+    int transactionsPerPage = 5;
+    int offsetti;
+
 };
 
 #endif // TILITAPAHTUMAT_H

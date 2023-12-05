@@ -30,6 +30,7 @@ public:
 
 
 
+
 private slots:
     void onInsertCardClicked();
     void numPressed();
@@ -54,6 +55,7 @@ private slots:
 
     void on_pushButton_5_clicked();
     void tilibackClicked();
+
 
 
 private:
