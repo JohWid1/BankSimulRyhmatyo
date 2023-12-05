@@ -147,11 +147,11 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                         ui->infoLabel->setText("palvelin ei ole yhteydessä");
         }
         else{
-            if (response_data!="false" && response_data.length()>20){
+            if (response_data!="false" && response_data.length()>40){
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 ui->stackedWidget->setCurrentIndex(2);
-                //token="Bearer "+response_data; // saldoinfo token
+                token="Bearer "+response_data; // saldoinfo token
                 //objectSaldoMenu->setToken(token); // test
             }
             else{
@@ -164,8 +164,11 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+
+void MainWindow::on_pushButton_2_clicked() //saldo
 {
+    saldo->setToken(token);
+    saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
 
@@ -215,7 +218,7 @@ void MainWindow::on_withdrawButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_pushButton_5_clicked() //tilitapahtumat
 {
     ui->stackedWidget->setCurrentIndex(6);
 }
