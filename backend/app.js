@@ -36,7 +36,6 @@ app.use('/selectaccount', selectaccountRouter);
 app.use('/account', accountRouter);
 app.use('/viewtransactions', viewtransactionsRouter);
 
-
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
