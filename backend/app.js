@@ -28,12 +28,12 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/card', cardRouter);
 app.use('/customer', customerRouter);
-app.use ('/transaction', transactionRouter);
 app.use('/card_has_account', card_has_accountRouter);
-app.use('/withdraw', withdrawRouter);
 app.use('/selectaccount', selectaccountRouter);
-//app.use(authenticateToken);
+app.use(authenticateToken);
 app.use('/account', accountRouter);
+app.use('/withdraw', withdrawRouter);
+app.use ('/transaction', transactionRouter);
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']

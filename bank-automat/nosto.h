@@ -17,6 +17,7 @@ class Nosto : public QWidget
 public:
     explicit Nosto(QWidget *parent = nullptr, int currentCardInUse=0, int currentAccountInUse=0);
     ~Nosto();
+    void setToken(const QByteArray &newToken);
     //void withdraw(int summa, QString currentCardInUse);
 
 private slots:
@@ -46,7 +47,6 @@ private:
     QString sqlreply;
     QString amount;
     QLabel* messageLabel;
-
 };
 
 #endif // NOSTO_H

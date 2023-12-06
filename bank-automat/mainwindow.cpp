@@ -217,6 +217,7 @@ void MainWindow::on_withdrawButton_clicked()
     qDebug() << comboBox->currentData().toString();
     int currentCard = comboBox->currentData().toInt();
     nosto = new Nosto(this, currentCard, apiClient->currentAccount);
+    nosto->setToken(token);
     qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
@@ -235,6 +236,7 @@ void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
     int offsetti = 1;
     tilitapahtumat->clicked(&offsetti);
+    tilitapahtumat->setToken(token);
     ui->stackedWidget->setCurrentIndex(6);
 }
 

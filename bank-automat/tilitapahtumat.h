@@ -21,7 +21,6 @@ public:
     void setToken(const QByteArray &newToken);
     void clicked(int *offsetti);
 
-
 signals:
     void tilitapahtumaSignal();
     void tilitapahtumaBackClicked();
@@ -45,7 +44,7 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
-
+    QByteArray token; //saldo token
     //uusi
     int currentPage = 1;
     int transactionsPerPage = 5;

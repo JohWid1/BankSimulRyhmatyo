@@ -23,11 +23,6 @@ Saldo::~Saldo()
 void Saldo::setToken(const QByteArray &newToken)
 {
     token=newToken;
-}
-
-void Saldo::setToken(const QByteArray &newToken)
-{
-    token=newToken;
     qDebug()<<"settoken: "<<token;
 }
 
@@ -93,13 +88,6 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 
     reply->deleteLater();
     getManager->deleteLater();
-}
-
-void Saldo::onStackedWidgetPageChanged(int index)
-{
-    if (index != 5) {
-        ui->textEdit1->clear();
-    }
 }
 
 

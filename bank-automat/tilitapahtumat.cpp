@@ -65,8 +65,8 @@ void Tilitapahtumat::clicked(int* offsetti)
 
     //WEBTOKEN ALKU
     //QByteArray token="Bearer xRstgr...";
-    qDebug()<<"current token: "<<tokeni;
-    request.setRawHeader(QByteArray("Authorization"),(tokeni));
+    qDebug()<<"current token: "<<token;
+    request.setRawHeader(QByteArray("Authorization"),(token));
     //WEBTOKEN LOPPU
 
     getManager = new QNetworkAccessManager(this);
