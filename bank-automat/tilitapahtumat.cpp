@@ -26,6 +26,12 @@ Tilitapahtumat::~Tilitapahtumat()
     delete ui;
 }
 
+void Tilitapahtumat::setToken(const QByteArray &newToken)
+{
+    token=newToken;
+    qDebug()<<"settoken: "<<token;
+}
+
 void Tilitapahtumat::on_pushButton_tili_backAlkuvalikko_clicked()
 {
     emit tilitapahtumaBackClicked();
@@ -59,8 +65,9 @@ void Tilitapahtumat::clicked(int* offsetti)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     //WEBTOKEN ALKU
-    QByteArray token="Bearer xRstgr...";
-    request.setRawHeader(QByteArray("Authorization"),(token));
+    //QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<tokeni;
+    request.setRawHeader(QByteArray("Authorization"),(tokeni));
     //WEBTOKEN LOPPU
 
     getManager = new QNetworkAccessManager(this);

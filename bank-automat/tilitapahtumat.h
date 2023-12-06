@@ -18,6 +18,7 @@ class Tilitapahtumat : public QWidget
 public:
     explicit Tilitapahtumat(QWidget *parent = nullptr);
     ~Tilitapahtumat();
+    void setToken(const QByteArray &newToken);
     void clicked(int *offsetti);
 
 
