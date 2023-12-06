@@ -256,7 +256,7 @@ void MainWindow::creditButtonClicked()
 
 void MainWindow::sharedAccountButtonClicked()
 {
-    
+    ui->stackedWidget->setCurrentIndex(7);
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
