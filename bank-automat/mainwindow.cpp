@@ -90,16 +90,23 @@ void MainWindow::numPressed()
 
 void MainWindow::clearClicked()
 {
-    //ui->pinCodeLineEdit->clear();
+    ui->pinCodeLineEdit->clear();
     //----------Testausta varten---------
-    int currentCard = comboBox->currentData().toInt();
-    apiClient->getCardTypes(currentCard);
+    //int currentCard = comboBox->currentData().toInt();
+    //apiClient->getCardTypes(currentCard);
 
 }
 
 void MainWindow::onCancelClicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    if (ui->stackedWidget->currentIndex() != 0){
+        ui->stackedWidget->setCurrentIndex(3);
+    }
+    else
+    {
+        ui->cancelButton->setDisabled(0);
+    }
+    //ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::onokButtonclicked()
@@ -235,13 +242,16 @@ void MainWindow::tilibackClicked()
 
 void MainWindow::debitButtonClicked()
 {
-    apiClient->setCurrentAccount(1);
-
+    apiClient->setCurrentAccount(apiClient->debitAccount);
+    qDebug()<<"current selected account:"<<apiClient->debitAccount;
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::creditButtonClicked()
 {
-    
+    apiClient->setCurrentAccount(apiClient->creditAccount);
+    qDebug()<<"current selected account:"<<apiClient->creditAccount;
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::sharedAccountButtonClicked()
@@ -265,7 +275,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     if (apiClient->checkIfDebitButtonIsNeeded()>0)
     {
         debitButtonExists = 1;
-
+        ui->debitButton->show();
         //Piilotetaan debit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto debitnapille.
     }
     else {
@@ -276,7 +286,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     if (apiClient->checkIfCreditButtonIsNeeded()>0)
     {
         creditButtonExists = 1;
-
+        ui->creditButton->show();
         //Piilotetaan credit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto creditnapille.
     }
     else {
@@ -291,6 +301,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
 
     if (apiClient->checkIfSharedAccountButtonIsNeeded()>0)
     {
+        ui->sharedAccountButton->show();
         //piilotetaan sharedaccount nappi jos sitä ei tarvita.
     }
     else {
@@ -299,6 +310,5 @@ void MainWindow::accountSelectionDataReadySignalReceived()
 
     ui->stackedWidget->setCurrentIndex(5);
 }
-
 
 

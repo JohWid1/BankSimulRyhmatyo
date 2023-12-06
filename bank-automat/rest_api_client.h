@@ -13,6 +13,7 @@
 #include <QJsonValue>
 
 
+
 class REST_API_Client : public QObject
 {
     Q_OBJECT
@@ -26,6 +27,8 @@ public:
     QString cardType;
     void setCurrentCard(int setThisCard);
     void setCurrentAccount(int setThisAccount);
+    int getCurrentAccount();
+    int getCurrentCard();
     QJsonArray accountSelectionData;
     int checkHowManyRows();
     int accountPriority;
@@ -33,8 +36,14 @@ public:
     int checkIfDebitButtonIsNeeded();
     int checkIfCreditButtonIsNeeded();
     int checkIfSharedAccountButtonIsNeeded();
-
+    int idAccount;
     int currentAccount;
+
+    int debitAccount;
+    int creditAccount;
+    int sharedAccount;
+
+
 
 
 signals:
@@ -53,9 +62,7 @@ private:
     QNetworkReply *reply;
     int currentCard;
     //int currentAccount;
-    int debitAccount;
-    int creditAccount;
-    int sharedAccount;
+
 
 };
 

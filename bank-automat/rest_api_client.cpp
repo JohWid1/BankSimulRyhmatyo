@@ -4,7 +4,7 @@
 #include <QUrl>
 #include <QJsonObject>
 #include <QJsonDocument>
-
+#include "mainwindow.h"
 
 REST_API_Client::REST_API_Client(QObject *parent)
     : QObject(parent)
@@ -122,11 +122,21 @@ void REST_API_Client::setCurrentCard(int setThisCard)
 }
 
 void REST_API_Client::setCurrentAccount(int setThisAccount)
+{ 
+        currentAccount = setThisAccount;
+        //currentAccount = debitAccount;
+        qDebug()<<"setThisAccount: "<<setThisAccount;
+
+}
+
+int REST_API_Client::getCurrentAccount()
 {
-    if (setThisAccount == 1)
-    {
-        currentAccount=debitAccount;
-    }
+    return currentAccount;
+}
+
+int REST_API_Client::getCurrentCard()
+{
+    return currentCard;
 }
 
 int REST_API_Client::checkHowManyRows()
@@ -168,7 +178,9 @@ int REST_API_Client::checkIfCreditButtonIsNeeded()
         qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
         if (accountPriority == 1 && accountType == "credit"){
             creditAccount=idAccount;
+            qDebug()<<"Katsotaan mitä credit palauttaa"<<idAccount;
             return idAccount;
+
         }
     }
 
