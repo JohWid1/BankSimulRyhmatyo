@@ -167,6 +167,7 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
         return;
     }
 
+
     // Access the first array in the JSON document
     QJsonArray outerArray = jsonDocument.array();
     if (outerArray.isEmpty()) {

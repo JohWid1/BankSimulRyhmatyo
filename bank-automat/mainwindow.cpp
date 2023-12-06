@@ -53,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
     connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
 
-
-
 }
 
 MainWindow::~MainWindow()
