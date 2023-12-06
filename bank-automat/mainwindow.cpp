@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
-    // tilitapahtumat
     connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
 
@@ -63,6 +62,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete saldo;
     delete apiClient;
+    delete tilitapahtumat;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -158,12 +158,12 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                         ui->infoLabel->setText("palvelin ei ole yhteydessä");
         }
         else{
-            if (response_data!="false" && response_data.length()>20){
+            if (response_data!="false" && response_data.length()>40){
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 apiClient->setCurrentCard(comboBox->currentData().toInt());
 
-                //token="Bearer "+response_data; // saldoinfo token
+                token="Bearer "+response_data; // saldoinfo token
                 //objectSaldoMenu->setToken(token); // test
                 int currentCard = comboBox->currentData().toInt();
                 apiClient->getCardTypes(currentCard);
@@ -178,8 +178,11 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+
+void MainWindow::on_pushButton_2_clicked() //saldo
 {
+    saldo->setToken(token);
+    saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
 
@@ -211,15 +214,13 @@ void MainWindow::nostoTakaisinValikkoon()
 
 void MainWindow::on_withdrawButton_clicked()
 {
-    // -----------Nostovalikon signaalinkäsittelyt----------------
-
     qDebug() << comboBox->currentData().toString();
     int currentCard = comboBox->currentData().toInt();
     nosto = new Nosto(this, currentCard, apiClient->currentAccount);
     qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);
-    numeroManager.connectNumeronappaimetToSlot(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
-
+    // -----------Nostovalikon signaalinkäsittelyt----------------
+    numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
     connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
     connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
@@ -230,8 +231,10 @@ void MainWindow::on_withdrawButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
+    int offsetti = 1;
+    tilitapahtumat->clicked(&offsetti);
     ui->stackedWidget->setCurrentIndex(6);
 }
 

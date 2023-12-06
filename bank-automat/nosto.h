@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "rest_api_client.h"
+#include <QLabel>
 
 namespace Ui {
 class Nosto;
@@ -16,7 +17,7 @@ class Nosto : public QWidget
 public:
     explicit Nosto(QWidget *parent = nullptr, int currentCardInUse=0, int currentAccountInUse=0);
     ~Nosto();
-    void withdraw(int summa, QString currentCardInUse);
+    //void withdraw(int summa, QString currentCardInUse);
 
 private slots:
     void on_otherAmountButton_clicked();
@@ -43,6 +44,8 @@ private:
  //   QNetworkReply *reply;
     QByteArray response_data;
     QString sqlreply;
+    QString amount;
+    QLabel* messageLabel;
 
 };
 
