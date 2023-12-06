@@ -39,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     apiClient = new REST_API_Client(this);
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
+
+    //---------------Tama testissa josulla----------------
+    connect(apiClient, &REST_API_Client::accountDataReceived, this, &MainWindow::sharedAccountButtonClicked);
+    bool connected = connect(apiClient, &REST_API_Client::accountDataReceived, this, &MainWindow::sharedAccountButtonClicked);
+    qDebug() << "Connection successful:" << connected;
+
     comboBox = ui->comboBox;
     apiClient->getCardData();
     connect(apiClient, SIGNAL(accountSelectionDataReady()), this, SLOT(accountSelectionDataReadySignalReceived()));
@@ -63,6 +69,7 @@ MainWindow::~MainWindow()
     delete saldo;
     delete apiClient;
     delete tilitapahtumat;
+    delete nosto;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -77,6 +84,10 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==5){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
+    }
+    else
+    {
+           ui->insertCardButton->setDisabled(0);
     }
 }
 
@@ -257,9 +268,20 @@ void MainWindow::creditButtonClicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::sharedAccountButtonClicked()
+void MainWindow::sharedAccountButtonClicked(const QStringList &data)
 {
-    ui->stackedWidget->setCurrentIndex(7);
+   // apiClient->setCurrentAccount(apiClient->sharedAccount);
+    //qDebug()<<"current selected account:"<<apiClient->sharedAccount;
+    //ui->stackedWidget->setCurrentIndex(7);
+
+        for (const QString &accountName : data) {
+            //QStringList split = accountName.split(" - "); // Splitting the formatted string
+            //QString idCardStr = split.at(0); // Assuming idCard is always before the hyphen
+        ui->accountList->addItem(accountName);
+        apiClient->setCurrentAccount(apiClient->sharedAccount);
+        qDebug()<<"current selected account:"<<apiClient->sharedAccount;
+        ui->stackedWidget->setCurrentIndex(7);
+        }
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()

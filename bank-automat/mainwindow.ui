@@ -315,7 +315,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="page">
             <widget class="QLabel" name="insertCardLabel">
@@ -603,7 +603,7 @@ font: 10pt &quot;Segoe UI&quot;;</string>
               <string>Back</string>
              </property>
             </widget>
-            <widget class="QListWidget" name="listWidget">
+            <widget class="QListWidget" name="accountList">
              <property name="geometry">
               <rect>
                <x>130</x>

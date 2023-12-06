@@ -49,7 +49,9 @@ public:
 signals:
     void cardDataReceived(const QStringList &data);
     void getCardDataFinished(const QStringList &data);
+    void accountDataReceived(const QStringList &data); // testissa
     void accountSelectionDataReady();
+
 
 private slots:
     void replyFinished(QNetworkReply *reply);

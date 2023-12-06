@@ -13,7 +13,7 @@ Saldo::Saldo(QWidget *parent) :
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
     //this->on_pushButton_saldo_show_clicked();
     ui->pushButton_saldo_show->hide();
-    ui->textEdit1->setAlignment(Qt::AlignHCenter);
+    ui->labelBalance->setAlignment(Qt::AlignHCenter);
 }
 
 Saldo::~Saldo()
@@ -31,7 +31,7 @@ void Saldo::setToken(const QByteArray &newToken)
 
 void Saldo::on_pushButton_4_back_clicked()
 {
-    ui->textEdit1->clear();
+    ui->labelBalance->clear();
     emit backclicked();
 }
 
@@ -82,7 +82,7 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
         qDebug() << "credit_limit: " << creditLimit;
         qDebug() << "Customer_idCustomer: " << customerId;
 
-        ui->textEdit1->setText( QString::number(balance));
+        ui->labelBalance->setText( QString::number(balance));
 
 
     } else {
@@ -96,7 +96,7 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 void Saldo::onStackedWidgetPageChanged(int index)
 {
     if (index != 5) {
-        ui->textEdit1->clear();
+        ui->labelBalance->clear();
     }
 }
 

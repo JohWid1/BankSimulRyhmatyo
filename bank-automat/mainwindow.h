@@ -11,7 +11,7 @@
 #include "rest_api_client.h"
 #include <QComboBox>
 #include <tilitapahtumat.h>
-
+#include <QWidgetList>
 #include <QTextEdit>
 
 
@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 
 private slots:
     void onInsertCardClicked();
@@ -56,11 +57,11 @@ private slots:
     // if card has more than 1 mode
     void debitButtonClicked();
     void creditButtonClicked();
-    void sharedAccountButtonClicked();
+
 
     void accountSelectionDataReadySignalReceived();
 
-
+    void sharedAccountButtonClicked(const QStringList &data);
 
 private:
     Ui::MainWindow *ui;

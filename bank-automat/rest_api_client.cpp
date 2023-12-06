@@ -4,7 +4,6 @@
 #include <QUrl>
 #include <QJsonObject>
 #include <QJsonDocument>
-#include "mainwindow.h"
 
 REST_API_Client::REST_API_Client(QObject *parent)
     : QObject(parent)
@@ -189,21 +188,25 @@ int REST_API_Client::checkIfCreditButtonIsNeeded()
 
 int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
 {
+    QStringList accountNames;
     for (const QJsonValue &value : accountSelectionData) {
         QJsonObject obj = value.toObject();
         int idAccount = obj["idaccount"].toInt();
         QString accountType = obj["type"].toString();
         int idCustomer = obj["Customer_idCustomer"].toInt();
         int accountPriority = obj["account_priority"].toInt();
+        accountNames.append(QString::number(idAccount) + " - " + accountType); // Keeping your original line
 
         qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
         if (accountPriority == 0){
             sharedAccount=idAccount;
+            qDebug()<<"Katotaan mitä shared palauttaa"<<idAccount;
             return idAccount;
+
         }
     }
-
-    return 0; //palautetaan 0 jos ei debit tiliä löydy
+    emit accountDataReceived(accountNames);
+    return sharedAccount ? sharedAccount : 0; //palautetaan 0 jos ei debit tiliä löydy
 }
 
 
