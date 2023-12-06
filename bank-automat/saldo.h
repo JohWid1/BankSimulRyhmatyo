@@ -27,7 +27,7 @@ signals:
 private slots:
     void on_pushButton_4_back_clicked();
     void getsaldoInfoSlot(QNetworkReply *reply);
-    void onStackedWidgetPageChanged(int index);
+    //void onStackedWidgetPageChanged(int index);
 
 private:
     Ui::Saldo *ui;

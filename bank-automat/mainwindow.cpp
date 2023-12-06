@@ -72,7 +72,7 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==3){
            ui->stackedWidget->setCurrentIndex(0);
     }
-    if (ui->stackedWidget->currentIndex()==5){
+    if (ui->stackedWidget->currentIndex()==7){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
@@ -98,7 +98,7 @@ void MainWindow::clearClicked()
 void MainWindow::onCancelClicked()
 {
     if (ui->stackedWidget->currentIndex() != 0){
-        if (ui->stackedWidget->currentIndex()==5){
+        if (ui->stackedWidget->currentIndex()==7){
             nosto->deleteLater();
         }
         ui->stackedWidget->setCurrentIndex(3);
@@ -107,7 +107,6 @@ void MainWindow::onCancelClicked()
     {
         ui->cancelButton->setDisabled(0);
     }
-    //ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::onokButtonclicked()
@@ -223,8 +222,8 @@ void MainWindow::on_withdrawButton_clicked()
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
-    ui->stackedWidget->insertWidget(5, nosto);
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->insertWidget(7, nosto);
+    ui->stackedWidget->setCurrentIndex(7);
 }
 
 
@@ -262,54 +261,46 @@ void MainWindow::sharedAccountButtonClicked()
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
-{
-    int howManyRows = apiClient->checkHowManyRows();//debuggi muuttuja
+{    
     int creditButtonExists = 0;
     int debitButtonExists = 0;
-
+    int howManyRows = apiClient->checkHowManyRows();//debuggi muuttuja
     qDebug()<<"number of rows:"<<howManyRows;
-    if (apiClient->checkHowManyRows() == 1)
-    {
+
+    if(apiClient->checkHowManyRows() == 1){
         ui->stackedWidget->setCurrentIndex(2);
         return;
     }
 
-    if (apiClient->checkIfDebitButtonIsNeeded()>0)
-    {
+    if(apiClient->checkIfDebitButtonIsNeeded()>0){
         debitButtonExists = 1;
         ui->debitButton->show();
         //Piilotetaan debit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto debitnapille.
-    }
-    else {
+    }else{
         ui->debitButton->hide();
     }
 
-
-    if (apiClient->checkIfCreditButtonIsNeeded()>0)
+    if(apiClient->checkIfCreditButtonIsNeeded()>0)
     {
         creditButtonExists = 1;
         ui->creditButton->show();
         //Piilotetaan credit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto creditnapille.
-    }
-    else {
+    }else {
         ui->creditButton->hide();
     }
 
-    if (creditButtonExists == 0 && debitButtonExists == 0)
-    {
+    if(creditButtonExists == 0 && debitButtonExists == 0){
         ui->stackedWidget->setCurrentIndex(6);
         return;
     }
 
-    if (apiClient->checkIfSharedAccountButtonIsNeeded()>0)
-    {
+    if (apiClient->checkIfSharedAccountButtonIsNeeded()>0){
         ui->sharedAccountButton->show();
         //piilotetaan sharedaccount nappi jos sitä ei tarvita.
     }
     else {
         ui->sharedAccountButton->hide();
     }
-
     ui->stackedWidget->setCurrentIndex(5);
 }
 
