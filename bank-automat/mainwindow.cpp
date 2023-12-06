@@ -163,8 +163,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 ui->infoLabel->setText("Login ok");
                 apiClient->setCurrentCard(comboBox->currentData().toInt());
 
-                token="Bearer "+response_data; // saldoinfo token
-                //objectSaldoMenu->setToken(token); // test
+                token="Bearer "+response_data;
                 int currentCard = comboBox->currentData().toInt();
                 apiClient->getCardTypes(currentCard);
             }
@@ -179,9 +178,11 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 }
 
 
-void MainWindow::on_pushButton_2_clicked() //saldo
+void MainWindow::on_pushButton_2_clicked() //saldobuttoni on tässä
 {
     saldo->setToken(token);
+    saldo->setCurrentCardInUse(apiClient->getCurrentCard());
+    saldo->setCurrentAccountInUse(apiClient->getCurrentAccount());
     saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }

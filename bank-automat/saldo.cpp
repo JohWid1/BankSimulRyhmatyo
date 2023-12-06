@@ -9,9 +9,6 @@ Saldo::Saldo(QWidget *parent) :
     ui(new Ui::Saldo)
 {
     ui->setupUi(this);
-
-    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
-    //this->on_pushButton_saldo_show_clicked();
     ui->pushButton_saldo_show->hide();
     ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
@@ -56,7 +53,15 @@ void Saldo::on_pushButton_saldo_show_clicked()
     reply = getManager->get(request);
 }
 
+void Saldo::setCurrentCardInUse(int cardInUse)
+{
+    currentCard=cardInUse;
+}
 
+void Saldo::setCurrentAccountInUse(int accountInUse)
+{
+    currentAccount=accountInUse;
+}
 
 void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
 {
