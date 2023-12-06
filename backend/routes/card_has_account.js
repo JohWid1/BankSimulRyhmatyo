@@ -33,6 +33,7 @@ function(request, response) {
       response.json(err);
     } else {
       response.json(request.body);
+      console.log(dbResult);
     }
   });
 });
