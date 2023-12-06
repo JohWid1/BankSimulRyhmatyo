@@ -40,7 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
     apiClient = new REST_API_Client(this);
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
-    apiClient->getCardData(); 
+    apiClient->getCardData();
+    connect(apiClient, SIGNAL(accountSelectionDataReady()), this, SLOT(accountSelectionDataReadySignalReceived()));
+    //connect(this, SIGNAL(loginSlot())), this, SLOT(loginOkMoveToAccountSelection())
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
@@ -50,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->debitButton, SIGNAL(clicked()), this, SLOT(debitButtonClicked()));
     connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
     connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
+
+
 
 }
 
@@ -86,16 +90,23 @@ void MainWindow::numPressed()
 
 void MainWindow::clearClicked()
 {
-    //ui->pinCodeLineEdit->clear();
+    ui->pinCodeLineEdit->clear();
     //----------Testausta varten---------
-    int idcard = 1;
-    REST_API_Client* client = new REST_API_Client(this); // assuming REST_API_Client is your class
-    client->getCardTypes(idcard);
+    //int currentCard = comboBox->currentData().toInt();
+    //apiClient->getCardTypes(currentCard);
+
 }
 
 void MainWindow::onCancelClicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    if (ui->stackedWidget->currentIndex() != 0){
+        ui->stackedWidget->setCurrentIndex(3);
+    }
+    else
+    {
+        ui->cancelButton->setDisabled(0);
+    }
+    //ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::onokButtonclicked()
@@ -150,9 +161,12 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             if (response_data!="false" && response_data.length()>40){
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
-                ui->stackedWidget->setCurrentIndex(2);
+                apiClient->setCurrentCard(comboBox->currentData().toInt());
+
                 token="Bearer "+response_data; // saldoinfo token
                 //objectSaldoMenu->setToken(token); // test
+                int currentCard = comboBox->currentData().toInt();
+                apiClient->getCardTypes(currentCard);
             }
             else{
                 qDebug()<<"väärä pin";
@@ -202,8 +216,7 @@ void MainWindow::on_withdrawButton_clicked()
 {
     qDebug() << comboBox->currentData().toString();
     int currentCard = comboBox->currentData().toInt();
-    int currentAccount = 2;
-    nosto = new Nosto(this, currentCard, currentAccount);
+    nosto = new Nosto(this, currentCard, apiClient->currentAccount);
     qDebug() << "MainWindow: " << currentCard;
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
@@ -232,17 +245,73 @@ void MainWindow::tilibackClicked()
 
 void MainWindow::debitButtonClicked()
 {
-    
+    apiClient->setCurrentAccount(apiClient->debitAccount);
+    qDebug()<<"current selected account:"<<apiClient->debitAccount;
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::creditButtonClicked()
 {
-    
+    apiClient->setCurrentAccount(apiClient->creditAccount);
+    qDebug()<<"current selected account:"<<apiClient->creditAccount;
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::sharedAccountButtonClicked()
 {
     
+}
+
+void MainWindow::accountSelectionDataReadySignalReceived()
+{
+    int howManyRows = apiClient->checkHowManyRows();//debuggi muuttuja
+    int creditButtonExists = 0;
+    int debitButtonExists = 0;
+
+    qDebug()<<"number of rows:"<<howManyRows;
+    if (apiClient->checkHowManyRows() == 1)
+    {
+        ui->stackedWidget->setCurrentIndex(2);
+        return;
+    }
+
+    if (apiClient->checkIfDebitButtonIsNeeded()>0)
+    {
+        debitButtonExists = 1;
+        ui->debitButton->show();
+        //Piilotetaan debit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto debitnapille.
+    }
+    else {
+        ui->debitButton->hide();
+    }
+
+
+    if (apiClient->checkIfCreditButtonIsNeeded()>0)
+    {
+        creditButtonExists = 1;
+        ui->creditButton->show();
+        //Piilotetaan credit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto creditnapille.
+    }
+    else {
+        ui->creditButton->hide();
+    }
+
+    if (creditButtonExists == 0 && debitButtonExists == 0)
+    {
+        ui->stackedWidget->setCurrentIndex(6);
+        return;
+    }
+
+    if (apiClient->checkIfSharedAccountButtonIsNeeded()>0)
+    {
+        ui->sharedAccountButton->show();
+        //piilotetaan sharedaccount nappi jos sitä ei tarvita.
+    }
+    else {
+        ui->sharedAccountButton->hide();
+    }
+
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 

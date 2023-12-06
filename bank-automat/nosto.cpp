@@ -21,7 +21,6 @@ Nosto::Nosto(QWidget *parent, int currentCardInUse, int currentAccountInUse) :
     qDebug() << "Nosto luotu";
     currentCard = currentCardInUse;
     currentAccount = currentAccountInUse;
-    amount="25";
 }
 
 Nosto::~Nosto()

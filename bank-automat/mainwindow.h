@@ -28,9 +28,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-
-
 private slots:
     void onInsertCardClicked();
     void numPressed();
@@ -61,6 +58,8 @@ private slots:
     void creditButtonClicked();
     void sharedAccountButtonClicked();
 
+    void accountSelectionDataReadySignalReceived();
+
 
 
 private:
@@ -81,5 +80,6 @@ private:
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item
     }
+
 };
 #endif // MAINWINDOW_H
