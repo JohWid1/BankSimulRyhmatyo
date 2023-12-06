@@ -14,19 +14,6 @@ router.get('/',
         })
     });
 
-router.post('/:id', 
-    function(request, response) {
-      account.withdrawal(request.params.id, request.body, function(err, dbResult) {
-        if (err) {
-          console.log(err);
-          response.json(err);
-        } else {
-          console.log(dbResult);
-          response.json(dbResult);
-        }
-      });
-    });
-
 
 router.get('/:id',
     function (request, response) {
@@ -45,8 +32,10 @@ function(request, response) {
   account.add(request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
+      console.log(dbResult);
     } else {
       response.json(request.body);
+      console.log(dbResult);
     }
   });
 });
@@ -74,5 +63,20 @@ function(request, response) {
     }
   });
 });
+
+/*
+router.post('/:id', 
+    function(request, response) {
+      account.withdrawal(request.params.id, request.body, function(err, dbResult) {
+        if (err) {
+          console.log(err);
+          response.json(err);
+        } else {
+          console.log(dbResult);
+          response.json(dbResult);
+        }
+      });
+    });
+*/
 
 module.exports = router;
