@@ -37,7 +37,6 @@ void Tilitapahtumat::on_pushButton_tili_backAlkuvalikko_clicked()
     emit tilitapahtumaBackClicked();
 }
 
-
 void Tilitapahtumat::clicked(int* offsetti)
 {
 

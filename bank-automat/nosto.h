@@ -15,9 +15,9 @@ class Nosto : public QWidget
     Q_OBJECT
 
 public:
-    explicit Nosto(QWidget *parent = nullptr, int currentCardInUse=0);
+    explicit Nosto(QWidget *parent = nullptr, int currentCardInUse=0, int currentAccountInUse=0);
     ~Nosto();
-    void withdraw(int summa, QString currentCardInUse);
+    //void withdraw(int summa, QString currentCardInUse);
 
 private slots:
     void on_otherAmountButton_clicked();
@@ -38,12 +38,13 @@ private:
     Ui::Nosto *ui;
     REST_API_Client *withdrawal;
     int currentCard;
+    int currentAccount;
     QByteArray token; //saldo token
     QNetworkAccessManager *getManager;
  //   QNetworkReply *reply;
     QByteArray response_data;
     QString sqlreply;
-
+    QString amount;
     QLabel* messageLabel;
 
 };

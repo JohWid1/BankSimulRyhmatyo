@@ -10,13 +10,19 @@ Saldo::Saldo(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetPageChanged(int)));
-    //ui->pushButton_saldo_show->hide();
+    //this->on_pushButton_saldo_show_clicked();
+    ui->pushButton_saldo_show->hide();
     ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
 
 Saldo::~Saldo()
 {
     delete ui;
+}
+
+void Saldo::setToken(const QByteArray &newToken)
+{
+    token=newToken;
 }
 
 void Saldo::setToken(const QByteArray &newToken)
@@ -38,12 +44,11 @@ void Saldo::on_pushButton_saldo_show_clicked()
     ui->stackedWidget->setCurrentIndex(5);
     apiClientti = new REST_API_Client(this);
     QString site_url="http://localhost:3000/account/" + QString::number(apiClientti->getIdcard());
-    qDebug() << "site_url: " << site_url;
+    //qDebug() << "site_url: " << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
     QByteArray tokeni=token;
-    //QByteArray token="Bearer xRstgr...";
-    qDebug()<<"current token: "<<tokeni;
+    qDebug() << "Tokeni:" << tokeni;
     request.setRawHeader(QByteArray("Authorization"),(tokeni));
     //WEBTOKEN LOPPU
     getManager = new QNetworkAccessManager(this);
