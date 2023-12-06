@@ -231,6 +231,8 @@ void MainWindow::on_withdrawButton_clicked()
 void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
     int offsetti = 1;
+    tilitapahtumat->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    tilitapahtumat->setCurrentCardInUse(apiClient->getCurrentCard());
     tilitapahtumat->clicked(&offsetti);
     ui->stackedWidget->setCurrentIndex(6);
 }
