@@ -61,6 +61,7 @@ private slots:
     void accountSelectionDataReadySignalReceived();
 
 
+
 private:
     Ui::MainWindow *ui;
     Saldo *saldo;

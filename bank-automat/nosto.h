@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "rest_api_client.h"
+#include <QLabel>
 
 namespace Ui {
 class Nosto;
@@ -43,6 +44,8 @@ private:
  //   QNetworkReply *reply;
     QByteArray response_data;
     QString sqlreply;
+
+    QLabel* messageLabel;
 
 };
 

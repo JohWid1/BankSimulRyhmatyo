@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
 
-    // tilitapahtumat
     connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
 
@@ -63,6 +62,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete saldo;
     delete apiClient;
+    delete tilitapahtumat;
 }
 
 void MainWindow::onInsertCardClicked()
@@ -230,9 +230,11 @@ void MainWindow::on_withdrawButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
-    ui->stackedWidget->setCurrentIndex(6);
+    int offsetti = 1;
+    tilitapahtumat->clicked(&offsetti);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::tilibackClicked()
