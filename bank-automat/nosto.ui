@@ -23,15 +23,15 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>80</x>
        <y>10</y>
-       <width>131</width>
+       <width>341</width>
        <height>41</height>
       </rect>
      </property>
@@ -42,6 +42,9 @@
      </property>
      <property name="text">
       <string>Valitse Summa</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QPushButton" name="summa20">
@@ -178,14 +181,36 @@
       <string>Takaisin</string>
      </property>
     </widget>
+    <widget class="QLabel" name="nostoSelectSumInfoNotEnougMoneyOrError">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>100</y>
+       <width>261</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Defaultteksti tähän, poista koodissa</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="page_2">
     <widget class="QLineEdit" name="withdrawAmountLineEdit">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>200</x>
        <y>70</y>
-       <width>81</width>
+       <width>101</width>
        <height>41</height>
       </rect>
      </property>
@@ -194,13 +219,16 @@
        <pointsize>20</pointsize>
       </font>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>0</x>
        <y>20</y>
-       <width>131</width>
+       <width>501</width>
        <height>41</height>
       </rect>
      </property>
@@ -212,13 +240,16 @@
      <property name="text">
       <string>Syötä Summa</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QPushButton" name="nostoTakaisin2">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>140</y>
-       <width>101</width>
+       <y>150</y>
+       <width>81</width>
        <height>41</height>
       </rect>
      </property>
@@ -229,14 +260,23 @@
     <widget class="QLabel" name="nostoInfoLabel">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>130</y>
-       <width>181</width>
-       <height>41</height>
+       <x>120</x>
+       <y>120</y>
+       <width>261</width>
+       <height>51</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string/>
+      <string>Defaultteksti tähän, poista koodissa</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
