@@ -19,7 +19,6 @@ public:
     ~Saldo();
     void setToken(const QByteArray &newToken);
     void on_pushButton_saldo_show_clicked();
-    void setCurrentCardInUse(int cardInUse);
     void setCurrentAccountInUse(int accountInUse);
 
 signals:
@@ -37,7 +36,6 @@ private:
     QByteArray response_data;
     QByteArray token; //saldo token
     REST_API_Client *apiClientti;
-    int currentCard;
     int currentAccount;
 };
 

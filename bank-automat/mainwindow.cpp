@@ -181,7 +181,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::on_pushButton_2_clicked() //saldobuttoni on tässä
 {
     saldo->setToken(token);
-    saldo->setCurrentCardInUse(apiClient->getCurrentCard());
     saldo->setCurrentAccountInUse(apiClient->getCurrentAccount());
     saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
