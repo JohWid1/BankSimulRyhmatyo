@@ -23,6 +23,10 @@ public:
     void setCurrentAccountInUse(int accountInUse);
     void setCurrentCardInUse(int cardInUse);
 
+
+
+    int countRows();
+    int checkRows();
 signals:
     void tilitapahtumaSignal();
     void tilitapahtumaBackClicked();
