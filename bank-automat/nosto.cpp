@@ -21,6 +21,8 @@ Nosto::Nosto(QWidget *parent, int currentCardInUse, int currentAccountInUse) :
     qDebug() << "Nosto luotu";
     currentCard = currentCardInUse;
     currentAccount = currentAccountInUse;
+    ui->nostoInfoLabel->clear();
+    ui->nostoSelectSumInfoNotEnougMoneyOrError->clear();
 }
 
 Nosto::~Nosto()
@@ -52,6 +54,8 @@ void Nosto::on_nostoTakaisin_clicked()
 void Nosto::on_nostoTakaisin2_clicked()
 {
     ui->withdrawAmountLineEdit->clear();
+    ui->nostoInfoLabel->clear();
+    ui->nostoSelectSumInfoNotEnougMoneyOrError->clear();
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -105,12 +109,11 @@ void Nosto::onokButtonclicked()
         int amount = insertedAmount.toFloat();
 
         if (isDivisible(amount)) {
-            //withdrawal = new REST_API_Client(this);
             qDebug() << "onOkButtonClicked: " << QString::number(currentCard);
-            //withdrawal->withdrawal(amount, QString::number(currentCard));
             this->withdrawAndCheckBalance(currentCard,currentAccount,amount);
         } else {
-            ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
+            ui->nostoInfoLabel->setText("Ei mahdollinen summa");
+            ui->withdrawAmountLineEdit->clear();
         }
     }
 }
@@ -151,7 +154,7 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
     if(reply->error())
     {
         qDebug() << "ERROR:" << reply->errorString();
-        ui->nostoInfoLabel->setText("Nosto ei mahdollinen juuri nyt");
+        SetInfoTextErrorOrNotEnougMoney("Nosto ei mahdollinen juuri nyt");
         return;
     }
 
@@ -163,6 +166,7 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
         ui->nostoInfoLabel->setText("Nosto ei mahdollinen juuri nyt");
         return;
     }
+
 
     // Access the first array in the JSON document
     QJsonArray outerArray = jsonDocument.array();
@@ -191,6 +195,18 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
         reply->deleteLater();
         getManager->deleteLater();
     }else{
-        ui->nostoInfoLabel->setText("Ei mahdollinen summa!");
+        qDebug()<<"Tilillä ei ole katetta";
+        SetInfoTextErrorOrNotEnougMoney("Tilillä ei ole katetta");
     }
 }
+
+void Nosto::SetInfoTextErrorOrNotEnougMoney(QString text)
+{
+    if(ui->stackedWidget->currentIndex()==1){
+        ui->nostoInfoLabel->setText(text);
+    }else{
+    ui->nostoSelectSumInfoNotEnougMoneyOrError->setText(text);
+    }
+}
+
+

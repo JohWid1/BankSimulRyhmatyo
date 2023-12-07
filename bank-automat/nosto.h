@@ -36,6 +36,7 @@ signals:
 
 private:
     Ui::Nosto *ui;
+    void SetInfoTextErrorOrNotEnougMoney(QString text);
     REST_API_Client *withdrawal;
     int currentCard;
     int currentAccount;

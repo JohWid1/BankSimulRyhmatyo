@@ -17,20 +17,17 @@ class Saldo : public QWidget
 public:
     explicit Saldo(QWidget *parent = nullptr);
     ~Saldo();
-
     void setToken(const QByteArray &newToken);
     void on_pushButton_saldo_show_clicked();
+    void setCurrentAccountInUse(int accountInUse);
 
 signals:
     void backclicked();
 
 private slots:
     void on_pushButton_4_back_clicked();
-
-
     void getsaldoInfoSlot(QNetworkReply *reply);
-
-    void onStackedWidgetPageChanged(int index);
+    //void onStackedWidgetPageChanged(int index);
 
 private:
     Ui::Saldo *ui;
@@ -39,6 +36,7 @@ private:
     QByteArray response_data;
     QByteArray token; //saldo token
     REST_API_Client *apiClientti;
+    int currentAccount;
 };
 
 #endif // SALDO_H

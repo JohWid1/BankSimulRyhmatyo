@@ -53,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
     connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
 
-
-
 }
 
 MainWindow::~MainWindow()
@@ -74,7 +72,7 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==3){
            ui->stackedWidget->setCurrentIndex(0);
     }
-    if (ui->stackedWidget->currentIndex()==5){
+    if (ui->stackedWidget->currentIndex()==7){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
@@ -100,13 +98,15 @@ void MainWindow::clearClicked()
 void MainWindow::onCancelClicked()
 {
     if (ui->stackedWidget->currentIndex() != 0){
+        if (ui->stackedWidget->currentIndex()==7){
+            nosto->deleteLater();
+        }
         ui->stackedWidget->setCurrentIndex(3);
     }
     else
     {
         ui->cancelButton->setDisabled(0);
     }
-    //ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::onokButtonclicked()
@@ -135,9 +135,6 @@ void MainWindow::onokButtonclicked()
         reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
         ui->pinCodeLineEdit->clear();
         break;
-
-
-        // ... other cases ...
     }
 }
 
@@ -163,8 +160,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 ui->infoLabel->setText("Login ok");
                 apiClient->setCurrentCard(comboBox->currentData().toInt());
 
-                token="Bearer "+response_data; // saldoinfo token
-                //objectSaldoMenu->setToken(token); // test
+                token="Bearer "+response_data;
                 int currentCard = comboBox->currentData().toInt();
                 apiClient->getCardTypes(currentCard);
             }
@@ -179,9 +175,10 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 }
 
 
-void MainWindow::on_pushButton_2_clicked() //saldo
+void MainWindow::on_pushButton_2_clicked() //saldobuttoni on tässä
 {
     saldo->setToken(token);
+    saldo->setCurrentAccountInUse(apiClient->getCurrentAccount());
     saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
@@ -212,12 +209,11 @@ void MainWindow::nostoTakaisinValikkoon()
     nosto->deleteLater();
 }
 
+//N
 void MainWindow::on_withdrawButton_clicked()
 {
-    qDebug() << comboBox->currentData().toString();
-    int currentCard = comboBox->currentData().toInt();
-    nosto = new Nosto(this, currentCard, apiClient->currentAccount);
-    qDebug() << "MainWindow: " << currentCard;
+    nosto = new Nosto(this, apiClient->getCurrentCard(), apiClient->getCurrentAccount());
+    qDebug() << "MainWindowWithdrawButtonClicked: " << apiClient->getCurrentCard() << apiClient->getCurrentAccount();
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
     numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
@@ -226,14 +222,16 @@ void MainWindow::on_withdrawButton_clicked()
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
-    ui->stackedWidget->insertWidget(5, nosto);
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->insertWidget(7, nosto);
+    ui->stackedWidget->setCurrentIndex(7);
 }
 
 
 void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
     int offsetti = 1;
+    tilitapahtumat->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    tilitapahtumat->setCurrentCardInUse(apiClient->getCurrentCard());
     tilitapahtumat->clicked(&offsetti);
     ui->stackedWidget->setCurrentIndex(6);
 }
@@ -263,54 +261,46 @@ void MainWindow::sharedAccountButtonClicked()
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
-{
-    int howManyRows = apiClient->checkHowManyRows();//debuggi muuttuja
+{    
     int creditButtonExists = 0;
     int debitButtonExists = 0;
-
+    int howManyRows = apiClient->checkHowManyRows();//debuggi muuttuja
     qDebug()<<"number of rows:"<<howManyRows;
-    if (apiClient->checkHowManyRows() == 1)
-    {
+
+    if(apiClient->checkHowManyRows() == 1){
         ui->stackedWidget->setCurrentIndex(2);
         return;
     }
 
-    if (apiClient->checkIfDebitButtonIsNeeded()>0)
-    {
+    if(apiClient->checkIfDebitButtonIsNeeded()>0){
         debitButtonExists = 1;
         ui->debitButton->show();
         //Piilotetaan debit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto debitnapille.
-    }
-    else {
+    }else{
         ui->debitButton->hide();
     }
 
-
-    if (apiClient->checkIfCreditButtonIsNeeded()>0)
+    if(apiClient->checkIfCreditButtonIsNeeded()>0)
     {
         creditButtonExists = 1;
         ui->creditButton->show();
         //Piilotetaan credit nappi jos sitä ei tarvita. Tallennetaan idaccount tieto creditnapille.
-    }
-    else {
+    }else {
         ui->creditButton->hide();
     }
 
-    if (creditButtonExists == 0 && debitButtonExists == 0)
-    {
+    if(creditButtonExists == 0 && debitButtonExists == 0){
         ui->stackedWidget->setCurrentIndex(6);
         return;
     }
 
-    if (apiClient->checkIfSharedAccountButtonIsNeeded()>0)
-    {
+    if (apiClient->checkIfSharedAccountButtonIsNeeded()>0){
         ui->sharedAccountButton->show();
         //piilotetaan sharedaccount nappi jos sitä ei tarvita.
     }
     else {
         ui->sharedAccountButton->hide();
     }
-
     ui->stackedWidget->setCurrentIndex(5);
 }
 
