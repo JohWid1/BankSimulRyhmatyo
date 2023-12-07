@@ -26,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
 app.use('/card', cardRouter);
-app.use('/selectaccount', selectaccountRouter);
 app.use(authenticateToken);
 app.use('/saldo', saldoRouter);
 app.use('/account', accountRouter);
@@ -36,7 +35,7 @@ app.use('/', indexRouter);
 app.use('/customer', customerRouter);
 app.use('/card_has_account', card_has_accountRouter);
 app.use ('/transaction', transactionRouter);
-
+app.use('/selectaccount', selectaccountRouter);
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']

@@ -52,6 +52,12 @@ int REST_API_Client::getIdcard() const
     return(2);
 }
 
+void REST_API_Client::setToken(const QByteArray &newToken)
+{
+    token=newToken;
+
+    qDebug()<<"newToken on: "<<token;
+}
 
 
 
@@ -105,7 +111,8 @@ void REST_API_Client::getCardTypes(int idcard)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     //WEBTOKEN ALKU
-    QByteArray token="Bearer xRstgr...";
+    //QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<token;
     request.setRawHeader(QByteArray("Authorization"),(token));
     //WEBTOKEN LOPPU
 
@@ -205,7 +212,6 @@ int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
 
     return 0; //palautetaan 0 jos ei debit tiliä löydy
 }
-
 
 void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
 {

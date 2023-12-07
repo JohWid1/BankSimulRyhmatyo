@@ -63,13 +63,6 @@ MainWindow::~MainWindow()
     delete tilitapahtumat;
 }
 
-void MainWindow::setToken(const QByteArray &newToken)
-{
-    token=newToken;
-    qDebug()<<"newToken on: "<<token;
-}
-
-
 void MainWindow::onInsertCardClicked()
 {
     ui->infoLabel->clear();
@@ -167,8 +160,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 apiClient->setCurrentCard(comboBox->currentData().toInt());
-
                 token="Bearer "+response_data;
+                apiClient->setToken(token);
                 int currentCard = comboBox->currentData().toInt();
                 apiClient->getCardTypes(currentCard);
             }
