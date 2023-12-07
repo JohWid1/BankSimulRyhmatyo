@@ -32,6 +32,12 @@ Nosto::~Nosto()
 
 }
 
+void Nosto::setToken(const QByteArray &newToken)
+{
+    token=newToken;
+    qDebug()<<"nostossa newToken on: "<<token;
+}
+
 
 void Nosto::on_otherAmountButton_clicked()
 {
@@ -137,7 +143,8 @@ void Nosto::withdrawAndCheckBalance(int cardid, int accountid, float sum)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     //WEBTOKEN ALKU
-    QByteArray token="Bearer xRstgr...";
+    //QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<token;
     request.setRawHeader(QByteArray("Authorization"),(token));
     //WEBTOKEN LOPPU
 

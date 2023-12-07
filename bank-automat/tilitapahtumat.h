@@ -18,6 +18,7 @@ class Tilitapahtumat : public QWidget
 public:
     explicit Tilitapahtumat(QWidget *parent = nullptr);
     ~Tilitapahtumat();
+    void setToken(const QByteArray &newToken);
     void clicked(int *offsetti);
     void setCurrentAccountInUse(int accountInUse);
     void setCurrentCardInUse(int cardInUse);
@@ -49,6 +50,8 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    QByteArray token; //saldo token
+    //uusi
     int currentPage = 1;
     int transactionsPerPage = 5;
     int offsetti;

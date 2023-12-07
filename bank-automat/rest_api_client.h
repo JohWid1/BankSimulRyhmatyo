@@ -35,6 +35,7 @@ public:
     int checkIfDebitButtonIsNeeded();
     int checkIfCreditButtonIsNeeded();
     int checkIfSharedAccountButtonIsNeeded();
+    int setSharedAccount();
     int idAccount;
     int currentAccount;
 
@@ -42,6 +43,7 @@ public:
     int creditAccount;
     int sharedAccount;
 
+    void setToken(const QByteArray &newToken);
 
 
     int checkHowManyRows();
@@ -59,6 +61,7 @@ private:
     QNetworkAccessManager *getManager;
     QByteArray response_data;
     QNetworkReply *reply;
+    QByteArray token;
     int currentCard;
     //int currentAccount;
 
