@@ -24,7 +24,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/card', cardRouter);
 app.use('/selectaccount', selectaccountRouter);
@@ -33,6 +32,7 @@ app.use('/saldo', saldoRouter);
 app.use('/account', accountRouter);
 app.use('/withdraw', withdrawRouter);
 app.use('/viewtransactions', viewtransactionsRouter);
+app.use('/', indexRouter);
 app.use('/customer', customerRouter);
 app.use('/card_has_account', card_has_accountRouter);
 app.use ('/transaction', transactionRouter);

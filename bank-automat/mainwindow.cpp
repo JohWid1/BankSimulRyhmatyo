@@ -63,6 +63,12 @@ MainWindow::~MainWindow()
     delete tilitapahtumat;
 }
 
+void MainWindow::setToken(const QByteArray &newToken)
+{
+    token=newToken;
+    qDebug()<<"newToken on: "<<token;
+}
+
 
 void MainWindow::onInsertCardClicked()
 {
@@ -113,6 +119,7 @@ void MainWindow::onCancelClicked()
 void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
+
 
     switch (currentIndex) {
     case 1:
