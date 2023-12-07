@@ -31,7 +31,7 @@ void Tilitapahtumat::on_pushButton_tili_backAlkuvalikko_clicked()
     emit tilitapahtumaBackClicked();
 }
 
-void Tilitapahtumat::clicked(int* offsetti)
+void Tilitapahtumat::clicked(int *offsetti)
 {
 
 
@@ -40,9 +40,9 @@ void Tilitapahtumat::clicked(int* offsetti)
 
     // Construct the parameters
     QUrlQuery params;
-    params.addQueryItem("cardid", "2");
-    params.addQueryItem("accountid", "2");
-    //params.addQueryItem("offsetti", "1");
+    qDebug() << "Tilitapahtuma parametrit: " << QString::number(currentCard) << QString::number(currentAccount) << QString::number(*offsetti);
+    params.addQueryItem("cardid", QString::number(currentCard));
+    params.addQueryItem("accountid", QString::number(currentAccount));
     params.addQueryItem("offsetti", QString::number(*offsetti));
 
     QString paramsString = params.toString(QUrl::FullyEncoded);
@@ -68,6 +68,16 @@ void Tilitapahtumat::clicked(int* offsetti)
 
     // Set the HTTP method and body
     reply = getManager->post(request, postData);
+}
+
+void Tilitapahtumat::setCurrentAccountInUse(int accountInUse)
+{
+    currentAccount=accountInUse;
+}
+
+void Tilitapahtumat::setCurrentCardInUse(int cardInUse)
+{
+    currentCard=cardInUse;
 }
 
 

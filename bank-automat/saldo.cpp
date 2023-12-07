@@ -1,7 +1,6 @@
 #include "saldo.h"
 #include "ui_saldo.h"
 #include <QJsonObject>
-#include "rest_api_client.h"
 
 
 Saldo::Saldo(QWidget *parent) :
@@ -10,7 +9,7 @@ Saldo::Saldo(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->pushButton_saldo_show->hide();
-    ui->textEdit1->setAlignment(Qt::AlignHCenter);
+    //ui->textEdit1->setAlignment(Qt::AlignHCenter);
 }
 
 Saldo::~Saldo()
@@ -25,15 +24,13 @@ void Saldo::setToken(const QByteArray &newToken)
 
 void Saldo::on_pushButton_4_back_clicked()
 {
-    ui->textEdit1->clear();
+    ui->labelShowBalanceInThisLabel->clear();
     emit backclicked();
 }
 
 void Saldo::on_pushButton_saldo_show_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
-    apiClientti = new REST_API_Client(this);
-
     QString site_url = "http://localhost:3000/saldo";
     QNetworkRequest request(site_url);
     QJsonObject postData;
@@ -69,7 +66,9 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
         QJsonObject json_obj = json_array.at(0).toObject();
         int balance = json_obj["balance"].toInt();
         qDebug() << "balance: " << balance;
-        ui->textEdit1->setText( QString::number(balance));
+        //ui->textEdit1->setText( QString::number(balance));
+        ui->labelShowBalanceInThisLabel->setText(QString::number(balance));
+
     } else {
         qDebug() << "Invalid JSON format";
     }
@@ -78,11 +77,12 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
     getManager->deleteLater();
 }
 
-void Saldo::onStackedWidgetPageChanged(int index)
+/*void Saldo::onStackedWidgetPageChanged(int index)
 {
     if (index != 5) {
-        ui->textEdit1->clear();
+        //ui->textEdit1->clear();
+        ui->labelShowBalanceInThisLabel->clear();
     }
-}
+}*/
 
 
