@@ -14,6 +14,7 @@ var loginRouter = require('./routes/login');
 var viewtransactionsRouter = require('./routes/viewtransactions');
 var withdrawRouter = require('./routes/withdraw');
 var selectaccountRouter = require('./routes/selectaccount');
+var saldoRouter = require('./routes/saldo');
 
 var app = express();
 
@@ -26,16 +27,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-//app.use(authenticateToken);
-app.use('/customer', customerRouter);
-app.use('/account', accountRouter);
 app.use('/card', cardRouter);
+app.use('/customer', customerRouter);
 app.use ('/transaction', transactionRouter);
 app.use('/card_has_account', card_has_accountRouter);
 app.use('/viewtransactions', viewtransactionsRouter);
 app.use('/withdraw', withdrawRouter);
 app.use('/selectaccount', selectaccountRouter);
-
+app.use('/saldo', saldoRouter);
+//app.use(authenticateToken);
+app.use('/account', accountRouter);
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
