@@ -108,7 +108,10 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
         QJsonArray json_array = json_doc.array().first().toArray();
 
         ui->tableTilitapahtumat->setRowCount(0);
+        if(json_array.size()==0 ){
+            offsetti -=1;
 
+        } else {
         for (const QJsonValue &transactionValue : json_array) {
             QJsonObject transactionObject = transactionValue.toObject();
 
@@ -123,11 +126,12 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
             ui->tableTilitapahtumat->insertRow(row);
 
 
-            ui->tableTilitapahtumat->setItem(row, 0, new QTableWidgetItem(QString::number(idtransaction)));
+            //ui->tableTilitapahtumat->setItem(row, 0, new QTableWidgetItem(QString::number(idtransaction)));
             ui->tableTilitapahtumat->setItem(row, 1, new QTableWidgetItem(action));
             ui->tableTilitapahtumat->setItem(row, 2, new QTableWidgetItem(QString::number(sum)));
             ui->tableTilitapahtumat->setItem(row, 3, new QTableWidgetItem(timestamp));
-            ui->tableTilitapahtumat->setItem(row, 4, new QTableWidgetItem(QString::number(cardaccountid)));
+            //ui->tableTilitapahtumat->setItem(row, 4, new QTableWidgetItem(QString::number(cardaccountid)));
+        }
         }
     }
 
@@ -139,59 +143,48 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
 
 void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
 {
-
+    qDebug() << "Rivien määrä " << ui->tableTilitapahtumat->rowCount();
+    if( ui->tableTilitapahtumat->rowCount() < 5)
+    {
+        offsetti-=1;
+    }
     offsetti = offsetti + 1;
     clicked(&offsetti);
 }
 
-
-int Tilitapahtumat::checkRows()
+/*int REST_API_Client::checkHowManyRows()
 {
-    qDebug()<<"selected data:"<<apiClientti->accountSelectionData;
-    //qDebug()<<"selected data:"<<Tilitapahtumat->;
-
-    int numberOfRows = apiClientti->accountSelectionData.size();
-    //int numberOfRows = apiClientti->accountSelectionData.size();
-
+    qDebug()<<"selected data:"<<this->accountSelectionData;
+    int numberOfRows = this->accountSelectionData.size();
     qDebug()<< "Data: " <<numberOfRows;
-    //qDebug()<< "Data: " <<numberOfRows;
-
     return numberOfRows;
+}*/
 
-}
 
-int Tilitapahtumat::countRows()
+/*int Tilitapahtumat::checkRows()
+    {
+        qDebug()<<"selected data:"<<ui->tableTilitapahtumat->rowCount();
+        int numberOfRows = ui->tableTilitapahtumat->rowCount();
+        qDebug()<< "rivi: " <<numberOfRows;
+        return numberOfRows;
+
+    }*/
+
+/*int REST_API_Client::checkIfDebitButtonIsNeeded()
 {
-    int count = 0;
-
-    //for (const QJsonValue &value : apiClientti->accountSelectionData) {
-
-        //
+    for (const QJsonValue &value : accountSelectionData) {
         //QJsonObject obj = value.toObject();
         //int idAccount = obj["idaccount"].toInt();
         //QString accountType = obj["type"].toString();
         //int idCustomer = obj["Customer_idCustomer"].toInt();
         //int accountPriority = obj["account_priority"].toInt();
 
-
-
-    for (const QJsonValue &transactionValue : json_array) {
-        QJsonObject transactionObject = transactionValue.toObject();
-
-        //int idtransaction = transactionObject["idtransaction"].toInt();
-        QString action = transactionObject["action"].toString();
-        //int sum = transactionObject["sum"].toInt();
-        //QString timestamp = transactionObject["timestamp"].toString();
-        //int cardaccountid = transactionObject["cardaccountid"].toInt();
-
-
-        qDebug()<<"arvo: "<<action;
-            if (action == "withdrawal") {
-            count++;
+        qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
+        if (accountPriority == 1 && accountType == "debit"){
+            debitAccount=idAccount;
+            return idAccount;
         }
-
     }
 
-    qDebug() << "Number of rows: " << count;
-    return count;
-}
+    return 0; //palautetaan 0 jos ei debit tiliä löydy
+}*/

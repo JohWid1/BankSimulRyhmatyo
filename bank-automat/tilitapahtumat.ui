@@ -65,12 +65,33 @@
     <widget class="QTableWidget" name="tableTilitapahtumat">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>60</x>
        <y>10</y>
-       <width>481</width>
+       <width>351</width>
        <height>121</height>
       </rect>
      </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>24</number>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>70</number>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>5</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>24</number>
+     </attribute>
      <row>
       <property name="text">
        <string>New Row</string>
