@@ -234,9 +234,9 @@ void MainWindow::on_withdrawButton_clicked()
 
 void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
+    tilitapahtumat->setToken(token);
     int offsetti = 1;
     tilitapahtumat->clicked(&offsetti);
-    tilitapahtumat->setToken(token);
     ui->stackedWidget->setCurrentIndex(6);
 }
 
