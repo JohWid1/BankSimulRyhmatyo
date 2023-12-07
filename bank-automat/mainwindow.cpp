@@ -113,6 +113,7 @@ void MainWindow::onokButtonclicked()
 {
     int currentIndex = ui->stackedWidget->currentIndex();
 
+
     switch (currentIndex) {
     case 1:
         // Prepare the data for network request
@@ -159,8 +160,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 qDebug()<<"Login ok";
                 ui->infoLabel->setText("Login ok");
                 apiClient->setCurrentCard(comboBox->currentData().toInt());
-
                 token="Bearer "+response_data;
+                apiClient->setToken(token);
                 int currentCard = comboBox->currentData().toInt();
                 apiClient->getCardTypes(currentCard);
             }
@@ -213,6 +214,7 @@ void MainWindow::nostoTakaisinValikkoon()
 void MainWindow::on_withdrawButton_clicked()
 {
     nosto = new Nosto(this, apiClient->getCurrentCard(), apiClient->getCurrentAccount());
+    nosto->setToken(token);
     qDebug() << "MainWindowWithdrawButtonClicked: " << apiClient->getCurrentCard() << apiClient->getCurrentAccount();
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
@@ -231,6 +233,7 @@ void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
     int offsetti = 1;
     tilitapahtumat->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    tilitapahtumat->setToken(token);
     tilitapahtumat->setCurrentCardInUse(apiClient->getCurrentCard());
     tilitapahtumat->clicked(&offsetti);
     ui->stackedWidget->setCurrentIndex(6);

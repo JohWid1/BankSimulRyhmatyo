@@ -44,6 +44,7 @@ public:
     int creditAccount;
     int sharedAccount;
 
+    void setToken(const QByteArray &newToken);
 
 
 
@@ -61,6 +62,7 @@ private:
     QNetworkAccessManager *getManager;
     QByteArray response_data;
     QNetworkReply *reply;
+    QByteArray token;
     int currentCard;
     //int currentAccount;
 

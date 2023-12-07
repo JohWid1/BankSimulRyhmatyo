@@ -20,6 +20,7 @@ Saldo::~Saldo()
 void Saldo::setToken(const QByteArray &newToken)
 {
     token=newToken;
+    qDebug()<<"settoken: "<<token;
 }
 
 void Saldo::on_pushButton_4_back_clicked()
@@ -37,7 +38,7 @@ void Saldo::on_pushButton_saldo_show_clicked()
     postData["accountid"] = currentAccount;
 
     QByteArray postDataBytes = QJsonDocument(postData).toJson();
-
+    qDebug()<<"saldo buttonia painettu token on: "<<token;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", token);
 
