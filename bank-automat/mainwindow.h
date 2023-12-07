@@ -11,7 +11,7 @@
 #include "rest_api_client.h"
 #include <QComboBox>
 #include <tilitapahtumat.h>
-
+#include <QWidgetList>
 #include <QTextEdit>
 
 

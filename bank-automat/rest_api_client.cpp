@@ -184,11 +184,12 @@ int REST_API_Client::checkIfCreditButtonIsNeeded()
         }
     }
 
-    return 0; //palautetaan 0 jos ei debit tiliä löydy
+    return 0; //palautetaan 0 jos ei credit tiliä löydy
 }
 
 int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
 {
+    int howManyAccounts = 0;
     for (const QJsonValue &value : accountSelectionData) {
         QJsonObject obj = value.toObject();
         int idAccount = obj["idaccount"].toInt();
@@ -198,12 +199,32 @@ int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
 
         qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
         if (accountPriority == 0){
-            sharedAccount=idAccount;
-            return idAccount;
+            howManyAccounts +=1;
         }
     }
 
-    return 0; //palautetaan 0 jos ei debit tiliä löydy
+    return howManyAccounts; //palautetaan 0 jos ei shared tiliä löydy, muuten palautetaan tilien määrä
+}
+
+int REST_API_Client::setSharedAccount()
+{
+
+    int howManyAccounts = 0;
+    for (const QJsonValue &value : accountSelectionData) {
+        QJsonObject obj = value.toObject();
+        int idAccount = obj["idaccount"].toInt();
+        QString accountType = obj["type"].toString();
+        int idCustomer = obj["Customer_idCustomer"].toInt();
+        int accountPriority = obj["account_priority"].toInt();
+
+        qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
+        if(accountPriority == 0){
+            sharedAccount=idAccount;
+            qDebug()<<"Katsotaan mitä credit palauttaa"<<idAccount;
+            return idAccount;
+        }
+    }
+    qDebug()<<"sharedAccount data: "<<howManyAccounts<<" jokin virhe tapahtui";
 }
 
 
