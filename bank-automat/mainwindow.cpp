@@ -213,6 +213,7 @@ void MainWindow::nostoTakaisinValikkoon()
 void MainWindow::on_withdrawButton_clicked()
 {
     nosto = new Nosto(this, apiClient->getCurrentCard(), apiClient->getCurrentAccount());
+    nosto->setToken(token);
     qDebug() << "MainWindowWithdrawButtonClicked: " << apiClient->getCurrentCard() << apiClient->getCurrentAccount();
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
@@ -229,9 +230,9 @@ void MainWindow::on_withdrawButton_clicked()
 
 void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
-    tilitapahtumat->setToken(token);
     int offsetti = 1;
     tilitapahtumat->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    tilitapahtumat->setToken(token);
     tilitapahtumat->setCurrentCardInUse(apiClient->getCurrentCard());
     tilitapahtumat->clicked(&offsetti);
     ui->stackedWidget->setCurrentIndex(6);
