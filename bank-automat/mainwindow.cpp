@@ -53,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
     connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
 
-
-
 }
 
 MainWindow::~MainWindow()
@@ -100,6 +98,9 @@ void MainWindow::clearClicked()
 void MainWindow::onCancelClicked()
 {
     if (ui->stackedWidget->currentIndex() != 0){
+        if (ui->stackedWidget->currentIndex()==5){
+            nosto->deleteLater();
+        }
         ui->stackedWidget->setCurrentIndex(3);
     }
     else
@@ -135,9 +136,6 @@ void MainWindow::onokButtonclicked()
         reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
         ui->pinCodeLineEdit->clear();
         break;
-
-
-        // ... other cases ...
     }
 }
 
@@ -212,12 +210,11 @@ void MainWindow::nostoTakaisinValikkoon()
     nosto->deleteLater();
 }
 
+//N
 void MainWindow::on_withdrawButton_clicked()
 {
-    qDebug() << comboBox->currentData().toString();
-    int currentCard = comboBox->currentData().toInt();
-    nosto = new Nosto(this, currentCard, apiClient->currentAccount);
-    qDebug() << "MainWindow: " << currentCard;
+    nosto = new Nosto(this, apiClient->getCurrentCard(), apiClient->getCurrentAccount());
+    qDebug() << "MainWindowWithdrawButtonClicked: " << apiClient->getCurrentCard() << apiClient->getCurrentAccount();
     ButtonManager numeroManager(this);
     // -----------Nostovalikon signaalinkäsittelyt----------------
     numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
