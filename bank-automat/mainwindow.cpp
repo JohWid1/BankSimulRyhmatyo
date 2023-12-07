@@ -257,7 +257,16 @@ void MainWindow::creditButtonClicked()
 
 void MainWindow::sharedAccountButtonClicked()
 {
-    
+    if (apiClient->checkIfSharedAccountButtonIsNeeded()==1){
+        apiClient->setSharedAccount();
+        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka palauttaa ainoan accountin id.
+        qDebug()<<"current selected account:"<<apiClient->sharedAccount;
+        ui->stackedWidget->setCurrentIndex(7);
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentIndex(7);
+    }
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
