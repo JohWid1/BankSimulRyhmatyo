@@ -14,6 +14,7 @@ var loginRouter = require('./routes/login');
 var viewtransactionsRouter = require('./routes/viewtransactions');
 var withdrawRouter = require('./routes/withdraw');
 var selectaccountRouter = require('./routes/selectaccount');
+var saldoRouter = require('./routes/saldo');
 
 var app = express();
 
@@ -30,7 +31,9 @@ app.use('/card', cardRouter);
 app.use('/customer', customerRouter);
 app.use('/card_has_account', card_has_accountRouter);
 app.use('/selectaccount', selectaccountRouter);
-app.use(authenticateToken);
+app.use('/viewtransactions', viewtransactionsRouter);
+app.use('/saldo', saldoRouter);
+//app.use(authenticateToken);
 app.use('/account', accountRouter);
 app.use('/withdraw', withdrawRouter);
 app.use ('/transaction', transactionRouter);

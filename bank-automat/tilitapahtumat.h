@@ -20,6 +20,8 @@ public:
     ~Tilitapahtumat();
     void setToken(const QByteArray &newToken);
     void clicked(int *offsetti);
+    void setCurrentAccountInUse(int accountInUse);
+    void setCurrentCardInUse(int cardInUse);
 
 signals:
     void tilitapahtumaSignal();
@@ -39,7 +41,7 @@ private:
     Ui::Tilitapahtumat *ui;
     REST_API_Client *next;
     REST_API_Client *previous;
-    QString currentCard;
+
     REST_API_Client *apiClientti;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
@@ -49,6 +51,9 @@ private:
     int currentPage = 1;
     int transactionsPerPage = 5;
     int offsetti;
+
+    int currentCard;
+    int currentAccount;
 
 };
 
