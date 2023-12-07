@@ -36,6 +36,7 @@ public:
     int checkIfDebitButtonIsNeeded();
     int checkIfCreditButtonIsNeeded();
     int checkIfSharedAccountButtonIsNeeded();
+    int setSharedAccount();
     int idAccount;
     int currentAccount;
 

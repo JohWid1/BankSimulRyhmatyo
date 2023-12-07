@@ -98,7 +98,7 @@ void MainWindow::clearClicked()
 void MainWindow::onCancelClicked()
 {
     if (ui->stackedWidget->currentIndex() != 0){
-        if (ui->stackedWidget->currentIndex()==7){
+        if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
             nosto->deleteLater();
         }
         ui->stackedWidget->setCurrentIndex(3);
@@ -224,8 +224,8 @@ void MainWindow::on_withdrawButton_clicked()
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
-    ui->stackedWidget->insertWidget(7, nosto);
-    ui->stackedWidget->setCurrentIndex(7);
+    ui->stackedWidget->insertWidget(7, nosto); // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
+    ui->stackedWidget->setCurrentIndex(7); // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
 }
 
 
@@ -260,7 +260,16 @@ void MainWindow::creditButtonClicked()
 
 void MainWindow::sharedAccountButtonClicked()
 {
-    
+    if (apiClient->checkIfSharedAccountButtonIsNeeded()==1){
+        apiClient->setSharedAccount();
+        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka palauttaa ainoan accountin id.
+        qDebug()<<"current selected account:"<<apiClient->sharedAccount;
+        ui->stackedWidget->setCurrentIndex(2);
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentIndex(7);
+    }
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
