@@ -30,6 +30,7 @@ public:
     int getCurrentAccount();
     int getCurrentCard();
     QJsonArray accountSelectionData;
+    QJsonArray sharedAccountSelectionData;
     int accountPriority;
 
     int checkIfDebitButtonIsNeeded();
@@ -47,14 +48,17 @@ public:
 
 
     int checkHowManyRows();
+    void getSharedAccountsByCardId(int idcard);
 signals:
     void cardDataReceived(const QStringList &data);
     void getCardDataFinished(const QStringList &data);
     void accountSelectionDataReady();
+    void sharedAccountSelectionDataReady();
 
 private slots:
     void replyFinished(QNetworkReply *reply);
     void postREST_API_Client(QNetworkReply *reply);
+    void saveSharedAccountsIntoArray(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *manager;
@@ -64,6 +68,7 @@ private:
     QByteArray token;
     int currentCard;
     //int currentAccount;
+
 
 
 };

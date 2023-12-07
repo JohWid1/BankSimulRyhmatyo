@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     apiClient = new REST_API_Client(this);
+    connect(apiClient, SIGNAL(sharedAccountSelectionDataReady()), this, SLOT(SharedAccountSelectionDataReadySignalReceived()));
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
     apiClient->getCardData();
@@ -268,6 +269,7 @@ void MainWindow::sharedAccountButtonClicked()
     }
     else
     {
+        apiClient->getSharedAccountsByCardId(apiClient->getCurrentCard());
         ui->stackedWidget->setCurrentIndex(7);
     }
 }
@@ -314,6 +316,11 @@ void MainWindow::accountSelectionDataReadySignalReceived()
         ui->sharedAccountButton->hide();
     }
     ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::SharedAccountSelectionDataReadySignalReceived()
+{
+    //täällö populoidaan ui->listSharedAccountsWidget ja liitetään se jotenkin entteriin jnejne nyt haen kaljaa
 }
 
 
