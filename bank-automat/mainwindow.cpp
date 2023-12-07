@@ -63,6 +63,7 @@ MainWindow::~MainWindow()
     delete tilitapahtumat;
 }
 
+
 void MainWindow::onInsertCardClicked()
 {
     ui->infoLabel->clear();

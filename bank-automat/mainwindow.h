@@ -27,7 +27,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private slots:
     void onInsertCardClicked();
     void numPressed();
