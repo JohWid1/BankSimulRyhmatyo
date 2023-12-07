@@ -229,8 +229,3 @@ void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
     emit accountSelectionDataReady();
     getManager->deleteLater();
 }
-
-
-
-
-

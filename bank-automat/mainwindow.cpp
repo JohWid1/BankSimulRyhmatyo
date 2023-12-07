@@ -234,7 +234,7 @@ void MainWindow::on_pushButton_5_clicked() // tilitapahtuma button
 {
     int offsetti = 1;
     tilitapahtumat->clicked(&offsetti);
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->setCurrentIndex(6);
 }
 
 void MainWindow::tilibackClicked()

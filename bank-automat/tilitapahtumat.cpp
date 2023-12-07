@@ -17,8 +17,9 @@ Tilitapahtumat::Tilitapahtumat(QWidget *parent) :
     ui->tableTilitapahtumat->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableTilitapahtumat->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //this->on_pushButton_tilitapahtumat_back_clicked();
-    //this->clicked(&offsetti); // pitäisi jotenkin toimia defaultti statena että nähään 1-5 ensimmäisenä??
+    //this->clicked(&offsetti);
     offsetti = 1;
+
 }
 
 Tilitapahtumat::~Tilitapahtumat()
@@ -37,7 +38,6 @@ void Tilitapahtumat::clicked(int* offsetti)
 
 
     ui->stackedWidget->setCurrentIndex(5);
-    apiClientti = new REST_API_Client(this);
 
     // Construct the parameters
     QUrlQuery params;
@@ -69,6 +69,7 @@ void Tilitapahtumat::clicked(int* offsetti)
 
     // Set the HTTP method and body
     reply = getManager->post(request, postData);
+
 }
 
 
@@ -134,3 +135,54 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
     clicked(&offsetti);
 }
 
+
+int Tilitapahtumat::checkRows()
+{
+    qDebug()<<"selected data:"<<apiClientti->accountSelectionData;
+    //qDebug()<<"selected data:"<<Tilitapahtumat->;
+
+    int numberOfRows = apiClientti->accountSelectionData.size();
+    //int numberOfRows = apiClientti->accountSelectionData.size();
+
+    qDebug()<< "Data: " <<numberOfRows;
+    //qDebug()<< "Data: " <<numberOfRows;
+
+    return numberOfRows;
+
+}
+
+int Tilitapahtumat::countRows()
+{
+    int count = 0;
+
+    //for (const QJsonValue &value : apiClientti->accountSelectionData) {
+
+        //
+        //QJsonObject obj = value.toObject();
+        //int idAccount = obj["idaccount"].toInt();
+        //QString accountType = obj["type"].toString();
+        //int idCustomer = obj["Customer_idCustomer"].toInt();
+        //int accountPriority = obj["account_priority"].toInt();
+
+
+
+    for (const QJsonValue &transactionValue : json_array) {
+        QJsonObject transactionObject = transactionValue.toObject();
+
+        //int idtransaction = transactionObject["idtransaction"].toInt();
+        QString action = transactionObject["action"].toString();
+        //int sum = transactionObject["sum"].toInt();
+        //QString timestamp = transactionObject["timestamp"].toString();
+        //int cardaccountid = transactionObject["cardaccountid"].toInt();
+
+
+        qDebug()<<"arvo: "<<action;
+            if (action == "withdrawal") {
+            count++;
+        }
+
+    }
+
+    qDebug() << "Number of rows: " << count;
+    return count;
+}

@@ -21,6 +21,10 @@ public:
     void clicked(int *offsetti);
 
 
+
+
+    int countRows();
+    int checkRows();
 signals:
     void tilitapahtumaSignal();
     void tilitapahtumaBackClicked();
@@ -44,8 +48,6 @@ private:
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
     QByteArray response_data;
-
-    //uusi
     int currentPage = 1;
     int transactionsPerPage = 5;
     int offsetti;

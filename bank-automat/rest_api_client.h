@@ -30,7 +30,6 @@ public:
     int getCurrentAccount();
     int getCurrentCard();
     QJsonArray accountSelectionData;
-    int checkHowManyRows();
     int accountPriority;
 
     int checkIfDebitButtonIsNeeded();
@@ -45,7 +44,7 @@ public:
 
 
 
-
+    int checkHowManyRows();
 signals:
     void cardDataReceived(const QStringList &data);
     void getCardDataFinished(const QStringList &data);
