@@ -13,12 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
-
     ui->stackedWidget->insertWidget(4 ,saldo);
-
     tilitapahtumat = (new Tilitapahtumat(this));
     ui->stackedWidget->insertWidget(6, tilitapahtumat);
-
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
 
@@ -32,24 +29,25 @@ MainWindow::MainWindow(QWidget *parent)
     numeronappaimetManager.connectNumeronappaimetToSlot(this, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin mainwindowissa
     connect(ui->sharedBackButton, SIGNAL(clicked()), this, SLOT(sharedBackButtonClicked()));
     ui->insertCardButton->setText("Korttiluukku\n");
-
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
     connect(saldo, SIGNAL(backclicked()), this, SLOT(movesaldoback()));
 
-
+    //apiclient ja signaalit
     apiClient = new REST_API_Client(this);
     connect(apiClient, SIGNAL(sharedAccountSelectionDataReady()), this, SLOT(SharedAccountSelectionDataReadySignalReceived()));
     connect(apiClient, &REST_API_Client::cardDataReceived, this, &MainWindow::updateCardComboBox);
     comboBox = ui->comboBox;
     apiClient->getCardData();
     connect(apiClient, SIGNAL(accountSelectionDataReady()), this, SLOT(accountSelectionDataReadySignalReceived()));
-    //connect(this, SIGNAL(loginSlot())), this, SLOT(loginOkMoveToAccountSelection())
-    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
-    comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
+     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackedWidgetIndexChanged(int)));
 
+    //stackedWidgetin indexi vaihtuu niin tehdään toimintoja
+     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(onStackChanged(int)));
+
+    //tilitapahtuma signaali
     connect(tilitapahtumat, SIGNAL(tilitapahtumaBackClicked()), this, SLOT(tilibackClicked()));
 
-
+    //tilivalinta signaalit
     connect(ui->debitButton, SIGNAL(clicked()), this, SLOT(debitButtonClicked()));
     connect(ui->creditButton, SIGNAL(clicked()), this, SLOT(creditButtonClicked()));
     connect(ui->sharedAccountButton, SIGNAL(clicked()), this, SLOT(sharedAccountButtonClicked()));
@@ -66,6 +64,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
+    pinHowManyTries=0;
+    ui->labelPoistaKorttiInfo->clear();
     ui->insertCardButton->setDisabled(1);
     if (ui->stackedWidget->currentIndex() == 3 || ui->stackedWidget->currentIndex() == 1)
     {
@@ -82,7 +82,6 @@ void MainWindow::onInsertCardClicked()
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
-
 }
 
 void MainWindow::numPressed()
@@ -114,7 +113,6 @@ void MainWindow::onCancelClicked()
     else
     {
         ui->cancelButton->setDisabled(0);
-
     }
 }
 
@@ -181,7 +179,6 @@ void MainWindow::onokButtonclicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
-
     response_data=reply->readAll();
     qDebug()<<response_data;
     if(response_data.length()<2){
@@ -204,8 +201,16 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 apiClient->getCardTypes(currentCard);
             }
             else{
+                pinHowManyTries+=1;
+                if(pinHowManyTries<3){
                 qDebug()<<"väärä pin";
                 ui->infoLabel->setText("väärä pin");
+                }else{
+                qDebug()<<__FILE__<<__LINE__<<"Pin väärin kolme kertaa";
+                ui->labelPoistaKorttiInfo->setText("Pin väärin kolme kertaa");
+                ui->stackedWidget->setCurrentIndex(3);
+                }
+
             }
         }
         reply->deleteLater();
@@ -262,8 +267,8 @@ void MainWindow::on_withdrawButton_clicked()
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
     // -----------Nostovalikon signaalinkäsittelyt---------------- LOPPU
-    ui->stackedWidget->insertWidget(7, nosto); // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
-    ui->stackedWidget->setCurrentIndex(7); // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
+    ui->stackedWidget->insertWidget(8, nosto);
+    ui->stackedWidget->setCurrentIndex(8);
 }
 
 
@@ -364,7 +369,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
 void MainWindow::SharedAccountSelectionDataReadySignalReceived()
 {
     ui->listSharedAccountWidget->clear();
-    for (const QJsonValue &value : apiClient->sharedAccountSelectionData) {
+    for (const QJsonValue &value : apiClient->sharedAccountSelectionData) { // clazy:skip
         if (value.isObject()) {
             const QJsonObject &obj = value.toObject();
             QString accountInfo = obj["type"].toString() + " - " + obj["fname"].toString() + " " + obj["lname"].toString() + " (ID: " + QString::number(obj["idaccount"].toInt()) + ")";
@@ -372,6 +377,14 @@ void MainWindow::SharedAccountSelectionDataReadySignalReceived()
             ui->listSharedAccountWidget->addItem(listItem);
         }
     }
+}
+
+void MainWindow::onStackChanged(int)
+{
+    comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
+    ui->insertCardButton->setDisabled(ui->stackedWidget->currentIndex() != 0 || ui->stackedWidget->currentIndex() != 3);
+    comboBox->setEnabled(ui->stackedWidget->currentIndex() == 0);
+    ui->insertCardButton->setEnabled(ui->stackedWidget->currentIndex() == 0 || ui->stackedWidget->currentIndex() == 3);
 }
 
 
