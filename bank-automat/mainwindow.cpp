@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
     numeronappaimetManager.connectNumeronappaimetToSlot(this, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin mainwindowissa
-
+    connect(ui->sharedBackButton, SIGNAL(clicked()), this, SLOT(sharedBackButtonClicked()));
     ui->insertCardButton->setText("Korttiluukku\n");
 
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
@@ -66,6 +66,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
+    ui->insertCardButton->setDisabled(1);
+    if (ui->stackedWidget->currentIndex() == 3 || ui->stackedWidget->currentIndex() == 1)
+    {
+        ui->insertCardButton->setDisabled(0);
+    }
     ui->infoLabel->clear();
     if (ui->stackedWidget->currentIndex()==0){
            ui->stackedWidget->setCurrentIndex(1);
@@ -77,6 +82,7 @@ void MainWindow::onInsertCardClicked()
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
+
 }
 
 void MainWindow::numPressed()
@@ -98,6 +104,7 @@ void MainWindow::clearClicked()
 
 void MainWindow::onCancelClicked()
 {
+    ui->insertCardButton->setDisabled(0);
     if (ui->stackedWidget->currentIndex() != 0){
         if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
             nosto->deleteLater();
@@ -107,6 +114,7 @@ void MainWindow::onCancelClicked()
     else
     {
         ui->cancelButton->setDisabled(0);
+
     }
 }
 
@@ -300,7 +308,13 @@ void MainWindow::sharedAccountButtonClicked()
     {
         apiClient->getSharedAccountsByCardId(apiClient->getCurrentCard());
         ui->stackedWidget->setCurrentIndex(7);
+
     }
+}
+
+void MainWindow::sharedBackButtonClicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()

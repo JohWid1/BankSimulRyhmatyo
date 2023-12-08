@@ -57,6 +57,7 @@ private slots:
     void debitButtonClicked();
     void creditButtonClicked();
     void sharedAccountButtonClicked();
+    void sharedBackButtonClicked();
 
     void accountSelectionDataReadySignalReceived();
     void SharedAccountSelectionDataReadySignalReceived();

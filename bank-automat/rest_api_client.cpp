@@ -227,7 +227,7 @@ int REST_API_Client::setSharedAccount()
         qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
         if(accountPriority == 0){
             sharedAccount=idAccount;
-            qDebug()<<"Katsotaan mitä credit palauttaa"<<idAccount;
+            qDebug()<<"Katsotaan mitä shared palauttaa"<<idAccount;
             return idAccount;
         }
     }
