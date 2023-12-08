@@ -257,7 +257,53 @@ void REST_API_Client::postREST_API_Client(QNetworkReply *reply)
     getManager->deleteLater();
 }
 
+void REST_API_Client::getSharedAccountsByCardId(int idcard)
+{
+    QUrlQuery params;
+    params.addQueryItem("idcard", QString::number(idcard));
 
+    QString paramsString = params.toString(QUrl::FullyEncoded);
+    qDebug() << "Response:" << paramsString;
+    QByteArray postData = paramsString.toUtf8();
 
+    QString site_url = "http://127.0.0.1:3000/sharedaccounts";
+    qDebug() << "site_url: " << site_url;
 
+    QNetworkRequest request((site_url));
+    // Set header for content type
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
+    //WEBTOKEN ALKU
+    //QByteArray token="Bearer xRstgr...";
+    qDebug()<<"current token: "<<token;
+    request.setRawHeader(QByteArray("Authorization"),(token));
+    //WEBTOKEN LOPPU
+
+    getManager = new QNetworkAccessManager(this);
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saveSharedAccountsIntoArray(QNetworkReply*)));
+    // Set the HTTP method and body
+    getManager->post(request, postData);
+}
+
+void REST_API_Client::saveSharedAccountsIntoArray(QNetworkReply *reply)
+{
+
+    if(reply->error())
+    {
+        qDebug() << "ERROR:" << reply->errorString();
+        return;
+    }
+
+    QByteArray responseBytes = reply->readAll();
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(responseBytes);
+
+    if (!jsonResponse.isArray()) {
+        qDebug() << "Invalid JSON response";
+        return;
+    }
+
+    sharedAccountSelectionData = jsonResponse.array().first().toArray(); // Access the first element of the array and ensure it's an array
+    qDebug()<<"Shared account selection data: "<< sharedAccountSelectionData;
+    emit sharedAccountSelectionDataReady();
+    getManager->deleteLater();
+}
