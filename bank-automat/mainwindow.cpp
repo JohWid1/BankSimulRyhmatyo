@@ -135,7 +135,9 @@ void MainWindow::onokButtonclicked()
     case 2:
     case 3:
     case 4:
-        qDebug()<<__FILE__<<__LINE__<< "case 2-4";
+    case 5:
+    case 6:
+        qDebug()<<__FILE__<<__LINE__<< "case 2-6";
         break;
 
     case 7:
@@ -152,7 +154,7 @@ void MainWindow::onokButtonclicked()
         }
 
         QRegularExpression re("\\(ID: (\\d+)\\)");
-        QRegularExpressionMatch match = re.match(text);
+        QRegularExpressionMatch match = re.match(text); //en nyt jaksa muuttaa staticiksi
         if (match.hasMatch()) {
             QString accountti= match.captured(1);
             qDebug()<<__FILE__<<__LINE__<< accountti.toInt();
