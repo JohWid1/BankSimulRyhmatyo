@@ -61,6 +61,7 @@ private slots:
 
     void accountSelectionDataReadySignalReceived();
     void SharedAccountSelectionDataReadySignalReceived();
+    void onStackChanged(int);
 
 
 
@@ -78,6 +79,7 @@ private:
     QByteArray token;
     Tilitapahtumat *tilitapahtumat;
     //QStringList cardNames;
+    int pinHowManyTries;
 
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item
