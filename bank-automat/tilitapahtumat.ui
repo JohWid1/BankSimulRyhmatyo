@@ -36,7 +36,7 @@
       <string>Takaisin</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_tilitapahtumat_back">
+    <widget class="QPushButton" name="pushButton_tilitapahtumat_uudemmat">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -49,7 +49,7 @@
       <string>Uudemmat</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_tilitapahtumat_forward">
+    <widget class="QPushButton" name="pushButton_tilitapahtumat_vanhemmat">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -65,9 +65,9 @@
     <widget class="QTableWidget" name="tableTilitapahtumat">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>140</x>
        <y>10</y>
-       <width>351</width>
+       <width>211</width>
        <height>121</height>
       </rect>
      </property>
@@ -117,16 +117,6 @@
        <string>New Row</string>
       </property>
      </row>
-     <column>
-      <property name="text">
-       <string>New Column</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>New Column</string>
-      </property>
-     </column>
      <column>
       <property name="text">
        <string>New Column</string>
