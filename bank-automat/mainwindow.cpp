@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->insertWidget(6, tilitapahtumat);
     ui->pinCodeLineEdit->setMaxLength(4);
     ui->pinCodeLineEdit->setEchoMode(QLineEdit::Password);
+    ui->mainMenuBackButton->hide();
 
     //Signaalien käsittelyä ja buttonien kytkemistä
     ButtonManager numeronappaimetManager(this); // Luo uusi instanssi luokasta
