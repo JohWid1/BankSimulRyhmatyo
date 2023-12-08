@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clearClicked()));
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
     numeronappaimetManager.connectNumeronappaimetToSlot(this, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slotiin mainwindowissa
-
+    connect(ui->sharedBackButton, SIGNAL(clicked()), this, SLOT(sharedBackButtonClicked()));
     ui->insertCardButton->setText("Korttiluukku\n");
 
     connect(ui->pushButton_2, SIGNAL(clicked(bool)) , this, SLOT (numPressed()));
@@ -269,7 +269,13 @@ void MainWindow::sharedAccountButtonClicked()
     else
     {
         ui->stackedWidget->setCurrentIndex(7);
+
     }
+}
+
+void MainWindow::sharedBackButtonClicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::accountSelectionDataReadySignalReceived()
