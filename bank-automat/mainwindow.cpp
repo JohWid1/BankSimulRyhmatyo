@@ -66,6 +66,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::onInsertCardClicked()
 {
+    ui->insertCardButton->setDisabled(1);
+    if (ui->stackedWidget->currentIndex() == 3 || ui->stackedWidget->currentIndex() == 1)
+    {
+        ui->insertCardButton->setDisabled(0);
+    }
     ui->infoLabel->clear();
     if (ui->stackedWidget->currentIndex()==0){
            ui->stackedWidget->setCurrentIndex(1);
@@ -77,6 +82,7 @@ void MainWindow::onInsertCardClicked()
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
+
 }
 
 void MainWindow::numPressed()
@@ -98,6 +104,7 @@ void MainWindow::clearClicked()
 
 void MainWindow::onCancelClicked()
 {
+    ui->insertCardButton->setDisabled(0);
     if (ui->stackedWidget->currentIndex() != 0){
         if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
             nosto->deleteLater();
@@ -107,6 +114,7 @@ void MainWindow::onCancelClicked()
     else
     {
         ui->cancelButton->setDisabled(0);
+
     }
 }
 
@@ -324,9 +332,9 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     ui->stackedWidget->setCurrentIndex(5);
 }
 
-void MainWindow::SharedAccountSelectionDataReadySignalReceived()
-{
+//void MainWindow::SharedAccountSelectionDataReadySignalReceived()
+//{
     //täällö populoidaan ui->listSharedAccountsWidget ja liitetään se jotenkin entteriin jnejne nyt haen kaljaa
-}
+//}
 
 
