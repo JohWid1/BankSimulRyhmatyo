@@ -120,30 +120,59 @@ void MainWindow::onCancelClicked()
 
 void MainWindow::onokButtonclicked()
 {
+    //case 1 muuttujat
+    qDebug()<<__FILE__<<__LINE__<< "okButtonClicked currentIndex: " << ui->stackedWidget->currentIndex();
     int currentIndex = ui->stackedWidget->currentIndex();
-
-
+    QJsonObject jsonObj;
+    QString username = getSelectedIdCard();
+    QString password = ui->pinCodeLineEdit->text();
+    QString site_url = "http://127.0.0.1:3000/login";
+    QNetworkRequest request((site_url));
+    // case 2 muuttujat
+    QString text;
     switch (currentIndex) {
     case 1:
-        // Prepare the data for network request
-        QJsonObject jsonObj;
-        QString username = getSelectedIdCard();
-        QString password = ui->pinCodeLineEdit->text();
         jsonObj.insert("username", username);
         jsonObj.insert("password", password);
-
-        // Set up the network request
-        QString site_url = "http://127.0.0.1:3000/login";
-        QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-        // Initialize the network access manager and connect the slot
         postManager = new QNetworkAccessManager(this);
         connect(postManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
-
-        // Send the request
         reply = postManager->post(request, QJsonDocument(jsonObj).toJson());
         ui->pinCodeLineEdit->clear();
+        break;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+        qDebug()<<__FILE__<<__LINE__<< "case 2-6";
+        break;
+
+    case 7:
+        qDebug()<<__FILE__<<__LINE__<< "Entteriä painettu ja tänne päästiin";
+        QListWidget *listWidget = ui->listSharedAccountWidget;
+
+        if (!listWidget->selectedItems().isEmpty()) {
+            text = listWidget->selectedItems().first()->text();
+            qDebug()<<__FILE__<<__LINE__<< text;
+        }else{
+            qDebug()<<__FILE__<<__LINE__<< "Virhe sharedAccount valinnassa";
+            ui->stackedWidget->setCurrentIndex(0);
+            break;
+        }
+
+        QRegularExpression re("\\(ID: (\\d+)\\)");
+        QRegularExpressionMatch match = re.match(text); //en nyt jaksa muuttaa staticiksi
+        if (match.hasMatch()) {
+            QString accountti= match.captured(1);
+            qDebug()<<__FILE__<<__LINE__<< accountti.toInt();
+            apiClient->setCurrentAccount(accountti.toInt());
+            ui->stackedWidget->setCurrentIndex(2);
+        }else{
+            qDebug()<<__FILE__<<__LINE__<< "Virhe sharedAccount valinnassa";
+            ui->stackedWidget->setCurrentIndex(0);
+            break;
+        }
         break;
     }
 }
@@ -332,9 +361,17 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     ui->stackedWidget->setCurrentIndex(5);
 }
 
-//void MainWindow::SharedAccountSelectionDataReadySignalReceived()
-//{
-    //täällö populoidaan ui->listSharedAccountsWidget ja liitetään se jotenkin entteriin jnejne nyt haen kaljaa
-//}
+void MainWindow::SharedAccountSelectionDataReadySignalReceived()
+{
+    ui->listSharedAccountWidget->clear();
+    for (const QJsonValue &value : apiClient->sharedAccountSelectionData) {
+        if (value.isObject()) {
+            const QJsonObject &obj = value.toObject();
+            QString accountInfo = obj["type"].toString() + " - " + obj["fname"].toString() + " " + obj["lname"].toString() + " (ID: " + QString::number(obj["idaccount"].toInt()) + ")";
+            QListWidgetItem *listItem = new QListWidgetItem(accountInfo);
+            ui->listSharedAccountWidget->addItem(listItem);
+        }
+    }
+}
 
 
