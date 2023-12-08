@@ -59,6 +59,7 @@ private slots:
     void sharedAccountButtonClicked();
 
     void accountSelectionDataReadySignalReceived();
+    void SharedAccountSelectionDataReadySignalReceived();
 
 
 
