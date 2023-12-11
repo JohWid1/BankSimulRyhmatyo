@@ -79,7 +79,7 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==3){
            ui->stackedWidget->setCurrentIndex(0);
     }
-    if (ui->stackedWidget->currentIndex()==7){
+    if (ui->stackedWidget->currentIndex()==8){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
@@ -106,7 +106,7 @@ void MainWindow::onCancelClicked()
 {
     ui->insertCardButton->setDisabled(0);
     if (ui->stackedWidget->currentIndex() != 0){
-        if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
+        if (ui->stackedWidget->currentIndex()==8){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
             nosto->deleteLater();
         }
         ui->stackedWidget->setCurrentIndex(3);
@@ -385,7 +385,8 @@ void MainWindow::onStackChanged(int)
     comboBox->setDisabled(ui->stackedWidget->currentIndex() != 0);
     ui->insertCardButton->setDisabled(ui->stackedWidget->currentIndex() != 0 || ui->stackedWidget->currentIndex() != 3);
     comboBox->setEnabled(ui->stackedWidget->currentIndex() == 0);
-    ui->insertCardButton->setEnabled(ui->stackedWidget->currentIndex() == 0 || ui->stackedWidget->currentIndex() == 3);
+    ui->insertCardButton->setEnabled(ui->stackedWidget->currentIndex() == 0 || ui->stackedWidget->currentIndex() == 3 || ui->stackedWidget->currentIndex() == 8);
+
 }
 
 
