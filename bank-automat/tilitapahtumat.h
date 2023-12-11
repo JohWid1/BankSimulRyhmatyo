@@ -26,7 +26,6 @@ public:
 
 
     int countRows();
-    int checkRows();
 signals:
     void tilitapahtumaSignal();
     void tilitapahtumaBackClicked();
@@ -36,9 +35,9 @@ private slots:
     void on_pushButton_tili_backAlkuvalikko_clicked();
 
     void getsaldoInfoSlot(QNetworkReply *reply);
-    void on_pushButton_tilitapahtumat_back_clicked();
+    void on_pushButton_tilitapahtumat_uudemmat_clicked();
 
-    void on_pushButton_tilitapahtumat_forward_clicked();
+    void on_pushButton_tilitapahtumat_vanhemmat_clicked();
 
 
 private:
@@ -51,7 +50,6 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     QByteArray token; //saldo token
-    //uusi
     int currentPage = 1;
     int transactionsPerPage = 5;
     int offsetti;

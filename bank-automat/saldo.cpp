@@ -78,12 +78,6 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
     getManager->deleteLater();
 }
 
-/*void Saldo::onStackedWidgetPageChanged(int index)
-{
-    if (index != 5) {
-        //ui->textEdit1->clear();
-        ui->labelShowBalanceInThisLabel->clear();
-    }
-}*/
+
 
 
