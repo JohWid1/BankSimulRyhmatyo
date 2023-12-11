@@ -114,11 +114,13 @@ void Tilitapahtumat::getsaldoInfoSlot(QNetworkReply *reply)
     }else{
         QJsonArray json_array = json_doc.array().first().toArray();
 
-        ui->tableTilitapahtumat->setRowCount(0);
+        qDebug()<< "taulukon koko:" << json_array.size();
         if(json_array.size()==0 ){
-            offsetti -=1;
-
+            if (offsetti > 1){
+                offsetti = offsetti - 1;
+                }
         } else {
+        ui->tableTilitapahtumat->setRowCount(0);
         for (const QJsonValue &transactionValue : json_array) {
             QJsonObject transactionObject = transactionValue.toObject();
 
@@ -153,10 +155,11 @@ void Tilitapahtumat::on_pushButton_tilitapahtumat_forward_clicked()
     qDebug() << "Rivien määrä " << ui->tableTilitapahtumat->rowCount();
     if( ui->tableTilitapahtumat->rowCount() < 5)
     {
-        offsetti-=1;
-    }
+       //ei tehdä mitn
+    }else{
     offsetti = offsetti + 1;
     clicked(&offsetti);
+    }
 }
 
 /*int REST_API_Client::checkHowManyRows()
