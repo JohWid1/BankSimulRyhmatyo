@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
 app.use('/card', cardRouter);
-//app.use(authenticateToken);
+app.use(authenticateToken);
 app.use('/saldo', saldoRouter);
 app.use('/account', accountRouter);
 app.use('/withdraw', withdrawRouter);

@@ -69,7 +69,7 @@ void Saldo::getsaldoInfoSlot(QNetworkReply *reply)
         double creditLimit = json_obj["credit_limit"].toDouble();
         if(creditLimit>0){
             qDebug() << "balance: " << balance <<" credit_limit: " << creditLimit;
-            double negativeBalance=0-balance;
+            double negativeBalance=0-(creditLimit-balance);
             ui->labelCreditLimit->show();
             ui->labelShowCreditLimitInThisLabel->show();
             ui->labelShowBalanceInThisLabel->setText(QString::number(negativeBalance));
