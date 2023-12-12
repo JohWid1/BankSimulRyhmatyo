@@ -79,7 +79,7 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==3){
            ui->stackedWidget->setCurrentIndex(0);
     }
-    if (ui->stackedWidget->currentIndex()==7){
+    if (ui->stackedWidget->currentIndex()==8){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
@@ -106,7 +106,7 @@ void MainWindow::onCancelClicked()
 {
     ui->insertCardButton->setDisabled(0);
     if (ui->stackedWidget->currentIndex() != 0){
-        if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
+        if (ui->stackedWidget->currentIndex()==8){
             nosto->deleteLater();
         }
         ui->stackedWidget->setCurrentIndex(3);
@@ -265,6 +265,7 @@ void MainWindow::on_withdrawButton_clicked()
     // -----------Nostovalikon signaalinkäsittelyt----------------
     numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
     connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
+    connect(nosto, SIGNAL(removeCardSignal()), this, SLOT(onRemoveCardInNosto())); // Nostovalikossa korttinapin enablointi
     connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
@@ -386,6 +387,11 @@ void MainWindow::onStackChanged(int)
     ui->insertCardButton->setDisabled(ui->stackedWidget->currentIndex() != 0 || ui->stackedWidget->currentIndex() != 3);
     comboBox->setEnabled(ui->stackedWidget->currentIndex() == 0);
     ui->insertCardButton->setEnabled(ui->stackedWidget->currentIndex() == 0 || ui->stackedWidget->currentIndex() == 3);
+}
+
+void MainWindow::onRemoveCardInNosto()
+{
+    ui->insertCardButton->setEnabled(1);
 }
 
 
