@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) , saldo(new Saldo(this))
 {
     ui->setupUi(this);
+    ui->pushButton_3->hide();
     ui->stackedWidget->setCurrentIndex(0);
     ui->stackedWidget->insertWidget(4 ,saldo);
     tilitapahtumat = (new Tilitapahtumat(this));
@@ -78,7 +79,7 @@ void MainWindow::onInsertCardClicked()
     if (ui->stackedWidget->currentIndex()==3){
            ui->stackedWidget->setCurrentIndex(0);
     }
-    if (ui->stackedWidget->currentIndex()==7){
+    if (ui->stackedWidget->currentIndex()==8){
            ui->stackedWidget->setCurrentIndex(0);
            nosto->deleteLater();
     }
@@ -105,7 +106,7 @@ void MainWindow::onCancelClicked()
 {
     ui->insertCardButton->setDisabled(0);
     if (ui->stackedWidget->currentIndex() != 0){
-        if (ui->stackedWidget->currentIndex()==7){ // muuta tämä ja tähän liittyvät indexit = 8 kuten tuhoa nosto cancel buttonin mainwindow.cpp
+        if (ui->stackedWidget->currentIndex()==8){
             nosto->deleteLater();
         }
         ui->stackedWidget->setCurrentIndex(3);
@@ -223,6 +224,7 @@ void MainWindow::on_pushButton_2_clicked() //saldobuttoni on tässä
 {
     saldo->setToken(token);
     saldo->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    qDebug()<<__FILE__<<__LINE__<<"saldoButton getCurrentAccount()" << apiClient->getCurrentAccount();
     saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
@@ -263,6 +265,7 @@ void MainWindow::on_withdrawButton_clicked()
     // -----------Nostovalikon signaalinkäsittelyt----------------
     numeroManager.connectWithdrawButtonsToSlots(nosto, SLOT(numPressed())); // Kytke numeronäppäimet yleiseen slottiin kohdassa nosto
     connect(nosto, SIGNAL(nostoSignal()), this, SLOT(nostoTakaisinValikkoon())); // Nostovalikosta takaisin päävalikkoon
+    connect(nosto, SIGNAL(removeCardSignal()), this, SLOT(onRemoveCardInNosto())); // Nostovalikossa korttinapin enablointi
     connect(ui->clearButton, SIGNAL(clicked()), nosto, SLOT(clearClicked()));// Tyhjentää käyttäjän valitsemat numerot nostovalikossa
     connect(ui->insertCardButton, SIGNAL(clicked()), nosto, SLOT(onInsertCardClicked()));
     connect(ui->okButton, SIGNAL(clicked()), nosto, SLOT(onokButtonclicked()));
@@ -305,15 +308,12 @@ void MainWindow::sharedAccountButtonClicked()
 {
     if (apiClient->checkIfSharedAccountButtonIsNeeded()==1){
         apiClient->setSharedAccount();
-        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka palauttaa ainoan accountin id.
+        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka asettaa ainoan accountin id.
         qDebug()<<"current selected account:"<<apiClient->sharedAccount;
         ui->stackedWidget->setCurrentIndex(2);
-    }
-    else
-    {
+    }else{
         apiClient->getSharedAccountsByCardId(apiClient->getCurrentCard());
         ui->stackedWidget->setCurrentIndex(7);
-
     }
 }
 
@@ -330,6 +330,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     qDebug()<<"number of rows:"<<howManyRows;
 
     if(apiClient->checkHowManyRows() == 1){
+        apiClient->setOnlyAccount();
         ui->stackedWidget->setCurrentIndex(2);
         return;
     }
@@ -352,6 +353,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     }
 
     if(creditButtonExists == 0 && debitButtonExists == 0){
+        apiClient->setOnlyAccount();
         ui->stackedWidget->setCurrentIndex(6);
         return;
     }
@@ -385,6 +387,11 @@ void MainWindow::onStackChanged(int)
     ui->insertCardButton->setDisabled(ui->stackedWidget->currentIndex() != 0 || ui->stackedWidget->currentIndex() != 3);
     comboBox->setEnabled(ui->stackedWidget->currentIndex() == 0);
     ui->insertCardButton->setEnabled(ui->stackedWidget->currentIndex() == 0 || ui->stackedWidget->currentIndex() == 3);
+}
+
+void MainWindow::onRemoveCardInNosto()
+{
+    ui->insertCardButton->setEnabled(1);
 }
 
 

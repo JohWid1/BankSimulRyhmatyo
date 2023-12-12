@@ -199,6 +199,7 @@ void Nosto::getNostoReplySlot(QNetworkReply *reply)
         ui->stackedWidget->setCurrentIndex(2);
         QString sum_Message = "Nostit " + QString::number(amount) + "€  Rahat tulevat hetken kuluttua";
         ui->summaLabel->setText(sum_Message);
+        emit removeCardSignal();
         reply->deleteLater();
         getManager->deleteLater();
     }else{

@@ -34,6 +34,7 @@ private slots:
 
 signals:
     void nostoSignal();
+    void removeCardSignal();
 
 private:
     Ui::Nosto *ui;

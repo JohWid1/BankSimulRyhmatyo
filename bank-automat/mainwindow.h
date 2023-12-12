@@ -62,8 +62,7 @@ private slots:
     void accountSelectionDataReadySignalReceived();
     void SharedAccountSelectionDataReadySignalReceived();
     void onStackChanged(int);
-
-
+    void onRemoveCardInNosto();
 
 private:
     Ui::MainWindow *ui;
@@ -84,6 +83,7 @@ private:
     QString getSelectedIdCard() {
         return comboBox->currentData().toString(); // This will give you the idcard of the selected item
     }
+
 
 };
 #endif // MAINWINDOW_H
