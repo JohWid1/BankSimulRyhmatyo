@@ -197,7 +197,7 @@ int REST_API_Client::checkIfCreditButtonIsNeeded()
 int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
 {
     int howManyAccounts = 0;
-    for (const QJsonValue &value : accountSelectionData) {
+    for (const QJsonValue &value : accountSelectionData) {//clazy:skip
         QJsonObject obj = value.toObject();
         int idAccount = obj["idaccount"].toInt();
         QString accountType = obj["type"].toString();
@@ -213,11 +213,10 @@ int REST_API_Client::checkIfSharedAccountButtonIsNeeded()
     return howManyAccounts; //palautetaan 0 jos ei shared tiliä löydy, muuten palautetaan tilien määrä
 }
 
-int REST_API_Client::setSharedAccount()
+void REST_API_Client::setSharedAccount()
 {
-
     int howManyAccounts = 0;
-    for (const QJsonValue &value : accountSelectionData) {
+    for (const QJsonValue &value : accountSelectionData) {//clazy:skip
         QJsonObject obj = value.toObject();
         int idAccount = obj["idaccount"].toInt();
         QString accountType = obj["type"].toString();
@@ -227,11 +226,17 @@ int REST_API_Client::setSharedAccount()
         qDebug()<<"arvo: "<<value<<idAccount<<accountType<<idCustomer<<accountPriority;
         if(accountPriority == 0){
             sharedAccount=idAccount;
-            qDebug()<<"Katsotaan mitä shared palauttaa"<<idAccount;
-            return idAccount;
+            qDebug()<<"Katsotaan mitä shared asettaa: "<<idAccount;
         }
     }
     qDebug()<<"sharedAccount data: "<<howManyAccounts<<" jokin virhe tapahtui";
+}
+
+void REST_API_Client::setOnlyAccount()
+{
+    QJsonObject json_obj = accountSelectionData.at(0).toObject();
+    int idAccount = json_obj["idaccount"].toInt();
+    setCurrentAccount(idAccount);
 }
 
 void REST_API_Client::postREST_API_Client(QNetworkReply *reply)

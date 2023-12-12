@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) , saldo(new Saldo(this))
 {
     ui->setupUi(this);
+    ui->pushButton_3->hide();
     ui->stackedWidget->setCurrentIndex(0);
     ui->stackedWidget->insertWidget(4 ,saldo);
     tilitapahtumat = (new Tilitapahtumat(this));
@@ -223,6 +224,7 @@ void MainWindow::on_pushButton_2_clicked() //saldobuttoni on tässä
 {
     saldo->setToken(token);
     saldo->setCurrentAccountInUse(apiClient->getCurrentAccount());
+    qDebug()<<__FILE__<<__LINE__<<"saldoButton getCurrentAccount()" << apiClient->getCurrentAccount();
     saldo->on_pushButton_saldo_show_clicked();
     ui->stackedWidget->setCurrentIndex(4);
 }
@@ -305,15 +307,12 @@ void MainWindow::sharedAccountButtonClicked()
 {
     if (apiClient->checkIfSharedAccountButtonIsNeeded()==1){
         apiClient->setSharedAccount();
-        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka palauttaa ainoan accountin id.
+        apiClient->setCurrentAccount(apiClient->sharedAccount); //tähän tulee metodi joka asettaa ainoan accountin id.
         qDebug()<<"current selected account:"<<apiClient->sharedAccount;
         ui->stackedWidget->setCurrentIndex(2);
-    }
-    else
-    {
+    }else{
         apiClient->getSharedAccountsByCardId(apiClient->getCurrentCard());
         ui->stackedWidget->setCurrentIndex(7);
-
     }
 }
 
@@ -330,6 +329,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     qDebug()<<"number of rows:"<<howManyRows;
 
     if(apiClient->checkHowManyRows() == 1){
+        apiClient->setOnlyAccount();
         ui->stackedWidget->setCurrentIndex(2);
         return;
     }
@@ -352,6 +352,7 @@ void MainWindow::accountSelectionDataReadySignalReceived()
     }
 
     if(creditButtonExists == 0 && debitButtonExists == 0){
+        apiClient->setOnlyAccount();
         ui->stackedWidget->setCurrentIndex(6);
         return;
     }
